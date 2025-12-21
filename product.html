@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — Farm Phoomjai & Jiaranai Garden</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/logo_farm.jpg" alt="Farm Phoomjai & Jiaranai Garden">
+        <span>Farm Phoomjai & Jiaranai Garden</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="product.html" class="active">Products</a>
+      </nav>
+      <button class="menu-btn" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1>Our Products</h1>
+      <p>Fresh vegetables, aromatic herbs, and beautiful flowers — all grown with care</p>
+    </div>
+  </section>
+
+  <!-- Category Filter -->
+  <section class="menu-section">
+    <div class="container">
+      <div class="category-filter">
+        <button class="filter-btn active" data-category="all">
+          <i class="fas fa-th"></i> All
+        </button>
+        <button class="filter-btn" data-category="vegetables">
+          <i class="fas fa-carrot"></i> Vegetables
+        </button>
+        <button class="filter-btn" data-category="flowers">
+          <i class="fas fa-spa"></i> Flowers
+        </button>
+        <button class="filter-btn" data-category="herbs">
+          <i class="fas fa-leaf"></i> Herbs
+        </button>
+      </div>
+
+      <!-- Products Grid (Dynamically loaded) -->
+      <div class="menu-grid" id="productsGrid">
+        <!-- Products will be loaded dynamically -->
+      </div>
+
+      <!-- Order CTA -->
+      <div class="order-cta">
+        <h3>Ready to Order?</h3>
+        <p>Contact us to place your order or schedule a farm visit</p>
+        <a href="#footer" class="btn btn-primary">
+          <i class="fas fa-phone"></i> Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <img src="images/logo_farm.jpg" alt="Farm Phoomjai & Jiaranai Garden">
+            <span>Farm Phoomjai</span>
+          </a>
+          <p>Fresh produce and beautiful flowers from our family farms to your home.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/jiaranaigarden?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram"></i></a>
+            <a href="https://lin.ee/j2SwLEi"><i class="fab fa-line"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="#footer">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Our Products</h4>
+          <ul>
+            <li><a href="product.html">Vegetables</a></li>
+            <li><a href="product.html">Flowers</a></li>
+            <li><a href="product.html">Herbs</a></li>
+            <li><a href="product.html">All Products</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Info</h4>
+          <p><i class="fas fa-map-marker-alt"></i> Local Farm Area</p>
+          <p><i class="fas fa-envelope"></i> info@farmphoomjai.com</p>
+          <p><i class="fas fa-phone"></i> +66 9X-XXX-XXXX</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Farm Phoomjai & Jiaranai Garden. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;"><a href="admin.html" style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-lock"></i> Admin</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/admin.js"></script>
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav');
+    menuBtn?.addEventListener('click', () => nav.classList.toggle('active'));
+
+    // Load products from Supabase
+    async function loadProducts(category = 'all') {
+      const grid = document.getElementById('productsGrid');
+      
+      // Show loading
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+          <p style="color: var(--text-secondary); margin-top: 1rem;">กำลังโหลดสินค้า...</p>
+        </div>
+      `;
+      
+      try {
+        const products = await getProductsAsync();
+        
+        const filtered = category === 'all' 
+          ? products 
+          : products.filter(p => p.category === category);
+        
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div class="no-products-message" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+              <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+              <p style="color: var(--text-secondary);">ไม่พบสินค้าในหมวดหมู่นี้</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(product => {
+          const categoryIcon = getCategoryIcon(product.category);
+          const badgeClass = product.badge === 'New' || product.badge === 'Sale' ? 'sale' : '';
+          
+          return `
+            <div class="menu-card" data-category="${product.category}">
+              <div class="menu-image">
+                <img src="${product.image || 'images/phoomjai.svg'}" alt="${product.name}">
+                ${product.badge ? `<span class="badge ${badgeClass}">${product.badge}</span>` : ''}
+              </div>
+              <div class="menu-info">
+                <h3>${product.name}</h3>
+                <p>${product.description || ''}</p>
+                <div class="menu-meta">
+                  <span class="category-tag"><i class="${categoryIcon}"></i> ${formatCategory(product.category)}</span>
+                  <span class="price">${product.price || 'Seasonal'}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Error loading products:', error);
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;"></i>
+            <p style="color: var(--text-secondary);">เกิดข้อผิดพลาดในการโหลดสินค้า</p>
+          </div>
+        `;
+      }
+    }
+
+    // Category filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        await loadProducts(btn.dataset.category);
+      });
+    });
+
+    // Initial load
+    loadProducts();
+  </script>
+</body>
+</html>

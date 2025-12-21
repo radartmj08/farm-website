@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" rx="16" fill="#FFFBEB"/>
+  <g transform="translate(48,48)" fill="#B91C1C">
+    <ellipse cx="80" cy="60" rx="36" ry="24" />
+    <ellipse cx="120" cy="84" rx="28" ry="18" />
+    <ellipse cx="160" cy="48" rx="22" ry="14" />
+  </g>
+  <circle cx="320" cy="200" r="36" fill="#BFDBFE" />
+  <text x="32" y="240" font-family="Inter, Arial" font-size="22" fill="#7C2D12">Jiaranai Garden</text>
+</svg>

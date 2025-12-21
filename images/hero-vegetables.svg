@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="veg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="veg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="veg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84cc16"/>
+      <stop offset="100%" stop-color="#65a30d"/>
+    </linearGradient>
+  </defs>
+  <!-- Basket -->
+  <ellipse cx="200" cy="320" rx="140" ry="40" fill="#92400e"/>
+  <path d="M60 280 Q60 320 200 340 Q340 320 340 280 L340 200 Q340 180 200 180 Q60 180 60 200 Z" fill="#b45309"/>
+  <path d="M60 200 Q60 220 200 240 Q340 220 340 200" fill="none" stroke="#92400e" stroke-width="4"/>
+  <!-- Carrot -->
+  <path d="M120 160 L100 260 L140 260 Z" fill="url(#veg2)"/>
+  <path d="M115 165 C110 140 130 130 120 110 M125 165 C130 145 115 135 125 115 M135 165 C140 140 125 130 135 110" stroke="#22c55e" stroke-width="4" fill="none"/>
+  <!-- Tomato -->
+  <circle cx="200" cy="200" r="50" fill="#ef4444"/>
+  <ellipse cx="200" cy="155" rx="15" ry="8" fill="#22c55e"/>
+  <circle cx="185" cy="185" r="8" fill="#fca5a5" opacity="0.6"/>
+  <!-- Lettuce -->
+  <path d="M280 180 Q320 150 300 120 Q280 140 260 110 Q240 150 280 180" fill="url(#veg1)"/>
+  <path d="M260 200 Q290 170 280 140 Q260 160 240 130 Q220 170 260 200" fill="url(#veg3)"/>
+  <!-- Cabbage -->
+  <circle cx="270" cy="240" r="45" fill="#86efac"/>
+  <path d="M245 220 Q270 200 295 220" fill="none" stroke="#22c55e" stroke-width="3"/>
+  <path d="M250 240 Q270 225 290 240" fill="none" stroke="#22c55e" stroke-width="3"/>
+  <!-- Eggplant -->
+  <ellipse cx="150" cy="220" rx="25" ry="45" fill="#7c3aed" transform="rotate(-20 150 220)"/>
+  <ellipse cx="145" cy="180" rx="12" ry="8" fill="#22c55e"/>
+</svg>

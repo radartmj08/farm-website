@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="rose1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="rose2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fda4af"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+  </defs>
+  <!-- Wrapping paper -->
+  <path d="M100 380 L80 200 Q200 150 320 200 L300 380 Z" fill="#fef3c7"/>
+  <path d="M80 200 Q200 170 320 200" fill="none" stroke="#fcd34d" stroke-width="4"/>
+  <!-- Rose stems -->
+  <path d="M150 350 L150 220" stroke="#16a34a" stroke-width="4"/>
+  <path d="M200 350 L200 200" stroke="#16a34a" stroke-width="4"/>
+  <path d="M250 350 L250 220" stroke="#16a34a" stroke-width="4"/>
+  <path d="M175 350 L165 240" stroke="#16a34a" stroke-width="3"/>
+  <path d="M225 350 L235 240" stroke="#16a34a" stroke-width="3"/>
+  <!-- Rose 1 -->
+  <circle cx="150" cy="200" r="35" fill="url(#rose1)"/>
+  <circle cx="150" cy="200" r="25" fill="url(#rose2)"/>
+  <circle cx="150" cy="200" r="15" fill="#e11d48"/>
+  <circle cx="150" cy="200" r="8" fill="#be123c"/>
+  <!-- Rose 2 (center, larger) -->
+  <circle cx="200" cy="175" r="45" fill="url(#rose2)"/>
+  <circle cx="200" cy="175" r="32" fill="url(#rose1)"/>
+  <circle cx="200" cy="175" r="20" fill="#f43f5e"/>
+  <circle cx="200" cy="175" r="10" fill="#e11d48"/>
+  <!-- Rose 3 -->
+  <circle cx="250" cy="200" r="35" fill="url(#rose1)"/>
+  <circle cx="250" cy="200" r="25" fill="url(#rose2)"/>
+  <circle cx="250" cy="200" r="15" fill="#e11d48"/>
+  <circle cx="250" cy="200" r="8" fill="#be123c"/>
+  <!-- Rose 4, 5 (smaller, back) -->
+  <circle cx="165" cy="230" r="25" fill="#fb7185"/>
+  <circle cx="165" cy="230" r="15" fill="#f43f5e"/>
+  <circle cx="235" cy="230" r="25" fill="#fb7185"/>
+  <circle cx="235" cy="230" r="15" fill="#f43f5e"/>
+  <!-- Leaves -->
+  <ellipse cx="130" cy="250" rx="20" ry="10" fill="#22c55e" transform="rotate(-30 130 250)"/>
+  <ellipse cx="270" cy="250" rx="20" ry="10" fill="#22c55e" transform="rotate(30 270 250)"/>
+  <ellipse cx="180" cy="280" rx="15" ry="8" fill="#16a34a" transform="rotate(-20 180 280)"/>
+  <ellipse cx="220" cy="280" rx="15" ry="8" fill="#16a34a" transform="rotate(20 220 280)"/>
+  <!-- Ribbon -->
+  <path d="M160 320 Q200 300 240 320" stroke="#f59e0b" stroke-width="10" fill="none"/>
+  <ellipse cx="200" cy="310" rx="15" ry="12" fill="#fbbf24"/>
+  <path d="M180 320 L160 360 L175 340 L165 380" stroke="#f59e0b" stroke-width="6" fill="none"/>
+  <path d="M220 320 L240 360 L225 340 L235 380" stroke="#f59e0b" stroke-width="6" fill="none"/>
+</svg>

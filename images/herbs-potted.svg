@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="pot1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="herb1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="herb2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84cc16"/>
+      <stop offset="100%" stop-color="#65a30d"/>
+    </linearGradient>
+  </defs>
+  <!-- Wooden tray -->
+  <rect x="30" y="320" width="340" height="30" rx="5" fill="#92400e"/>
+  <rect x="40" y="315" width="320" height="15" rx="3" fill="#b45309"/>
+  <!-- Pot 1 (Basil) -->
+  <ellipse cx="100" cy="315" rx="45" ry="12" fill="#78350f"/>
+  <path d="M55 315 L65 260 L135 260 L145 315 Z" fill="url(#pot1)"/>
+  <ellipse cx="100" cy="260" rx="35" ry="10" fill="#fb923c"/>
+  <ellipse cx="100" cy="255" rx="28" ry="8" fill="#451a03"/>
+  <!-- Basil plant -->
+  <path d="M100 250 L100 180" stroke="#16a34a" stroke-width="4"/>
+  <ellipse cx="100" cy="165" rx="25" ry="35" fill="url(#herb1)"/>
+  <ellipse cx="80" cy="185" rx="18" ry="25" fill="url(#herb2)" transform="rotate(-20 80 185)"/>
+  <ellipse cx="120" cy="185" rx="18" ry="25" fill="url(#herb2)" transform="rotate(20 120 185)"/>
+  <ellipse cx="90" cy="150" rx="12" ry="18" fill="url(#herb1)"/>
+  <ellipse cx="110" cy="150" rx="12" ry="18" fill="url(#herb1)"/>
+  <!-- Pot 2 (Mint) -->
+  <ellipse cx="200" cy="315" rx="45" ry="12" fill="#78350f"/>
+  <path d="M155 315 L165 260 L235 260 L245 315 Z" fill="#64748b"/>
+  <ellipse cx="200" cy="260" rx="35" ry="10" fill="#94a3b8"/>
+  <ellipse cx="200" cy="255" rx="28" ry="8" fill="#451a03"/>
+  <!-- Mint plant -->
+  <path d="M200 250 L200 170" stroke="#16a34a" stroke-width="4"/>
+  <path d="M200 220 L175 190" stroke="#16a34a" stroke-width="3"/>
+  <path d="M200 220 L225 190" stroke="#16a34a" stroke-width="3"/>
+  <ellipse cx="200" cy="155" rx="22" ry="30" fill="url(#herb2)"/>
+  <ellipse cx="175" cy="175" rx="18" ry="25" fill="url(#herb1)" transform="rotate(-15 175 175)"/>
+  <ellipse cx="225" cy="175" rx="18" ry="25" fill="url(#herb1)" transform="rotate(15 225 175)"/>
+  <ellipse cx="165" cy="200" rx="15" ry="20" fill="url(#herb2)" transform="rotate(-25 165 200)"/>
+  <ellipse cx="235" cy="200" rx="15" ry="20" fill="url(#herb2)" transform="rotate(25 235 200)"/>
+  <!-- Pot 3 (Rosemary) -->
+  <ellipse cx="300" cy="315" rx="45" ry="12" fill="#78350f"/>
+  <path d="M255 315 L265 260 L335 260 L345 315 Z" fill="#fef3c7"/>
+  <ellipse cx="300" cy="260" rx="35" ry="10" fill="#fef9c3"/>
+  <ellipse cx="300" cy="255" rx="28" ry="8" fill="#451a03"/>
+  <!-- Rosemary plant -->
+  <path d="M300 250 L300 140" stroke="#16a34a" stroke-width="4"/>
+  <path d="M300 200 L275 170" stroke="#16a34a" stroke-width="3"/>
+  <path d="M300 200 L325 170" stroke="#16a34a" stroke-width="3"/>
+  <path d="M300 170 L280 145" stroke="#16a34a" stroke-width="2"/>
+  <path d="M300 170 L320 145" stroke="#16a34a" stroke-width="2"/>
+  <!-- Rosemary needles -->
+  <g fill="#22c55e">
+    <ellipse cx="300" cy="145" rx="3" ry="12"/>
+    <ellipse cx="295" cy="155" rx="2" ry="10" transform="rotate(-15 295 155)"/>
+    <ellipse cx="305" cy="155" rx="2" ry="10" transform="rotate(15 305 155)"/>
+    <ellipse cx="290" cy="168" rx="2" ry="10" transform="rotate(-20 290 168)"/>
+    <ellipse cx="310" cy="168" rx="2" ry="10" transform="rotate(20 310 168)"/>
+    <ellipse cx="275" cy="165" rx="2" ry="10" transform="rotate(-25 275 165)"/>
+    <ellipse cx="325" cy="165" rx="2" ry="10" transform="rotate(25 325 165)"/>
+    <ellipse cx="280" cy="180" rx="2" ry="8" transform="rotate(-30 280 180)"/>
+    <ellipse cx="320" cy="180" rx="2" ry="8" transform="rotate(30 320 180)"/>
+  </g>
+  <!-- Labels -->
+  <rect x="75" y="280" width="50" height="20" rx="3" fill="#fef3c7"/>
+  <text x="100" y="294" font-family="Arial" font-size="10" fill="#451a03" text-anchor="middle">Basil</text>
+  <rect x="175" y="280" width="50" height="20" rx="3" fill="#fef3c7"/>
+  <text x="200" y="294" font-family="Arial" font-size="10" fill="#451a03" text-anchor="middle">Mint</text>
+  <rect x="275" y="280" width="50" height="20" rx="3" fill="#fef3c7"/>
+  <text x="300" y="294" font-family="Arial" font-size="10" fill="#451a03" text-anchor="middle">Rosemary</text>
+</svg>

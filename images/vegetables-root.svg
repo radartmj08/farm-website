@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="carrot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="radish" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="potato" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Carrots -->
+  <path d="M80 120 L60 280 L100 280 Z" fill="url(#carrot)"/>
+  <path d="M75 125 C70 100 90 90 80 70 M85 125 C90 105 75 95 85 75 M95 125 C100 100 85 90 95 70" stroke="#22c55e" stroke-width="4" fill="none"/>
+  <path d="M140 140 L125 260 L155 260 Z" fill="url(#carrot)"/>
+  <path d="M135 145 C130 125 145 115 138 100 M145 145 C150 125 140 115 148 100" stroke="#22c55e" stroke-width="3" fill="none"/>
+  <!-- Radishes -->
+  <ellipse cx="220" cy="200" rx="35" ry="50" fill="url(#radish)"/>
+  <ellipse cx="220" cy="240" rx="10" ry="20" fill="#fecdd3"/>
+  <path d="M210 155 C200 130 220 120 215 100 M230 155 C240 130 220 120 225 100" stroke="#22c55e" stroke-width="4" fill="none"/>
+  <ellipse cx="215" cy="105" rx="15" ry="20" fill="#22c55e"/>
+  <ellipse cx="225" cy="110" rx="12" ry="18" fill="#16a34a"/>
+  <!-- Sweet potato -->
+  <ellipse cx="320" cy="220" rx="60" ry="35" fill="url(#potato)" transform="rotate(-20 320 220)"/>
+  <ellipse cx="310" cy="210" rx="8" ry="5" fill="#92400e" opacity="0.5"/>
+  <ellipse cx="340" cy="230" rx="6" ry="4" fill="#92400e" opacity="0.5"/>
+  <!-- Turnip -->
+  <ellipse cx="300" cy="320" rx="40" ry="45" fill="#f5f5f4"/>
+  <ellipse cx="300" cy="350" rx="15" ry="20" fill="#a855f7" opacity="0.3"/>
+  <path d="M290 280 C280 260 300 250 295 235 M310 280 C320 260 300 250 305 235" stroke="#22c55e" stroke-width="3" fill="none"/>
+  <ellipse cx="300" cy="240" rx="20" ry="15" fill="#22c55e"/>
+</svg>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Farm Phoomjai & Jiaranai Garden</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+  <!-- Admin Navbar -->
+  <nav class="admin-navbar">
+    <div class="admin-navbar-brand">
+      <img src="images/logo_farm.jpg" alt="Farm Phoomjai">
+      <span>Admin Panel</span>
+    </div>
+    <div class="admin-navbar-actions">
+      <a href="index.html" class="admin-nav-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i> View Site
+      </a>
+      <button id="logoutBtn" class="admin-logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <nav class="admin-sidebar-nav">
+        <a href="#" class="sidebar-link active" data-page="dashboard">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="add-product">
+          <i class="fas fa-plus-circle"></i>
+          <span>Add Product</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="list-products">
+          <i class="fas fa-list"></i>
+          <span>Product List</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Dashboard Page -->
+      <section id="dashboard-page" class="admin-page active">
+        <h1 class="admin-page-title">Dashboard</h1>
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-box"></i></div>
+            <div class="stat-info">
+              <h3 id="totalProducts">0</h3>
+              <p>Total Products</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon vegetables"><i class="fas fa-seedling"></i></div>
+            <div class="stat-info">
+              <h3 id="vegetableCount">0</h3>
+              <p>Vegetables</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon flowers"><i class="fas fa-spa"></i></div>
+            <div class="stat-info">
+              <h3 id="flowerCount">0</h3>
+              <p>Flowers</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon herbs"><i class="fas fa-leaf"></i></div>
+            <div class="stat-info">
+              <h3 id="herbCount">0</h3>
+              <p>Herbs</p>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-welcome">
+          <h2>Welcome to Admin Panel</h2>
+          <p>Manage your farm products easily. Add new products, edit existing ones, or remove items from your catalog.</p>
+          <div class="quick-actions">
+            <button class="btn btn-primary" onclick="showPage('add-product')">
+              <i class="fas fa-plus"></i> Add New Product
+            </button>
+            <button class="btn btn-outline" onclick="showPage('list-products')">
+              <i class="fas fa-list"></i> View All Products
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add Product Page -->
+      <section id="add-product-page" class="admin-page">
+        <h1 class="admin-page-title">Add New Product</h1>
+        <form id="addProductForm" class="admin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productName">Product Name *</label>
+              <input type="text" id="productName" placeholder="e.g., Fresh Tomatoes" required>
+            </div>
+            <div class="form-group">
+              <label for="productCategory">Category *</label>
+              <select id="productCategory" required>
+                <option value="">Select Category</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="flowers">Flowers</option>
+                <option value="herbs">Herbs</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="productDescription">Description *</label>
+            <textarea id="productDescription" rows="3" placeholder="Describe your product..." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productPrice">Price (฿)</label>
+              <input type="text" id="productPrice" placeholder="e.g., 50 or Seasonal">
+            </div>
+            <div class="form-group">
+              <label for="productBadge">Badge (optional)</label>
+              <select id="productBadge">
+                <option value="">No Badge</option>
+                <option value="Popular">Popular</option>
+                <option value="New">New</option>
+                <option value="Sale">Sale</option>
+                <option value="Organic">Organic</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="productImage">Image URL</label>
+            <input type="text" id="productImage" placeholder="Enter image URL or leave empty for default">
+            <small>Leave empty to use default category image</small>
+          </div>
+          <div class="form-group">
+            <label>Upload Image (optional)</label>
+            <div class="image-upload-area" id="imageUploadArea">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Click to upload or drag and drop</p>
+              <input type="file" id="productImageFile" accept="image/*" hidden>
+            </div>
+            <div id="imagePreview" class="image-preview"></div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Product
+            </button>
+            <button type="reset" class="btn btn-outline">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- List Products Page -->
+      <section id="list-products-page" class="admin-page">
+        <h1 class="admin-page-title">Product List</h1>
+        <div class="product-list-header">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchProducts" placeholder="Search products...">
+          </div>
+          <select id="filterCategory" class="filter-select">
+            <option value="all">All Categories</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="flowers">Flowers</option>
+            <option value="herbs">Herbs</option>
+          </select>
+        </div>
+        <div class="product-table-container">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Badge</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <!-- Products will be loaded here -->
+            </tbody>
+          </table>
+          <div id="noProducts" class="no-products" style="display: none;">
+            <i class="fas fa-box-open"></i>
+            <p>No products found</p>
+            <button class="btn btn-primary" onclick="showPage('add-product')">Add Your First Product</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Product</h2>
+        <button class="modal-close" onclick="closeEditModal()">&times;</button>
+      </div>
+      <form id="editProductForm" class="admin-form">
+        <input type="hidden" id="editProductId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editName">Product Name *</label>
+            <input type="text" id="editName" required>
+          </div>
+          <div class="form-group">
+            <label for="editCategory">Category *</label>
+            <select id="editCategory" required>
+              <option value="vegetables">Vegetables</option>
+              <option value="flowers">Flowers</option>
+              <option value="herbs">Herbs</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description *</label>
+          <textarea id="editDescription" rows="3" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editPrice">Price (฿)</label>
+            <input type="text" id="editPrice">
+          </div>
+          <div class="form-group">
+            <label for="editBadge">Badge</label>
+            <select id="editBadge">
+              <option value="">No Badge</option>
+              <option value="Popular">Popular</option>
+              <option value="New">New</option>
+              <option value="Sale">Sale</option>
+              <option value="Organic">Organic</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="editImage">Image URL</label>
+          <input type="text" id="editImage">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete "<span id="deleteProductName"></span>"?</p>
+        <p class="text-muted">This action cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="confirmDeleteBtn">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+        <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="js/admin.js"></script>
+  <script>
+    // Check authentication
+    if (!isAdminLoggedIn()) {
+      window.location.href = 'admin.html';
+    }
+
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', async function() {
+      await updateDashboardStats();
+      await loadProductTable();
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      adminLogout();
+      window.location.href = 'admin.html';
+    });
+
+    // Sidebar navigation
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', async function(e) {
+        e.preventDefault();
+        await showPage(this.dataset.page);
+      });
+    });
+
+    async function showPage(pageName) {
+      // Update sidebar
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageName);
+      });
+      // Update pages
+      document.querySelectorAll('.admin-page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageName + '-page').classList.add('active');
+      
+      // Refresh data if needed
+      if (pageName === 'dashboard') await updateDashboardStats();
+      if (pageName === 'list-products') await loadProductTable();
+    }
+
+    // Dashboard stats (async)
+    async function updateDashboardStats() {
+      const products = await getProductsAsync();
+      document.getElementById('totalProducts').textContent = products.length;
+      document.getElementById('vegetableCount').textContent = products.filter(p => p.category === 'vegetables').length;
+      document.getElementById('flowerCount').textContent = products.filter(p => p.category === 'flowers').length;
+      document.getElementById('herbCount').textContent = products.filter(p => p.category === 'herbs').length;
+    }
+
+    // Add Product Form (async)
+    document.getElementById('addProductForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const product = {
+        name: document.getElementById('productName').value,
+        category: document.getElementById('productCategory').value,
+        description: document.getElementById('productDescription').value,
+        price: document.getElementById('productPrice').value || 'Seasonal',
+        badge: document.getElementById('productBadge').value,
+        image: document.getElementById('productImage').value || getDefaultImage(document.getElementById('productCategory').value)
+      };
+      
+      try {
+        await addProductToDB(product);
+        showToast('เพิ่มสินค้าสำเร็จ!', 'success');
+        this.reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        await updateDashboardStats();
+      } catch (error) {
+        showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
+      }
+    });
+
+    // Image upload area
+    const imageUploadArea = document.getElementById('imageUploadArea');
+    const imageFileInput = document.getElementById('productImageFile');
+    
+    imageUploadArea.addEventListener('click', () => imageFileInput.click());
+    imageUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      imageUploadArea.classList.add('dragover');
+    });
+    imageUploadArea.addEventListener('dragleave', () => {
+      imageUploadArea.classList.remove('dragover');
+    });
+    imageUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      imageUploadArea.classList.remove('dragover');
+      handleImageFile(e.dataTransfer.files[0]);
+    });
+    imageFileInput.addEventListener('change', (e) => {
+      handleImageFile(e.target.files[0]);
+    });
+
+    function handleImageFile(file) {
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('productImage').value = e.target.result;
+          document.getElementById('imagePreview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Product Table (async)
+    async function loadProductTable() {
+      const products = await getProductsAsync();
+      const tbody = document.getElementById('productTableBody');
+      const noProducts = document.getElementById('noProducts');
+      const searchTerm = document.getElementById('searchProducts').value.toLowerCase();
+      const filterCat = document.getElementById('filterCategory').value;
+
+      let filtered = products.filter(p => {
+        const matchSearch = p.name.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm));
+        const matchCategory = filterCat === 'all' || p.category === filterCat;
+        return matchSearch && matchCategory;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        noProducts.style.display = 'block';
+        return;
+      }
+
+      noProducts.style.display = 'none';
+      tbody.innerHTML = filtered.map(product => `
+        <tr>
+          <td><img src="${product.image || 'images/phoomjai.svg'}" alt="${product.name}" class="product-thumb"></td>
+          <td>${product.name}</td>
+          <td><span class="category-badge ${product.category}">${capitalizeFirst(product.category)}</span></td>
+          <td>${product.price || 'Seasonal'}</td>
+          <td>${product.badge ? `<span class="product-badge">${product.badge}</span>` : '-'}</td>
+          <td class="actions">
+            <button class="btn-icon edit" onclick="openEditModal(${product.id})" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon delete" onclick="openDeleteModal(${product.id}, '${product.name}')" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Search and filter
+    document.getElementById('searchProducts').addEventListener('input', loadProductTable);
+    document.getElementById('filterCategory').addEventListener('change', loadProductTable);
+
+    // Edit Modal (async)
+    async function openEditModal(productId) {
+      const products = await getProductsAsync();
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('editName').value = product.name;
+      document.getElementById('editCategory').value = product.category;
+      document.getElementById('editDescription').value = product.description || '';
+      document.getElementById('editPrice').value = product.price || '';
+      document.getElementById('editBadge').value = product.badge || '';
+      document.getElementById('editImage').value = product.image || '';
+
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('active');
+    }
+
+    document.getElementById('editProductForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const productId = parseInt(document.getElementById('editProductId').value);
+      const updatedProduct = {
+        name: document.getElementById('editName').value,
+        category: document.getElementById('editCategory').value,
+        description: document.getElementById('editDescription').value,
+        price: document.getElementById('editPrice').value || 'Seasonal',
+        badge: document.getElementById('editBadge').value,
+        image: document.getElementById('editImage').value
+      };
+
+      try {
+        await updateProductInDB(productId, updatedProduct);
+        closeEditModal();
+        await loadProductTable();
+        await updateDashboardStats();
+        showToast('อัพเดทสินค้าสำเร็จ!', 'success');
+      } catch (error) {
+        showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
+      }
+    });
+
+    // Delete Modal
+    let productToDelete = null;
+
+    function openDeleteModal(productId, productName) {
+      productToDelete = productId;
+      document.getElementById('deleteProductName').textContent = productName;
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+      productToDelete = null;
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+      if (productToDelete) {
+        try {
+          await deleteProductFromDB(productToDelete);
+          closeDeleteModal();
+          await loadProductTable();
+          await updateDashboardStats();
+          showToast('ลบสินค้าสำเร็จ!', 'success');
+        } catch (error) {
+          showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
+        }
+      }
+    });
+
+    // Close modals on outside click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+        }
+      });
+    });
+
+    // Helper functions
+    function capitalizeFirst(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function getDefaultImage(category) {
+      const defaults = {
+        vegetables: 'images/vegetables-leafy.svg',
+        flowers: 'images/flowers-roses.svg',
+        herbs: 'images/herbs.svg'
+      };
+      return defaults[category] || 'images/phoomjai.svg';
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast ${type} show`;
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

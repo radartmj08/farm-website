@@ -1,0 +1,23 @@
+{
+  "name": "farm-phoomjai-website",
+  "version": "1.0.0",
+  "description": "Farm Phoomjai & Jiaranai Garden Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": [
+    "farm",
+    "organic",
+    "vegetables",
+    "flowers",
+    "herbs"
+  ],
+  "author": "Farm Phoomjai",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

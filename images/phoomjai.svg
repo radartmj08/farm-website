@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" rx="16" fill="#EFFCF6"/>
+  <g transform="translate(40,40)" fill="#047857">
+    <rect x="0" y="80" width="20" height="80" rx="4" />
+    <rect x="30" y="60" width="20" height="100" rx="4" />
+    <rect x="60" y="40" width="20" height="120" rx="4" />
+  </g>
+  <circle cx="320" cy="80" r="36" fill="#FDE68A" />
+  <text x="32" y="240" font-family="Inter, Arial" font-size="22" fill="#064E3B">Farm Phoomjai</text>
+</svg>

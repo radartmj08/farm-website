@@ -1,0 +1,85 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Mixed Vegetable Box",
+      "category": "vegetables",
+      "description": "Seasonal organic mix — perfect for weekly meals",
+      "price": "Seasonal",
+      "badge": "Popular",
+      "image": "images/phoomjai.svg"
+    },
+    {
+      "id": 2,
+      "name": "Seasonal Bouquet",
+      "category": "flowers",
+      "description": "Hand-arranged fresh cut flowers",
+      "price": "Seasonal",
+      "badge": "New",
+      "image": "images/jiaranai.svg"
+    },
+    {
+      "id": 3,
+      "name": "Herb Pack",
+      "category": "herbs",
+      "description": "Basil, coriander & culinary herbs",
+      "price": "Seasonal",
+      "badge": "",
+      "image": "images/herbs.svg"
+    },
+    {
+      "id": 4,
+      "name": "Leafy Greens Bundle",
+      "category": "vegetables",
+      "description": "Fresh lettuce, kale, and spinach — picked this morning",
+      "price": "฿80",
+      "badge": "Organic",
+      "image": "images/vegetables-leafy.svg"
+    },
+    {
+      "id": 5,
+      "name": "Root Vegetables Mix",
+      "category": "vegetables",
+      "description": "Carrots, radishes, and turnips — earthy and delicious",
+      "price": "฿65",
+      "badge": "",
+      "image": "images/vegetables-root.svg"
+    },
+    {
+      "id": 6,
+      "name": "Rose Collection",
+      "category": "flowers",
+      "description": "Beautiful roses in various colors — perfect for gifts",
+      "price": "฿150",
+      "badge": "Popular",
+      "image": "images/flowers-roses.svg"
+    },
+    {
+      "id": 7,
+      "name": "Orchid Arrangement",
+      "category": "flowers",
+      "description": "Elegant orchids for home or office decoration",
+      "price": "฿250",
+      "badge": "",
+      "image": "images/flowers-orchid.svg"
+    },
+    {
+      "id": 8,
+      "name": "Thai Cooking Herbs",
+      "category": "herbs",
+      "description": "Thai basil, lemongrass, galangal — essential for Thai cuisine",
+      "price": "฿45",
+      "badge": "Popular",
+      "image": "images/herbs-thai.svg"
+    },
+    {
+      "id": 9,
+      "name": "Potted Herb Garden",
+      "category": "herbs",
+      "description": "Mint, rosemary, and thyme — grow your own herbs at home",
+      "price": "฿120",
+      "badge": "New",
+      "image": "images/herbs-potted.svg"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="orchid1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e879f9"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="orchid2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0abfc"/>
+      <stop offset="100%" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+  <!-- Pot -->
+  <ellipse cx="200" cy="370" rx="70" ry="15" fill="#78350f"/>
+  <path d="M130 370 L145 290 L255 290 L270 370 Z" fill="#92400e"/>
+  <ellipse cx="200" cy="290" rx="55" ry="12" fill="#b45309"/>
+  <!-- Soil/moss -->
+  <ellipse cx="200" cy="285" rx="45" ry="10" fill="#365314"/>
+  <!-- Main stem -->
+  <path d="M200 280 Q180 200 200 120" stroke="#16a34a" stroke-width="5" fill="none"/>
+  <!-- Orchid flowers -->
+  <!-- Flower 1 (top) -->
+  <g transform="translate(195, 100)">
+    <ellipse cx="0" cy="-20" rx="15" ry="25" fill="url(#orchid1)"/>
+    <ellipse cx="-20" cy="5" rx="12" ry="20" fill="url(#orchid2)" transform="rotate(-30)"/>
+    <ellipse cx="20" cy="5" rx="12" ry="20" fill="url(#orchid2)" transform="rotate(30)"/>
+    <ellipse cx="-15" cy="20" rx="10" ry="18" fill="url(#orchid1)" transform="rotate(-60)"/>
+    <ellipse cx="15" cy="20" rx="10" ry="18" fill="url(#orchid1)" transform="rotate(60)"/>
+    <ellipse cx="0" cy="10" rx="8" ry="12" fill="#fbbf24"/>
+    <circle cx="0" cy="5" r="4" fill="#92400e"/>
+  </g>
+  <!-- Flower 2 -->
+  <g transform="translate(175, 160)">
+    <ellipse cx="0" cy="-15" rx="12" ry="20" fill="url(#orchid2)"/>
+    <ellipse cx="-15" cy="3" rx="10" ry="16" fill="url(#orchid1)" transform="rotate(-30)"/>
+    <ellipse cx="15" cy="3" rx="10" ry="16" fill="url(#orchid1)" transform="rotate(30)"/>
+    <ellipse cx="-12" cy="15" rx="8" ry="14" fill="url(#orchid2)" transform="rotate(-60)"/>
+    <ellipse cx="12" cy="15" rx="8" ry="14" fill="url(#orchid2)" transform="rotate(60)"/>
+    <ellipse cx="0" cy="8" rx="6" ry="10" fill="#fbbf24"/>
+    <circle cx="0" cy="4" r="3" fill="#92400e"/>
+  </g>
+  <!-- Flower 3 -->
+  <g transform="translate(190, 210)">
+    <ellipse cx="0" cy="-12" rx="10" ry="16" fill="url(#orchid1)"/>
+    <ellipse cx="-12" cy="2" rx="8" ry="13" fill="url(#orchid2)" transform="rotate(-30)"/>
+    <ellipse cx="12" cy="2" rx="8" ry="13" fill="url(#orchid2)" transform="rotate(30)"/>
+    <ellipse cx="0" cy="6" rx="5" ry="8" fill="#fbbf24"/>
+    <circle cx="0" cy="3" r="2" fill="#92400e"/>
+  </g>
+  <!-- Leaves -->
+  <ellipse cx="160" cy="300" rx="50" ry="15" fill="#22c55e" transform="rotate(-20 160 300)"/>
+  <ellipse cx="240" cy="300" rx="50" ry="15" fill="#22c55e" transform="rotate(20 240 300)"/>
+  <ellipse cx="150" cy="320" rx="45" ry="12" fill="#16a34a" transform="rotate(-30 150 320)"/>
+  <ellipse cx="250" cy="320" rx="45" ry="12" fill="#16a34a" transform="rotate(30 250 320)"/>
+  <!-- Leaf veins -->
+  <path d="M120 305 L195 295" stroke="#15803d" stroke-width="2" fill="none"/>
+  <path d="M205 295 L280 305" stroke="#15803d" stroke-width="2" fill="none"/>
+</svg>

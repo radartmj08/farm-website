@@ -821,7 +821,15 @@
       noProducts.style.display = 'none';
       tbody.innerHTML = filtered.map(product => `
         <tr>
-          <td><img src="${product.image || 'images/phoomjai.svg'}" alt="${product.name}" class="product-thumb"></td>
+          <td>
+            <div class="product-thumb-container">
+              <img src="${product.image || 'images/phoomjai.svg'}" alt="${product.name}" class="product-thumb">
+              <label class="thumb-upload-btn" title="${t('uploadNewImage')}">
+                <i class="fas fa-camera"></i>
+                <input type="file" accept="image/*" onchange="uploadProductImage(${product.id}, this)" hidden>
+              </label>
+            </div>
+          </td>
           <td>${product.name}</td>
           <td><span class="category-badge ${product.category}">${capitalizeFirst(product.category)}</span></td>
           <td>${product.price || 'Seasonal'}</td>
@@ -836,6 +844,25 @@
           </td>
         </tr>
       `).join('');
+    }
+
+    // Upload image directly from product list
+    async function uploadProductImage(productId, input) {
+      const file = input.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        const dataUrl = e.target.result;
+        try {
+          await updateProductInDB(productId, { image: dataUrl });
+          await loadProductTable();
+          showToast(t('productUpdated'), 'success');
+        } catch (error) {
+          showToast(t('error') + ': ' + error.message, 'error');
+        }
+      };
+      reader.readAsDataURL(file);
     }
 
     // Search and filter

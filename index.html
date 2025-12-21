@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farm Phoomjai & Jiaranai Garden</title>
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -17,8 +17,11 @@
         <span>Farm Phoomjai & Jiaranai Garden</span>
       </a>
       <nav class="nav">
-        <a href="index.html" class="active">Home</a>
-        <a href="product.html">Products</a>
+        <a href="index.html" class="active" data-i18n="home">หน้าแรก</a>
+        <a href="product.html" data-i18n="products">สินค้า</a>
+        <button id="langToggle" class="user-lang-toggle">
+          <i class="fas fa-globe"></i> <span id="currentLang">TH</span>
+        </button>
       </nav>
       <button class="menu-btn" aria-label="Menu">
         <i class="fas fa-bars"></i>
@@ -30,11 +33,11 @@
   <section class="hero">
     <div class="container hero-content">
       <div class="hero-text">
-        <h1>Fresh from <span class="highlight">Our Farm</span> to Your Table</h1>
-        <p>Farm Phoomjai and Jiaranai Garden grow organic vegetables, herbs, and beautiful flowers with sustainable care. Experience the freshness of locally grown produce.</p>
+        <h1 data-i18n="heroTitle">สด <span class="highlight">จากฟาร์ม</span> ถึงโต๊ะอาหาร</h1>
+        <p data-i18n="heroDesc">ฟาร์มภูมิใจและเจียระไนการ์เด้น ปลูกผักออร์แกนิค สมุนไพร และดอกไม้สวยงาม ด้วยการดูแลแบบยั่งยืน สัมผัสความสดจากผลผลิตในท้องถิ่น</p>
         <div class="hero-buttons">
-          <a href="product.html" class="btn btn-primary">View Products</a>
-          <a href="#footer" class="btn btn-outline">Contact Us</a>
+          <a href="product.html" class="btn btn-primary" data-i18n="viewProducts">ดูสินค้า</a>
+          <a href="#footer" class="btn btn-outline" data-i18n="contactUs">ติดต่อเรา</a>
         </div>
       </div>
       <div class="hero-image">
@@ -42,25 +45,25 @@
           <div class="slider-item active">
             <img src="images/hero-vegetables.svg" alt="Fresh Vegetables">
             <div class="slider-info">
-              <h3>Fresh Vegetables</h3>
-              <span class="tag">Organic</span>
-              <p class="price">Seasonal</p>
+              <h3 data-i18n="freshVegetables">ผักสด</h3>
+              <span class="tag" data-i18n="organic">ออร์แกนิค</span>
+              <p class="price" data-i18n="seasonal">ตามฤดูกาล</p>
             </div>
           </div>
           <div class="slider-item">
             <img src="images/hero-flowers.svg" alt="Beautiful Flowers">
             <div class="slider-info">
-              <h3>Cut Flowers</h3>
-              <span class="tag">Fresh Daily</span>
-              <p class="price">Bouquets</p>
+              <h3 data-i18n="cutFlowers">ดอกไม้ตัดช่อ</h3>
+              <span class="tag" data-i18n="freshDaily">สดทุกวัน</span>
+              <p class="price" data-i18n="bouquets">ช่อดอกไม้</p>
             </div>
           </div>
           <div class="slider-item">
             <img src="images/hero-herbs.svg" alt="Fresh Herbs">
             <div class="slider-info">
-              <h3>Herb Collection</h3>
-              <span class="tag">Aromatic</span>
-              <p class="price">Hand-picked</p>
+              <h3 data-i18n="herbCollection">สมุนไพร</h3>
+              <span class="tag" data-i18n="aromatic">หอมกรุ่น</span>
+              <p class="price" data-i18n="handPicked">เก็บด้วยมือ</p>
             </div>
           </div>
         </div>
@@ -76,19 +79,19 @@
   <!-- Featured Products -->
   <section class="featured">
     <div class="container">
-      <h2 class="section-title">Our Products</h2>
+      <h2 class="section-title" data-i18n="ourProducts">สินค้าของเรา</h2>
       <div class="products-grid">
         <div class="product-card">
           <div class="product-image">
             <img src="images/phoomjai.svg" alt="Mixed Vegetables">
-            <span class="badge">Popular</span>
+            <span class="badge" data-i18n="popular">ยอดนิยม</span>
           </div>
           <div class="product-info">
-            <h3>Mixed Vegetable Box</h3>
-            <p class="description">Seasonal organic mix — perfect for weekly meals</p>
+            <h3 data-i18n="mixedVegBox">กล่องผักรวม</h3>
+            <p class="description" data-i18n="mixedVegDesc">ผักออร์แกนิคตามฤดูกาล — เหมาะสำหรับอาหารตลอดสัปดาห์</p>
             <div class="product-meta">
-              <span class="category"><i class="fas fa-seedling"></i> Vegetables</span>
-              <span class="price">Seasonal</span>
+              <span class="category"><i class="fas fa-seedling"></i> <span data-i18n="vegetables">ผัก</span></span>
+              <span class="price" data-i18n="seasonal">ตามฤดูกาล</span>
             </div>
           </div>
         </div>
@@ -96,14 +99,14 @@
         <div class="product-card">
           <div class="product-image">
             <img src="images/jiaranai.svg" alt="Flower Bouquet">
-            <span class="badge sale">New</span>
+            <span class="badge sale" data-i18n="new">ใหม่</span>
           </div>
           <div class="product-info">
-            <h3>Seasonal Bouquet</h3>
-            <p class="description">Hand-arranged fresh cut flowers</p>
+            <h3 data-i18n="seasonalBouquet">ช่อดอกไม้ตามฤดูกาล</h3>
+            <p class="description" data-i18n="seasonalBouquetDesc">ดอกไม้ตัดสดจัดเรียงด้วยมือ</p>
             <div class="product-meta">
-              <span class="category"><i class="fas fa-spa"></i> Flowers</span>
-              <span class="price">Seasonal</span>
+              <span class="category"><i class="fas fa-spa"></i> <span data-i18n="flowers">ดอกไม้</span></span>
+              <span class="price" data-i18n="seasonal">ตามฤดูกาล</span>
             </div>
           </div>
         </div>
@@ -113,17 +116,17 @@
             <img src="images/herbs.svg" alt="Fresh Herbs">
           </div>
           <div class="product-info">
-            <h3>Herb Pack</h3>
-            <p class="description">Basil, coriander & culinary herbs</p>
+            <h3 data-i18n="herbPack">แพ็คสมุนไพร</h3>
+            <p class="description" data-i18n="herbPackDesc">โหระพา ผักชี และสมุนไพรสำหรับทำอาหาร</p>
             <div class="product-meta">
-              <span class="category"><i class="fas fa-leaf"></i> Herbs</span>
-              <span class="price">Seasonal</span>
+              <span class="category"><i class="fas fa-leaf"></i> <span data-i18n="herbs">สมุนไพร</span></span>
+              <span class="price" data-i18n="seasonal">ตามฤดูกาล</span>
             </div>
           </div>
         </div>
       </div>
       <div class="text-center">
-        <a href="product.html" class="btn btn-primary">See All Products</a>
+        <a href="product.html" class="btn btn-primary" data-i18n="seeAllProducts">ดูสินค้าทั้งหมด</a>
       </div>
     </div>
   </section>
@@ -136,11 +139,11 @@
           <img src="images/about-farm.svg" alt="Our Farm">
         </div>
         <div class="about-text">
-          <h2>About Us</h2>
-          <p>At Farm Phoomjai and Jiaranai Garden, every harvest tells a story. We blend traditional farming wisdom with sustainable practices to grow produce that is both wholesome and unforgettable.</p>
-          <p>From locally nurtured soil to hand-picked vegetables and flowers, quality is at the heart of everything we do. Whether you're shopping for your weekly groceries or a special bouquet, we aim to bring freshness to every moment.</p>
-          <p>Our team is passionate about sustainability, flavor, and creating experiences that connect you with the land. Come visit — leave inspired.</p>
-          <a href="#footer" class="btn btn-primary">Get in Touch</a>
+          <h2 data-i18n="aboutUs">เกี่ยวกับเรา</h2>
+          <p data-i18n="aboutDesc1">ที่ฟาร์มภูมิใจและเจียระไนการ์เด้น ทุกการเก็บเกี่ยวมีเรื่องราว เราผสมผสานภูมิปัญญาการทำเกษตรแบบดั้งเดิมกับแนวทางที่ยั่งยืน เพื่อปลูกผลผลิตที่ทั้งดีต่อสุขภาพและน่าจดจำ</p>
+          <p data-i18n="aboutDesc2">ตั้งแต่ดินที่บำรุงในท้องถิ่น ไปจนถึงผักและดอกไม้ที่เก็บด้วยมือ คุณภาพคือหัวใจของทุกสิ่งที่เราทำ ไม่ว่าคุณจะซื้อของสำหรับมื้ออาหารประจำสัปดาห์หรือช่อดอกไม้พิเศษ เราตั้งใจส่งมอบความสดให้ทุกช่วงเวลา</p>
+          <p data-i18n="aboutDesc3">ทีมของเราหลงใหลในความยั่งยืน รสชาติ และการสร้างประสบการณ์ที่เชื่อมโยงคุณกับผืนดิน มาเยี่ยมเราสิ — กลับไปพร้อมแรงบันดาลใจ</p>
+          <a href="#footer" class="btn btn-primary" data-i18n="getInTouch">ติดต่อเรา</a>
         </div>
       </div>
     </div>
@@ -149,28 +152,28 @@
   <!-- Why Us Section -->
   <section class="why-us">
     <div class="container">
-      <h2 class="section-title">Why Choose Us</h2>
+      <h2 class="section-title" data-i18n="whyChooseUs">ทำไมต้องเลือกเรา</h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-phone-alt"></i>
           </div>
-          <h3>Easy Order</h3>
-          <p>Simply call or message us to place your order. We make it convenient for you.</p>
+          <h3 data-i18n="easyOrder">สั่งซื้อง่าย</h3>
+          <p data-i18n="easyOrderDesc">โทรหรือส่งข้อความมาสั่งซื้อได้เลย เราทำให้สะดวกสำหรับคุณ</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-truck"></i>
           </div>
-          <h3>Local Delivery</h3>
-          <p>Fresh produce delivered to your doorstep. Available for nearby areas.</p>
+          <h3 data-i18n="localDelivery">จัดส่งในพื้นที่</h3>
+          <p data-i18n="localDeliveryDesc">ผลผลิตสดส่งถึงหน้าบ้านคุณ บริการในพื้นที่ใกล้เคียง</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-medal"></i>
           </div>
-          <h3>Best Quality</h3>
-          <p>Hand-harvested, organic produce grown with care and sustainable practices.</p>
+          <h3 data-i18n="bestQuality">คุณภาพดีที่สุด</h3>
+          <p data-i18n="bestQualityDesc">เก็บเกี่ยวด้วยมือ ปลูกแบบออร์แกนิคด้วยความใส่ใจและแนวทางที่ยั่งยืน</p>
         </div>
       </div>
     </div>
@@ -185,7 +188,7 @@
             <img src="images/logo_farm.jpg" alt="Farm Phoomjai & Jiaranai Garden">
             <span>Farm Phoomjai</span>
           </a>
-          <p>Fresh produce and beautiful flowers from our family farms to your home.</p>
+          <p data-i18n="footerDesc">ผลผลิตสดและดอกไม้สวยงามจากฟาร์มครอบครัวของเราสู่บ้านของคุณ</p>
           <div class="social-links">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="https://www.instagram.com/jiaranaigarden?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram"></i></a>
@@ -193,38 +196,168 @@
           </div>
         </div>
         <div class="footer-links">
-          <h4>Quick Links</h4>
+          <h4 data-i18n="quickLinks">ลิงก์ด่วน</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="product.html">Products</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#footer">Contact</a></li>
+            <li><a href="index.html" data-i18n="home">หน้าแรก</a></li>
+            <li><a href="product.html" data-i18n="products">สินค้า</a></li>
+            <li><a href="#about" data-i18n="aboutUs">เกี่ยวกับเรา</a></li>
+            <li><a href="#footer" data-i18n="contact">ติดต่อ</a></li>
           </ul>
         </div>
         <div class="footer-links">
-          <h4>Our Products</h4>
+          <h4 data-i18n="ourProducts">สินค้าของเรา</h4>
           <ul>
-            <li><a href="product.html">Vegetables</a></li>
-            <li><a href="product.html">Flowers</a></li>
-            <li><a href="product.html">Herbs</a></li>
-            <li><a href="product.html">All Products</a></li>
+            <li><a href="product.html" data-i18n="vegetables">ผัก</a></li>
+            <li><a href="product.html" data-i18n="flowers">ดอกไม้</a></li>
+            <li><a href="product.html" data-i18n="herbs">สมุนไพร</a></li>
+            <li><a href="product.html" data-i18n="allProducts">สินค้าทั้งหมด</a></li>
           </ul>
         </div>
         <div class="footer-contact">
-          <h4>Contact Info</h4>
-          <p><i class="fas fa-map-marker-alt"></i> Local Farm Area</p>
+          <h4 data-i18n="contactInfo">ข้อมูลติดต่อ</h4>
+          <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="localFarmArea">พื้นที่ฟาร์มในท้องถิ่น</span></p>
           <p><i class="fas fa-envelope"></i> info@farmphoomjai.com</p>
           <p><i class="fas fa-phone"></i> +66 9X-XXX-XXXX</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; <span id="year"></span> Farm Phoomjai & Jiaranai Garden. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> Farm Phoomjai & Jiaranai Garden. <span data-i18n="allRightsReserved">สงวนลิขสิทธิ์</span></p>
         <p style="margin-top: 0.5rem;"><a href="admin.html" style="color: var(--text-muted); font-size: 0.8rem;"><i class="fas fa-lock"></i> Admin</a></p>
       </div>
     </div>
   </footer>
 
   <script>
+    // ========================================
+    // Language System (Thai/English) - Default: Thai
+    // ========================================
+    const translations = {
+      th: {
+        home: 'หน้าแรก',
+        products: 'สินค้า',
+        heroTitle: 'สด <span class="highlight">จากฟาร์ม</span> ถึงโต๊ะอาหาร',
+        heroDesc: 'ฟาร์มภูมิใจและเจียระไนการ์เด้น ปลูกผักออร์แกนิค สมุนไพร และดอกไม้สวยงาม ด้วยการดูแลแบบยั่งยืน สัมผัสความสดจากผลผลิตในท้องถิ่น',
+        viewProducts: 'ดูสินค้า',
+        contactUs: 'ติดต่อเรา',
+        freshVegetables: 'ผักสด',
+        organic: 'ออร์แกนิค',
+        seasonal: 'ตามฤดูกาล',
+        cutFlowers: 'ดอกไม้ตัดช่อ',
+        freshDaily: 'สดทุกวัน',
+        bouquets: 'ช่อดอกไม้',
+        herbCollection: 'สมุนไพร',
+        aromatic: 'หอมกรุ่น',
+        handPicked: 'เก็บด้วยมือ',
+        ourProducts: 'สินค้าของเรา',
+        popular: 'ยอดนิยม',
+        mixedVegBox: 'กล่องผักรวม',
+        mixedVegDesc: 'ผักออร์แกนิคตามฤดูกาล — เหมาะสำหรับอาหารตลอดสัปดาห์',
+        vegetables: 'ผัก',
+        new: 'ใหม่',
+        seasonalBouquet: 'ช่อดอกไม้ตามฤดูกาล',
+        seasonalBouquetDesc: 'ดอกไม้ตัดสดจัดเรียงด้วยมือ',
+        flowers: 'ดอกไม้',
+        herbPack: 'แพ็คสมุนไพร',
+        herbPackDesc: 'โหระพา ผักชี และสมุนไพรสำหรับทำอาหาร',
+        herbs: 'สมุนไพร',
+        seeAllProducts: 'ดูสินค้าทั้งหมด',
+        aboutUs: 'เกี่ยวกับเรา',
+        aboutDesc1: 'ที่ฟาร์มภูมิใจและเจียระไนการ์เด้น ทุกการเก็บเกี่ยวมีเรื่องราว เราผสมผสานภูมิปัญญาการทำเกษตรแบบดั้งเดิมกับแนวทางที่ยั่งยืน เพื่อปลูกผลผลิตที่ทั้งดีต่อสุขภาพและน่าจดจำ',
+        aboutDesc2: 'ตั้งแต่ดินที่บำรุงในท้องถิ่น ไปจนถึงผักและดอกไม้ที่เก็บด้วยมือ คุณภาพคือหัวใจของทุกสิ่งที่เราทำ ไม่ว่าคุณจะซื้อของสำหรับมื้ออาหารประจำสัปดาห์หรือช่อดอกไม้พิเศษ เราตั้งใจส่งมอบความสดให้ทุกช่วงเวลา',
+        aboutDesc3: 'ทีมของเราหลงใหลในความยั่งยืน รสชาติ และการสร้างประสบการณ์ที่เชื่อมโยงคุณกับผืนดิน มาเยี่ยมเราสิ — กลับไปพร้อมแรงบันดาลใจ',
+        getInTouch: 'ติดต่อเรา',
+        whyChooseUs: 'ทำไมต้องเลือกเรา',
+        easyOrder: 'สั่งซื้อง่าย',
+        easyOrderDesc: 'โทรหรือส่งข้อความมาสั่งซื้อได้เลย เราทำให้สะดวกสำหรับคุณ',
+        localDelivery: 'จัดส่งในพื้นที่',
+        localDeliveryDesc: 'ผลผลิตสดส่งถึงหน้าบ้านคุณ บริการในพื้นที่ใกล้เคียง',
+        bestQuality: 'คุณภาพดีที่สุด',
+        bestQualityDesc: 'เก็บเกี่ยวด้วยมือ ปลูกแบบออร์แกนิคด้วยความใส่ใจและแนวทางที่ยั่งยืน',
+        footerDesc: 'ผลผลิตสดและดอกไม้สวยงามจากฟาร์มครอบครัวของเราสู่บ้านของคุณ',
+        quickLinks: 'ลิงก์ด่วน',
+        contact: 'ติดต่อ',
+        allProducts: 'สินค้าทั้งหมด',
+        contactInfo: 'ข้อมูลติดต่อ',
+        localFarmArea: 'พื้นที่ฟาร์มในท้องถิ่น',
+        allRightsReserved: 'สงวนลิขสิทธิ์'
+      },
+      en: {
+        home: 'Home',
+        products: 'Products',
+        heroTitle: 'Fresh from <span class="highlight">Our Farm</span> to Your Table',
+        heroDesc: 'Farm Phoomjai and Jiaranai Garden grow organic vegetables, herbs, and beautiful flowers with sustainable care. Experience the freshness of locally grown produce.',
+        viewProducts: 'View Products',
+        contactUs: 'Contact Us',
+        freshVegetables: 'Fresh Vegetables',
+        organic: 'Organic',
+        seasonal: 'Seasonal',
+        cutFlowers: 'Cut Flowers',
+        freshDaily: 'Fresh Daily',
+        bouquets: 'Bouquets',
+        herbCollection: 'Herb Collection',
+        aromatic: 'Aromatic',
+        handPicked: 'Hand-picked',
+        ourProducts: 'Our Products',
+        popular: 'Popular',
+        mixedVegBox: 'Mixed Vegetable Box',
+        mixedVegDesc: 'Seasonal organic mix — perfect for weekly meals',
+        vegetables: 'Vegetables',
+        new: 'New',
+        seasonalBouquet: 'Seasonal Bouquet',
+        seasonalBouquetDesc: 'Hand-arranged fresh cut flowers',
+        flowers: 'Flowers',
+        herbPack: 'Herb Pack',
+        herbPackDesc: 'Basil, coriander & culinary herbs',
+        herbs: 'Herbs',
+        seeAllProducts: 'See All Products',
+        aboutUs: 'About Us',
+        aboutDesc1: 'At Farm Phoomjai and Jiaranai Garden, every harvest tells a story. We blend traditional farming wisdom with sustainable practices to grow produce that is both wholesome and unforgettable.',
+        aboutDesc2: 'From locally nurtured soil to hand-picked vegetables and flowers, quality is at the heart of everything we do. Whether you\'re shopping for your weekly groceries or a special bouquet, we aim to bring freshness to every moment.',
+        aboutDesc3: 'Our team is passionate about sustainability, flavor, and creating experiences that connect you with the land. Come visit — leave inspired.',
+        getInTouch: 'Get in Touch',
+        whyChooseUs: 'Why Choose Us',
+        easyOrder: 'Easy Order',
+        easyOrderDesc: 'Simply call or message us to place your order. We make it convenient for you.',
+        localDelivery: 'Local Delivery',
+        localDeliveryDesc: 'Fresh produce delivered to your doorstep. Available for nearby areas.',
+        bestQuality: 'Best Quality',
+        bestQualityDesc: 'Hand-harvested, organic produce grown with care and sustainable practices.',
+        footerDesc: 'Fresh produce and beautiful flowers from our family farms to your home.',
+        quickLinks: 'Quick Links',
+        contact: 'Contact',
+        allProducts: 'All Products',
+        contactInfo: 'Contact Info',
+        localFarmArea: 'Local Farm Area',
+        allRightsReserved: 'All rights reserved'
+      }
+    };
+
+    // Default to Thai
+    let currentLang = localStorage.getItem('siteLang') || 'th';
+
+    function updateLanguage() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+          if (key === 'heroTitle') {
+            el.innerHTML = translations[currentLang][key];
+          } else {
+            el.textContent = translations[currentLang][key];
+          }
+        }
+      });
+      document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+    }
+
+    document.getElementById('langToggle').addEventListener('click', function() {
+      currentLang = currentLang === 'th' ? 'en' : 'th';
+      localStorage.setItem('siteLang', currentLang);
+      updateLanguage();
+    });
+
+    // Initialize language on load
+    updateLanguage();
+
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 

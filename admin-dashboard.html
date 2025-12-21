@@ -199,12 +199,24 @@
               <div class="form-row">
                 <div class="form-group">
                   <label data-i18n="categoryIcon">ไอคอน</label>
-                  <input type="text" id="categoryIcon" placeholder="fas fa-apple-alt">
-                  <small>ใช้ Font Awesome (fas fa-...)</small>
+                  <div class="icon-picker-container">
+                    <button type="button" id="iconPickerBtn" class="icon-picker-btn">
+                      <i id="selectedIconPreview" class="fas fa-box"></i>
+                      <span data-i18n="selectIcon">เลือกไอคอน</span>
+                      <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <input type="hidden" id="categoryIcon" value="fas fa-box">
+                  </div>
                 </div>
                 <div class="form-group">
                   <label data-i18n="categoryColor">สี</label>
-                  <input type="color" id="categoryColor" value="#4a7c59">
+                  <div class="color-picker-container">
+                    <button type="button" id="colorPickerBtn" class="color-picker-btn">
+                      <span id="colorPreview" class="color-preview" style="background: #4a7c59"></span>
+                      <span data-i18n="selectColor">เลือกสี</span>
+                    </button>
+                    <input type="hidden" id="categoryColor" value="#4a7c59">
+                  </div>
                 </div>
               </div>
               <div class="form-actions">
@@ -298,6 +310,63 @@
     </div>
   </div>
 
+  <!-- Icon Picker Modal -->
+  <div id="iconPickerModal" class="picker-modal">
+    <div class="picker-content">
+      <div class="picker-header">
+        <h3 data-i18n="selectIcon">เลือกไอคอน</h3>
+        <button class="picker-close" onclick="closeIconPicker()">&times;</button>
+      </div>
+      <div class="picker-search">
+        <i class="fas fa-search"></i>
+        <input type="text" id="iconSearch" placeholder="Search icons...">
+      </div>
+      <div class="icon-grid" id="iconGrid"></div>
+    </div>
+  </div>
+
+  <!-- Color Picker Modal -->
+  <div id="colorPickerModal" class="picker-modal">
+    <div class="picker-content color-picker-modal">
+      <div class="picker-header">
+        <h3 data-i18n="selectColor">เลือกสี</h3>
+        <button class="picker-close" onclick="closeColorPicker()">&times;</button>
+      </div>
+      <div class="color-picker-body">
+        <div class="color-wheel-container">
+          <canvas id="colorWheel" width="200" height="200"></canvas>
+          <div id="colorWheelCursor" class="color-cursor"></div>
+        </div>
+        <div class="color-slider-container">
+          <label>Brightness</label>
+          <input type="range" id="brightnessSlider" min="0" max="100" value="50">
+        </div>
+        <div class="color-presets">
+          <h4 data-i18n="presetColors">สีที่แนะนำ</h4>
+          <div class="preset-grid">
+            <button class="preset-color" style="background: #4a7c59" data-color="#4a7c59"></button>
+            <button class="preset-color" style="background: #c4785a" data-color="#c4785a"></button>
+            <button class="preset-color" style="background: #6b7f5c" data-color="#6b7f5c"></button>
+            <button class="preset-color" style="background: #8b4513" data-color="#8b4513"></button>
+            <button class="preset-color" style="background: #2e8b57" data-color="#2e8b57"></button>
+            <button class="preset-color" style="background: #daa520" data-color="#daa520"></button>
+            <button class="preset-color" style="background: #cd853f" data-color="#cd853f"></button>
+            <button class="preset-color" style="background: #556b2f" data-color="#556b2f"></button>
+            <button class="preset-color" style="background: #8fbc8f" data-color="#8fbc8f"></button>
+            <button class="preset-color" style="background: #bc8f8f" data-color="#bc8f8f"></button>
+            <button class="preset-color" style="background: #f4a460" data-color="#f4a460"></button>
+            <button class="preset-color" style="background: #6b8e23" data-color="#6b8e23"></button>
+          </div>
+        </div>
+        <div class="selected-color-display">
+          <div id="selectedColorBox" class="selected-color-box" style="background: #4a7c59"></div>
+          <input type="text" id="colorHexInput" value="#4a7c59" maxlength="7">
+        </div>
+        <button class="btn btn-primary" onclick="confirmColorSelection()" data-i18n="confirm">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast" class="toast"></div>
 
@@ -309,6 +378,10 @@
     const translations = {
       th: {
         adminPanel: 'แผงควบคุม',
+        selectIcon: 'เลือกไอคอน',
+        selectColor: 'เลือกสี',
+        presetColors: 'สีที่แนะนำ',
+        confirm: 'ยืนยัน',
         viewSite: 'ดูเว็บไซต์',
         logout: 'ออกจากระบบ',
         dashboard: 'แดชบอร์ด',
@@ -371,6 +444,10 @@
       },
       en: {
         adminPanel: 'Admin Panel',
+        selectIcon: 'Select Icon',
+        selectColor: 'Select Color',
+        presetColors: 'Preset Colors',
+        confirm: 'Confirm',
         viewSite: 'View Site',
         logout: 'Logout',
         dashboard: 'Dashboard',
@@ -855,6 +932,170 @@
       toast.className = `toast ${type} show`;
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
+
+    // ========================================
+    // Icon Picker
+    // ========================================
+    const FARM_ICONS = [
+      'fas fa-seedling', 'fas fa-leaf', 'fas fa-spa', 'fas fa-carrot', 'fas fa-apple-alt',
+      'fas fa-lemon', 'fas fa-pepper-hot', 'fas fa-tree', 'fas fa-pagelines', 'fab fa-pagelines',
+      'fas fa-fan', 'fas fa-sun', 'fas fa-water', 'fas fa-cloud-rain', 'fas fa-tractor',
+      'fas fa-box', 'fas fa-boxes', 'fas fa-basket-shopping', 'fas fa-warehouse', 'fas fa-store',
+      'fas fa-tags', 'fas fa-tag', 'fas fa-heart', 'fas fa-star', 'fas fa-certificate',
+      'fas fa-egg', 'fas fa-bread-slice', 'fas fa-cheese', 'fas fa-fish', 'fas fa-drumstick-bite',
+      'fas fa-wheat-awn', 'fas fa-plant-wilt', 'fas fa-clover', 'fas fa-cannabis',
+      'fas fa-bucket', 'fas fa-scissors', 'fas fa-spray-can', 'fas fa-hand-holding-droplet',
+      'fas fa-temperature-high', 'fas fa-snowflake', 'fas fa-umbrella', 'fas fa-wind'
+    ];
+
+    let selectedIcon = 'fas fa-box';
+
+    function openIconPicker() {
+      const grid = document.getElementById('iconGrid');
+      grid.innerHTML = FARM_ICONS.map(icon => `
+        <button type="button" class="icon-option ${icon === selectedIcon ? 'selected' : ''}" data-icon="${icon}">
+          <i class="${icon}"></i>
+        </button>
+      `).join('');
+
+      grid.querySelectorAll('.icon-option').forEach(btn => {
+        btn.addEventListener('click', () => selectIcon(btn.dataset.icon));
+      });
+
+      document.getElementById('iconPickerModal').classList.add('active');
+    }
+
+    function closeIconPicker() {
+      document.getElementById('iconPickerModal').classList.remove('active');
+    }
+
+    function selectIcon(icon) {
+      selectedIcon = icon;
+      document.getElementById('categoryIcon').value = icon;
+      document.getElementById('selectedIconPreview').className = icon;
+      closeIconPicker();
+    }
+
+    document.getElementById('iconPickerBtn').addEventListener('click', openIconPicker);
+
+    document.getElementById('iconSearch').addEventListener('input', function(e) {
+      const search = e.target.value.toLowerCase();
+      document.querySelectorAll('.icon-option').forEach(btn => {
+        const icon = btn.dataset.icon.toLowerCase();
+        btn.style.display = icon.includes(search) ? 'flex' : 'none';
+      });
+    });
+
+    // ========================================
+    // Color Picker
+    // ========================================
+    let selectedColor = '#4a7c59';
+    let colorWheel, colorCtx;
+
+    function openColorPicker() {
+      document.getElementById('colorPickerModal').classList.add('active');
+      initColorWheel();
+    }
+
+    function closeColorPicker() {
+      document.getElementById('colorPickerModal').classList.remove('active');
+    }
+
+    function initColorWheel() {
+      colorWheel = document.getElementById('colorWheel');
+      colorCtx = colorWheel.getContext('2d');
+      drawColorWheel();
+    }
+
+    function drawColorWheel() {
+      const centerX = colorWheel.width / 2;
+      const centerY = colorWheel.height / 2;
+      const radius = Math.min(centerX, centerY) - 5;
+      const brightness = document.getElementById('brightnessSlider').value / 100;
+
+      // Clear canvas
+      colorCtx.clearRect(0, 0, colorWheel.width, colorWheel.height);
+
+      // Draw color wheel
+      for (let angle = 0; angle < 360; angle++) {
+        const startAngle = (angle - 1) * Math.PI / 180;
+        const endAngle = (angle + 1) * Math.PI / 180;
+
+        colorCtx.beginPath();
+        colorCtx.moveTo(centerX, centerY);
+        colorCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+        colorCtx.closePath();
+
+        // Create gradient from center to edge
+        const gradient = colorCtx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+        const hue = angle;
+        gradient.addColorStop(0, `hsl(${hue}, 0%, ${brightness * 100}%)`);
+        gradient.addColorStop(1, `hsl(${hue}, 100%, ${brightness * 50}%)`);
+        
+        colorCtx.fillStyle = gradient;
+        colorCtx.fill();
+      }
+    }
+
+    colorWheel?.addEventListener('click', function(e) {
+      const rect = colorWheel.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const pixel = colorCtx.getImageData(x, y, 1, 1).data;
+      const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+      
+      updateSelectedColor(hex);
+      
+      // Move cursor
+      const cursor = document.getElementById('colorWheelCursor');
+      cursor.style.left = x + 'px';
+      cursor.style.top = y + 'px';
+    });
+
+    document.getElementById('brightnessSlider')?.addEventListener('input', drawColorWheel);
+
+    document.querySelectorAll('.preset-color').forEach(btn => {
+      btn.addEventListener('click', () => updateSelectedColor(btn.dataset.color));
+    });
+
+    document.getElementById('colorHexInput')?.addEventListener('input', function(e) {
+      let hex = e.target.value;
+      if (!hex.startsWith('#')) hex = '#' + hex;
+      if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+        updateSelectedColor(hex);
+      }
+    });
+
+    function updateSelectedColor(hex) {
+      selectedColor = hex;
+      document.getElementById('selectedColorBox').style.background = hex;
+      document.getElementById('colorHexInput').value = hex;
+    }
+
+    function confirmColorSelection() {
+      document.getElementById('categoryColor').value = selectedColor;
+      document.getElementById('colorPreview').style.background = selectedColor;
+      closeColorPicker();
+    }
+
+    document.getElementById('colorPickerBtn').addEventListener('click', openColorPicker);
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b].map(x => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      }).join('');
+    }
+
+    // Close picker modals on outside click
+    document.querySelectorAll('.picker-modal').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+        }
+      });
+    });
   </script>
 </body>
 </html>

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f0e8"/>
+      <stop offset="100%" style="stop-color:#e8e0d0"/>
+    </linearGradient>
+    <linearGradient id="soapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a959"/>
+      <stop offset="100%" style="stop-color:#a08040"/>
+    </linearGradient>
+    <linearGradient id="creamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f5f0e8"/>
+    </linearGradient>
+    <linearGradient id="jarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4a7c59"/>
+      <stop offset="50%" style="stop-color:#5a9c69"/>
+      <stop offset="100%" style="stop-color:#4a7c59"/>
+    </linearGradient>
+    <linearGradient id="bottleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6b7f5c"/>
+      <stop offset="50%" style="stop-color:#8ba07c"/>
+      <stop offset="100%" style="stop-color:#6b7f5c"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative leaves -->
+  <g opacity="0.3">
+    <path d="M30 50 Q60 30 50 80 Q40 60 30 50" fill="#4a7c59"/>
+    <path d="M350 40 Q380 20 370 70 Q360 50 350 40" fill="#4a7c59"/>
+    <path d="M20 250 Q50 230 40 280 Q30 260 20 250" fill="#4a7c59"/>
+    <path d="M370 260 Q400 240 390 290 Q380 270 370 260" fill="#4a7c59"/>
+  </g>
+  
+  <!-- Wooden surface hint -->
+  <rect x="50" y="220" width="300" height="60" rx="5" fill="#d4c4a8" opacity="0.5"/>
+  
+  <!-- Soap bars (stacked) -->
+  <g transform="translate(80, 140)">
+    <!-- Bottom soap -->
+    <rect x="0" y="60" width="70" height="30" rx="3" fill="#c4785a"/>
+    <rect x="0" y="60" width="70" height="5" rx="2" fill="#d4886a" opacity="0.5"/>
+    <!-- Middle soap -->
+    <rect x="5" y="35" width="65" height="30" rx="3" fill="url(#soapGrad)"/>
+    <rect x="5" y="35" width="65" height="5" rx="2" fill="#d9b969" opacity="0.5"/>
+    <!-- Top soap -->
+    <rect x="10" y="10" width="60" height="30" rx="3" fill="#8fbc8f"/>
+    <rect x="10" y="10" width="60" height="5" rx="2" fill="#afdcaf" opacity="0.5"/>
+    <!-- Herbs on soap -->
+    <circle cx="30" cy="22" r="3" fill="#4a7c59"/>
+    <circle cx="45" cy="18" r="2" fill="#6b7f5c"/>
+    <circle cx="55" cy="25" r="2.5" fill="#4a7c59"/>
+  </g>
+  
+  <!-- Cream jar -->
+  <g transform="translate(170, 120)">
+    <!-- Jar body -->
+    <rect x="0" y="40" width="80" height="70" rx="10" fill="url(#jarGrad)"/>
+    <!-- Jar lid -->
+    <rect x="-5" y="25" width="90" height="20" rx="5" fill="#3d6b4a"/>
+    <rect x="-5" y="25" width="90" height="5" fill="#4a7c59" opacity="0.5"/>
+    <!-- Label -->
+    <rect x="10" y="55" width="60" height="40" rx="3" fill="#f5f0e8"/>
+    <text x="40" y="72" text-anchor="middle" font-size="8" fill="#4a7c59" font-family="Arial">HERB</text>
+    <text x="40" y="82" text-anchor="middle" font-size="6" fill="#6b7f5c" font-family="Arial">CREAM</text>
+    <!-- Leaf decoration -->
+    <path d="M35 88 Q40 83 45 88 Q40 93 35 88" fill="#4a7c59"/>
+  </g>
+  
+  <!-- Essential oil bottle -->
+  <g transform="translate(280, 100)">
+    <!-- Bottle body -->
+    <rect x="10" y="50" width="50" height="80" rx="5" fill="url(#bottleGrad)"/>
+    <!-- Bottle neck -->
+    <rect x="20" y="30" width="30" height="25" rx="3" fill="#5a6f4c"/>
+    <!-- Dropper cap -->
+    <rect x="25" y="15" width="20" height="20" rx="2" fill="#2d3a2e"/>
+    <circle cx="35" cy="10" r="8" fill="#2d3a2e"/>
+    <!-- Label -->
+    <rect x="15" y="65" width="40" height="50" rx="2" fill="#f5f0e8"/>
+    <text x="35" y="85" text-anchor="middle" font-size="7" fill="#4a7c59" font-family="Arial">HERBAL</text>
+    <text x="35" y="95" text-anchor="middle" font-size="6" fill="#6b7f5c" font-family="Arial">OIL</text>
+    <!-- Leaf icon -->
+    <path d="M30 102 Q35 97 40 102 Q35 107 30 102" fill="#4a7c59"/>
+  </g>
+  
+  <!-- Small decorative elements -->
+  <!-- Lavender sprigs -->
+  <g transform="translate(50, 180)">
+    <line x1="0" y1="30" x2="5" y2="0" stroke="#6b7f5c" stroke-width="2"/>
+    <circle cx="5" cy="5" r="3" fill="#9c7ab0"/>
+    <circle cx="3" cy="10" r="2.5" fill="#9c7ab0"/>
+    <circle cx="6" cy="14" r="2" fill="#9c7ab0"/>
+  </g>
+  
+  <!-- Herb leaves scattered -->
+  <path d="M320 200 Q330 190 340 200 Q330 210 320 200" fill="#4a7c59" opacity="0.6"/>
+  <path d="M100 230 Q110 220 120 230 Q110 240 100 230" fill="#6b7f5c" opacity="0.5"/>
+  
+  <!-- Small flowers -->
+  <g transform="translate(350, 180)">
+    <circle cx="0" cy="0" r="5" fill="#c9a959"/>
+    <circle cx="0" cy="0" r="2" fill="#fff"/>
+  </g>
+  
+  <!-- Mortar and pestle hint -->
+  <g transform="translate(40, 90)" opacity="0.4">
+    <ellipse cx="30" cy="50" rx="25" ry="15" fill="#8b7355"/>
+    <rect x="5" y="35" width="50" height="20" rx="5" fill="#a08565"/>
+    <rect x="25" y="10" width="10" height="30" rx="3" fill="#6b5545"/>
+  </g>
+</svg>

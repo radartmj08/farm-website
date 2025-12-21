@@ -280,6 +280,15 @@
           <label for="editImage" data-i18n="imageUrl">URL รูปภาพ</label>
           <input type="text" id="editImage">
         </div>
+        <div class="form-group">
+          <label data-i18n="uploadNewImage">อัพโหลดรูปใหม่</label>
+          <div class="image-upload-area" id="editImageUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p data-i18n="dragDrop">คลิกเพื่ออัพโหลด หรือลากไฟล์มาวาง</p>
+            <input type="file" id="editProductImageFile" accept="image/*" hidden>
+          </div>
+          <div id="editImagePreview" class="image-preview"></div>
+        </div>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i> <span data-i18n="save">บันทึก</span>
@@ -411,6 +420,7 @@
         imageUrlPlaceholder: 'ใส่ URL รูปภาพ หรือเว้นว่างเพื่อใช้รูปเริ่มต้น',
         imageUrlHint: 'เว้นว่างเพื่อใช้รูปเริ่มต้นตามหมวดหมู่',
         uploadImage: 'อัพโหลดรูปภาพ (ไม่บังคับ)',
+        uploadNewImage: 'อัพโหลดรูปใหม่',
         dragDrop: 'คลิกเพื่ออัพโหลด หรือลากไฟล์มาวาง',
         reset: 'รีเซ็ต',
         searchProducts: 'ค้นหาสินค้า...',
@@ -477,6 +487,7 @@
         imageUrlPlaceholder: 'Enter image URL or leave empty for default',
         imageUrlHint: 'Leave empty to use default category image',
         uploadImage: 'Upload Image (optional)',
+        uploadNewImage: 'Upload New Image',
         dragDrop: 'Click to upload or drag and drop',
         reset: 'Reset',
         searchProducts: 'Search products...',
@@ -850,6 +861,50 @@
 
     function closeEditModal() {
       document.getElementById('editModal').classList.remove('active');
+      document.getElementById('editImagePreview').innerHTML = '';
+    }
+
+    // Edit image upload area
+    const editImageUploadArea = document.getElementById('editImageUploadArea');
+    const editImageFileInput = document.getElementById('editProductImageFile');
+    
+    editImageUploadArea.addEventListener('click', () => editImageFileInput.click());
+    editImageUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      editImageUploadArea.classList.add('dragover');
+    });
+    editImageUploadArea.addEventListener('dragleave', () => {
+      editImageUploadArea.classList.remove('dragover');
+    });
+    editImageUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      editImageUploadArea.classList.remove('dragover');
+      handleEditImageFile(e.dataTransfer.files[0]);
+    });
+    editImageFileInput.addEventListener('change', (e) => {
+      handleEditImageFile(e.target.files[0]);
+    });
+
+    function handleEditImageFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        document.getElementById('editImage').value = dataUrl;
+        document.getElementById('editImagePreview').innerHTML = `
+          <img src="${dataUrl}" alt="Preview">
+          <button type="button" class="remove-preview" onclick="clearEditImagePreview()">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearEditImagePreview() {
+      document.getElementById('editImagePreview').innerHTML = '';
+      document.getElementById('editProductImageFile').value = '';
     }
 
     document.getElementById('editProductForm').addEventListener('submit', async function(e) {

@@ -235,6 +235,58 @@
     </main>
   </div>
 
+  <!-- Edit Category Modal -->
+  <div id="editCategoryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-i18n="editCategory">แก้ไขหมวดหมู่</h2>
+        <button class="modal-close" onclick="closeEditCategoryModal()">&times;</button>
+      </div>
+      <form id="editCategoryForm" class="admin-form">
+        <input type="hidden" id="editCategoryId">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="categoryNameEn">ชื่อหมวดหมู่ (อังกฤษ)</label>
+            <input type="text" id="editCatName" required>
+          </div>
+          <div class="form-group">
+            <label data-i18n="categoryNameTh">ชื่อหมวดหมู่ (ไทย)</label>
+            <input type="text" id="editCatNameTh" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="categoryIcon">ไอคอน</label>
+            <div class="icon-picker-container">
+              <button type="button" id="editIconPickerBtn" class="icon-picker-btn">
+                <i id="editSelectedIconPreview" class="fas fa-box"></i>
+                <span data-i18n="selectIcon">เลือกไอคอน</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <input type="hidden" id="editCategoryIcon" value="fas fa-box">
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="categoryColor">สี</label>
+            <div class="color-picker-container">
+              <button type="button" id="editColorPickerBtn" class="color-picker-btn">
+                <span id="editColorPreview" class="color-preview" style="background: #4a7c59"></span>
+                <span data-i18n="selectColor">เลือกสี</span>
+              </button>
+              <input type="hidden" id="editCategoryColor" value="#4a7c59">
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> <span data-i18n="save">บันทึก</span>
+          </button>
+          <button type="button" class="btn btn-outline" onclick="closeEditCategoryModal()" data-i18n="cancel">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Edit Product Modal -->
   <div id="editModal" class="modal">
     <div class="modal-content">
@@ -449,7 +501,10 @@
         productDeleted: 'ลบสินค้าสำเร็จ!',
         categoryAdded: 'เพิ่มหมวดหมู่สำเร็จ!',
         categoryDeleted: 'ลบหมวดหมู่สำเร็จ!',
+        categorySaved: 'บันทึกหมวดหมู่สำเร็จ!',
         categoryExists: 'หมวดหมู่นี้มีอยู่แล้ว',
+        editCategory: 'แก้ไขหมวดหมู่',
+        edit: 'แก้ไข',
         error: 'เกิดข้อผิดพลาด'
       },
       en: {
@@ -516,7 +571,10 @@
         productDeleted: 'Product deleted successfully!',
         categoryAdded: 'Category added successfully!',
         categoryDeleted: 'Category deleted successfully!',
+        categorySaved: 'Category saved successfully!',
         categoryExists: 'Category already exists',
+        editCategory: 'Edit Category',
+        edit: 'Edit',
         error: 'Error occurred'
       }
     };
@@ -617,6 +675,9 @@
             </div>
           </div>
           <div class="category-actions">
+            <button class="btn-icon edit" onclick="openEditCategoryModal('${cat.id}')" title="${t('edit')}">
+              <i class="fas fa-edit"></i>
+            </button>
             <button class="btn-icon delete" onclick="deleteCategory('${cat.id}')" title="${t('delete')}">
               <i class="fas fa-trash"></i>
             </button>
@@ -667,6 +728,11 @@
       showToast(t('categoryAdded'), 'success');
     });
 
+    document.getElementById('editCategoryForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      updateCategory();
+    });
+
     function deleteCategory(categoryId) {
       if (!confirm(currentLang === 'th' ? 'ต้องการลบหมวดหมู่นี้หรือไม่?' : 'Delete this category?')) {
         return;
@@ -679,6 +745,62 @@
       updateCategorySelects();
       loadCategoryStats();
       showToast(t('categoryDeleted'), 'success');
+    }
+
+    function openEditCategoryModal(categoryId) {
+      const categories = getCategories();
+      const category = categories.find(c => c.id === categoryId);
+      
+      if (!category) return;
+      
+      document.getElementById('editCategoryId').value = categoryId;
+      document.getElementById('editCatName').value = category.name;
+      document.getElementById('editCatNameTh').value = category.nameTh;
+      document.getElementById('editCategoryIcon').value = category.icon;
+      document.getElementById('editCategoryColor').value = category.color;
+      document.getElementById('editSelectedIconPreview').className = category.icon;
+      document.getElementById('editColorPreview').style.background = category.color;
+      
+      selectedEditIcon = category.icon;
+      selectedEditColor = category.color;
+      
+      document.getElementById('editCategoryModal').classList.add('active');
+    }
+
+    function closeEditCategoryModal() {
+      document.getElementById('editCategoryModal').classList.remove('active');
+    }
+
+    function updateCategory() {
+      const categoryId = document.getElementById('editCategoryId').value;
+      const name = document.getElementById('editCatName').value.trim();
+      const nameTh = document.getElementById('editCatNameTh').value.trim();
+      const icon = document.getElementById('editCategoryIcon').value;
+      const color = document.getElementById('editCategoryColor').value;
+      
+      if (!name || !nameTh) {
+        showToast(currentLang === 'th' ? 'กรุณากรอกชื่อหมวดหมู่' : 'Please enter category name', 'error');
+        return;
+      }
+      
+      let categories = getCategories();
+      const index = categories.findIndex(c => c.id === categoryId);
+      
+      if (index !== -1) {
+        categories[index] = {
+          ...categories[index],
+          name,
+          nameTh,
+          icon,
+          color
+        };
+        saveCategories(categories);
+        loadCategoryList();
+        updateCategorySelects();
+        loadCategoryStats();
+        closeEditCategoryModal();
+        showToast(t('categorySaved'), 'success');
+      }
     }
 
     // ========================================
@@ -1031,6 +1153,8 @@
     ];
 
     let selectedIcon = 'fas fa-box';
+    let selectedEditIcon = 'fas fa-box';
+    let selectedEditColor = '#4a7c59';
 
     function openIconPicker() {
       const grid = document.getElementById('iconGrid');
@@ -1058,7 +1182,30 @@
       closeIconPicker();
     }
 
+    function openEditIconPicker() {
+      const grid = document.getElementById('iconGrid');
+      grid.innerHTML = FARM_ICONS.map(icon => `
+        <button type="button" class="icon-option ${icon === selectedEditIcon ? 'selected' : ''}" data-icon="${icon}">
+          <i class="${icon}"></i>
+        </button>
+      `).join('');
+
+      grid.querySelectorAll('.icon-option').forEach(btn => {
+        btn.addEventListener('click', () => selectEditIcon(btn.dataset.icon));
+      });
+
+      document.getElementById('iconPickerModal').classList.add('active');
+    }
+
+    function selectEditIcon(icon) {
+      selectedEditIcon = icon;
+      document.getElementById('editCategoryIcon').value = icon;
+      document.getElementById('editSelectedIconPreview').className = icon;
+      closeIconPicker();
+    }
+
     document.getElementById('iconPickerBtn').addEventListener('click', openIconPicker);
+    document.getElementById('editIconPickerBtn')?.addEventListener('click', openEditIconPicker);
 
     document.getElementById('iconSearch').addEventListener('input', function(e) {
       const search = e.target.value.toLowerCase();
@@ -1134,23 +1281,42 @@
       cursor.style.left = x + 'px';
       cursor.style.top = y + 'px';
     });
-
     document.getElementById('brightnessSlider')?.addEventListener('input', drawColorWheel);
 
     document.querySelectorAll('.preset-color').forEach(btn => {
-      btn.addEventListener('click', () => updateSelectedColor(btn.dataset.color));
+      btn.addEventListener('click', function() {
+        const color = this.dataset.color;
+        // Determine if we're in edit mode or add mode based on which modal is active
+        const editModal = document.getElementById('editCategoryModal');
+        if (editModal && editModal.classList.contains('active')) {
+          updateSelectedEditColor(color);
+        } else {
+          updateSelectedColor(color);
+        }
+      });
     });
 
     document.getElementById('colorHexInput')?.addEventListener('input', function(e) {
       let hex = e.target.value;
       if (!hex.startsWith('#')) hex = '#' + hex;
       if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-        updateSelectedColor(hex);
+        const editModal = document.getElementById('editCategoryModal');
+        if (editModal && editModal.classList.contains('active')) {
+          updateSelectedEditColor(hex);
+        } else {
+          updateSelectedColor(hex);
+        }
       }
     });
 
     function updateSelectedColor(hex) {
       selectedColor = hex;
+      document.getElementById('selectedColorBox').style.background = hex;
+      document.getElementById('colorHexInput').value = hex;
+    }
+
+    function updateSelectedEditColor(hex) {
+      selectedEditColor = hex;
       document.getElementById('selectedColorBox').style.background = hex;
       document.getElementById('colorHexInput').value = hex;
     }
@@ -1161,7 +1327,29 @@
       closeColorPicker();
     }
 
+    function confirmEditColorSelection() {
+      document.getElementById('editCategoryColor').value = selectedEditColor;
+      document.getElementById('editColorPreview').style.background = selectedEditColor;
+      closeColorPicker();
+    }
+
+    function openEditColorPicker() {
+      selectedEditColor = document.getElementById('editCategoryColor').value;
+      document.getElementById('colorHexInput').value = selectedEditColor;
+      document.getElementById('selectedColorBox').style.background = selectedEditColor;
+      
+      // Change confirm button handler
+      const confirmBtn = document.querySelector('#colorPickerModal .color-confirm');
+      if (confirmBtn) {
+        confirmBtn.onclick = confirmEditColorSelection;
+      }
+      
+      document.getElementById('colorPickerModal').classList.add('active');
+      initColorWheel();
+    }
+
     document.getElementById('colorPickerBtn').addEventListener('click', openColorPicker);
+    document.getElementById('editColorPickerBtn')?.addEventListener('click', openEditColorPicker);
 
     function rgbToHex(r, g, b) {
       return '#' + [r, g, b].map(x => {

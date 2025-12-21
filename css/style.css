@@ -4,31 +4,33 @@
    ======================================== */
 
 :root {
-  --primary: #2d6a4f;
-  --primary-dark: #1b4332;
-  --primary-light: #52b788;
-  --secondary: #95d5b2;
-  --bg-dark: #e8f5e9;
-  --bg-darker: #c8e6c9;
+  --primary: #4a7c59;
+  --primary-dark: #3d6b4a;
+  --primary-light: #7cb890;
+  --secondary: #8b6914;
+  --bg-dark: #f5f0e8;
+  --bg-darker: #ebe4d8;
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f8e9;
-  --text-primary: #1b4332;
-  --text-secondary: #40916c;
-  --text-muted: #74c69d;
-  --border: #a7d7c5;
-  --shadow: 0 25px 50px -12px rgba(45, 106, 79, 0.2);
+  --bg-card-hover: #faf7f2;
+  --text-primary: #2d3a2e;
+  --text-secondary: #5a6b5c;
+  --text-muted: #8a9a8c;
+  --border: #d4cfc4;
+  --shadow: 0 25px 50px -12px rgba(74, 124, 89, 0.15);
   --radius: 16px;
   --radius-sm: 8px;
   --transition: all 0.3s ease;
   
-  /* Additional Green Tone Colors */
-  --cream: #f0fff4;
-  --cream-dark: #d8f3dc;
-  --sage: #74c69d;
-  --olive: #52b788;
-  --terracotta: #40916c;
-  --sand: #b7e4c7;
-  --brown: #2d6a4f;
+  /* Earth Tone with Green & Brown accent */
+  --cream: #f9f6f0;
+  --cream-dark: #efe9dc;
+  --sage: #9caf88;
+  --olive: #6b7f5c;
+  --terracotta: #a0522d;
+  --sand: #d4c4a8;
+  --brown: #8b7355;
+  --green-accent: #4a7c59;
+  --brown-accent: #6b4423;
 }
 
 * {
@@ -1532,7 +1534,7 @@ img {
   width: 50px;
   height: 50px;
   object-fit: contain;
-  background: rgba(45, 106, 79, 0.1);
+  background: rgba(74, 124, 89, 0.1);
   border-radius: 8px;
   padding: 5px;
 }

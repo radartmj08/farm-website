@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f5f0e8"/>
-      <stop offset="100%" style="stop-color:#e8e0d0"/>
-    </linearGradient>
     <linearGradient id="soapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#c9a959"/>
       <stop offset="100%" style="stop-color:#a08040"/>
@@ -24,21 +20,7 @@
     </linearGradient>
   </defs>
   
-  <!-- Background -->
-  <rect width="400" height="300" fill="url(#bgGrad)"/>
-  
   <!-- Decorative leaves -->
-  <g opacity="0.3">
-    <path d="M30 50 Q60 30 50 80 Q40 60 30 50" fill="#4a7c59"/>
-    <path d="M350 40 Q380 20 370 70 Q360 50 350 40" fill="#4a7c59"/>
-    <path d="M20 250 Q50 230 40 280 Q30 260 20 250" fill="#4a7c59"/>
-    <path d="M370 260 Q400 240 390 290 Q380 270 370 260" fill="#4a7c59"/>
-  </g>
-  
-  <!-- Wooden surface hint -->
-  <rect x="50" y="220" width="300" height="60" rx="5" fill="#d4c4a8" opacity="0.5"/>
-  
-  <!-- Soap bars (stacked) -->
   <g transform="translate(80, 140)">
     <!-- Bottom soap -->
     <rect x="0" y="60" width="70" height="30" rx="3" fill="#c4785a"/>

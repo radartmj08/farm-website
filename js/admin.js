@@ -292,3 +292,191 @@ function formatCategory(category) {
   await getProductsAsync();
   console.log('Products loaded from Supabase');
 })();
+
+// ========================================
+// Category Functions (Supabase)
+// ========================================
+
+/**
+ * ดึงหมวดหมู่ทั้งหมดจาก Supabase
+ */
+async function getCategoriesFromDB() {
+  try {
+    const categories = await supabaseRequest('categories?select=*&order=id.asc');
+    return categories || [];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
+/**
+ * ดึงหมวดหมู่แบบ async และ cache
+ */
+async function getCategoriesAsync() {
+  try {
+    const categories = await getCategoriesFromDB();
+    localStorage.setItem('categoriesCache', JSON.stringify(categories));
+    return categories;
+  } catch (error) {
+    console.error('Error:', error);
+    const cached = localStorage.getItem('categoriesCache');
+    return cached ? JSON.parse(cached) : [];
+  }
+}
+
+/**
+ * เพิ่มหมวดหมู่ใหม่ไปยัง Supabase
+ */
+async function addCategoryToDB(category) {
+  try {
+    const result = await supabaseRequest('categories', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: category.name,
+        name_th: category.nameTh,
+        icon: category.icon,
+        color: category.color
+      })
+    });
+    
+    localStorage.removeItem('categoriesCache');
+    return result[0];
+  } catch (error) {
+    console.error('Error adding category:', error);
+    throw error;
+  }
+}
+
+/**
+ * อัพเดทหมวดหมู่ใน Supabase
+ */
+async function updateCategoryInDB(categoryId, category) {
+  try {
+    const result = await supabaseRequest(`categories?id=eq.${categoryId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name: category.name,
+        name_th: category.nameTh,
+        icon: category.icon,
+        color: category.color
+      })
+    });
+    
+    localStorage.removeItem('categoriesCache');
+    return result ? result[0] : null;
+  } catch (error) {
+    console.error('Error updating category:', error);
+    throw error;
+  }
+}
+
+/**
+ * ลบหมวดหมู่จาก Supabase
+ */
+async function deleteCategoryFromDB(categoryId) {
+  try {
+    await supabaseRequest(`categories?id=eq.${categoryId}`, {
+      method: 'DELETE'
+    });
+    
+    localStorage.removeItem('categoriesCache');
+    return true;
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    throw error;
+  }
+}
+
+// ========================================
+// Badge Functions (Supabase)
+// ========================================
+
+/**
+ * ดึง badges ทั้งหมดจาก Supabase
+ */
+async function getBadgesFromDB() {
+  try {
+    const badges = await supabaseRequest('badges?select=*&order=id.asc');
+    return badges || [];
+  } catch (error) {
+    console.error('Error fetching badges:', error);
+    return [];
+  }
+}
+
+/**
+ * ดึง badges แบบ async และ cache
+ */
+async function getBadgesAsync() {
+  try {
+    const badges = await getBadgesFromDB();
+    localStorage.setItem('badgesCache', JSON.stringify(badges));
+    return badges;
+  } catch (error) {
+    console.error('Error:', error);
+    const cached = localStorage.getItem('badgesCache');
+    return cached ? JSON.parse(cached) : [];
+  }
+}
+
+/**
+ * เพิ่ม badge ใหม่ไปยัง Supabase
+ */
+async function addBadgeToDB(badge) {
+  try {
+    const result = await supabaseRequest('badges', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: badge.name,
+        name_th: badge.nameTh,
+        color: badge.color
+      })
+    });
+    
+    localStorage.removeItem('badgesCache');
+    return result[0];
+  } catch (error) {
+    console.error('Error adding badge:', error);
+    throw error;
+  }
+}
+
+/**
+ * อัพเดท badge ใน Supabase
+ */
+async function updateBadgeInDB(badgeId, badge) {
+  try {
+    const result = await supabaseRequest(`badges?id=eq.${badgeId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name: badge.name,
+        name_th: badge.nameTh,
+        color: badge.color
+      })
+    });
+    
+    localStorage.removeItem('badgesCache');
+    return result ? result[0] : null;
+  } catch (error) {
+    console.error('Error updating badge:', error);
+    throw error;
+  }
+}
+
+/**
+ * ลบ badge จาก Supabase
+ */
+async function deleteBadgeFromDB(badgeId) {
+  try {
+    await supabaseRequest(`badges?id=eq.${badgeId}`, {
+      method: 'DELETE'
+    });
+    
+    localStorage.removeItem('badgesCache');
+    return true;
+  } catch (error) {
+    console.error('Error deleting badge:', error);
+    throw error;
+  }
+}

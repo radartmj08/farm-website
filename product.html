@@ -40,19 +40,8 @@
   <!-- Category Filter -->
   <section class="menu-section">
     <div class="container">
-      <div class="category-filter">
-        <button class="filter-btn active" data-category="all">
-          <i class="fas fa-th"></i> <span data-i18n="all">ทั้งหมด</span>
-        </button>
-        <button class="filter-btn" data-category="vegetables">
-          <i class="fas fa-carrot"></i> <span data-i18n="vegetables">ผัก</span>
-        </button>
-        <button class="filter-btn" data-category="flowers">
-          <i class="fas fa-spa"></i> <span data-i18n="flowers">ดอกไม้</span>
-        </button>
-        <button class="filter-btn" data-category="herbs">
-          <i class="fas fa-leaf"></i> <span data-i18n="herbs">สมุนไพร</span>
-        </button>
+      <div class="category-filter" id="categoryFilter">
+        <!-- Categories will be loaded dynamically -->
       </div>
 
       <!-- Products Grid (Dynamically loaded) -->
@@ -212,14 +201,58 @@
     // Current category
     let currentCategory = 'all';
 
+    // Default categories (fallback)
+    const DEFAULT_CATEGORIES = [
+      { id: 'vegetables', name: 'Vegetables', nameTh: 'ผัก', icon: 'fas fa-seedling', color: '#4a7c59' },
+      { id: 'flowers', name: 'Flowers', nameTh: 'ดอกไม้', icon: 'fas fa-spa', color: '#c4785a' },
+      { id: 'herbs', name: 'Herbs', nameTh: 'สมุนไพร', icon: 'fas fa-leaf', color: '#6b7f5c' }
+    ];
+
+    // Get categories from localStorage (synced with admin)
+    function getCategories() {
+      const stored = localStorage.getItem('farmCategories');
+      return stored ? JSON.parse(stored) : DEFAULT_CATEGORIES;
+    }
+
     // Get category name in current language
-    function getCategoryName(category) {
-      const names = {
-        vegetables: { th: 'ผัก', en: 'Vegetables' },
-        flowers: { th: 'ดอกไม้', en: 'Flowers' },
-        herbs: { th: 'สมุนไพร', en: 'Herbs' }
-      };
-      return names[category] ? names[category][currentLang] : category;
+    function getCategoryName(categoryId) {
+      const categories = getCategories();
+      const cat = categories.find(c => c.id === categoryId);
+      if (!cat) return categoryId;
+      return currentLang === 'th' ? cat.nameTh : cat.name;
+    }
+
+    // Get category icon
+    function getCategoryIconFromId(categoryId) {
+      const categories = getCategories();
+      const cat = categories.find(c => c.id === categoryId);
+      return cat ? cat.icon : 'fas fa-box';
+    }
+
+    // Load category filter buttons
+    function loadCategoryFilter() {
+      const container = document.getElementById('categoryFilter');
+      const categories = getCategories();
+      
+      container.innerHTML = `
+        <button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-category="all">
+          <i class="fas fa-th"></i> <span>${t('all')}</span>
+        </button>
+        ${categories.map(cat => `
+          <button class="filter-btn ${currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">
+            <i class="${cat.icon}"></i> <span>${currentLang === 'th' ? cat.nameTh : cat.name}</span>
+          </button>
+        `).join('')}
+      `;
+      
+      // Add click handlers
+      container.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          await loadProducts(btn.dataset.category);
+        });
+      });
     }
 
     // Load products from Supabase
@@ -253,7 +286,7 @@
         }
 
         grid.innerHTML = filtered.map(product => {
-          const categoryIcon = getCategoryIcon(product.category);
+          const categoryIcon = getCategoryIconFromId(product.category);
           const badgeClass = product.badge === 'New' || product.badge === 'Sale' ? 'sale' : '';
           
           return `
@@ -285,18 +318,19 @@
     }
 
     // Category filter
-    const filterBtns = document.querySelectorAll('.filter-btn');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', async () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        await loadProducts(btn.dataset.category);
-      });
-    });
+    // Load category buttons
+    loadCategoryFilter();
 
     // Initial load
     loadProducts();
+
+    // Listen for category updates from admin
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'farmCategories') {
+        loadCategoryFilter();
+        loadProducts(currentCategory);
+      }
+    });
   </script>
 </body>
 </html>

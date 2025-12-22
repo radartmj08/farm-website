@@ -2208,6 +2208,47 @@ img {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Large Preset Color Buttons (Touch Friendly) */
+.preset-grid-large {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+}
+
+.preset-color-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 44px;
+  min-height: 44px;
+  border: 3px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.preset-color-btn:hover,
+.preset-color-btn:focus {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.preset-color-btn.selected {
+  border-color: var(--text-primary);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px white, 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.custom-color-section {
+  width: 100%;
+}
+
+.custom-color-section h4 {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
 /* Selected Color Display */
 .selected-color-display {
   display: flex;
@@ -2248,6 +2289,50 @@ img {
   .icon-grid {
     grid-template-columns: repeat(6, 1fr);
   }
+  
+  /* Admin responsive for tablet */
+  .admin-navbar {
+    padding: 0.5rem 1rem;
+  }
+  
+  .admin-navbar-actions {
+    gap: 0.5rem;
+  }
+  
+  .admin-nav-link span {
+    display: none;
+  }
+  
+  .admin-logout-btn span {
+    display: none;
+  }
+  
+  /* Picker modal responsive */
+  .picker-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .color-picker-modal {
+    max-width: 95%;
+  }
+  
+  .color-wheel-container {
+    width: 180px;
+    height: 180px;
+  }
+  
+  #colorWheel {
+    width: 180px;
+    height: 180px;
+  }
+  
+  /* Modal responsive */
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+    margin: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2257,5 +2342,116 @@ img {
   
   .preset-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Admin responsive for phone */
+  .admin-sidebar {
+    width: 50px;
+    padding: 0.5rem 0;
+  }
+  
+  .sidebar-link {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  .admin-main {
+    margin-left: 50px;
+    padding: 0.75rem;
+  }
+  
+  .admin-page-title {
+    font-size: 1.25rem;
+  }
+  
+  /* Form responsive */
+  .admin-form .form-group label {
+    font-size: 0.875rem;
+  }
+  
+  .admin-form input,
+  .admin-form select,
+  .admin-form textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  /* Color picker responsive */
+  .color-wheel-container {
+    width: 150px;
+    height: 150px;
+  }
+  
+  #colorWheel {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .color-picker-body {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .preset-color {
+    min-width: 40px;
+    min-height: 40px;
+  }
+  
+  .selected-color-display {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  /* Category item responsive */
+  .category-item {
+    padding: 0.75rem;
+  }
+  
+  .category-item .category-info {
+    font-size: 0.875rem;
+  }
+  
+  .category-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  /* Modal responsive phone */
+  .modal-content {
+    width: 98%;
+    max-height: 95vh;
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.125rem;
+  }
+  
+  .picker-content {
+    width: 98%;
+  }
+  
+  .icon-option {
+    font-size: 1rem;
+  }
+  
+  /* Product table phone */
+  .product-table {
+    font-size: 0.75rem;
+  }
+  
+  .product-table th,
+  .product-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .product-thumb {
+    width: 40px;
+    height: 40px;
   }
 }

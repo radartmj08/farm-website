@@ -1878,6 +1878,23 @@ img {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.category-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-list::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-radius: 3px;
+}
+
+.category-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
 }
 
 .category-item {
@@ -1892,6 +1909,21 @@ img {
 
 .category-item:hover {
   background: var(--bg-darker);
+}
+
+.category-item.highlight {
+  animation: highlightNew 2s ease-out;
+}
+
+@keyframes highlightNew {
+  0% {
+    background: var(--primary-light);
+    transform: scale(1.02);
+  }
+  100% {
+    background: var(--bg-dark);
+    transform: scale(1);
+  }
 }
 
 .category-info {

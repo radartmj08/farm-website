@@ -184,6 +184,7 @@
       currentLang = currentLang === 'th' ? 'en' : 'th';
       localStorage.setItem('siteLang', currentLang);
       updateLanguage();
+      loadCategoryFilter(); // Reload category buttons with new language
       loadProducts(currentCategory);
     });
 

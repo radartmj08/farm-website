@@ -752,12 +752,12 @@
       });
     }
 
-    function loadCategoryList() {
+    function loadCategoryList(scrollToBottom = false) {
       const categories = getCategories();
       const list = document.getElementById('categoryList');
       
-      list.innerHTML = categories.map(cat => `
-        <div class="category-item" style="border-left: 4px solid ${cat.color}">
+      list.innerHTML = categories.map((cat, index) => `
+        <div class="category-item ${scrollToBottom && index === categories.length - 1 ? 'new-item' : ''}" style="border-left: 4px solid ${cat.color}" data-id="${cat.id}">
           <div class="category-info">
             <i class="${cat.icon}" style="color: ${cat.color}"></i>
             <div>
@@ -775,6 +775,16 @@
           </div>
         </div>
       `).join('');
+      
+      // Scroll to new item if added
+      if (scrollToBottom && categories.length > 0) {
+        const lastItem = list.querySelector('.new-item');
+        if (lastItem) {
+          lastItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          lastItem.classList.add('highlight');
+          setTimeout(() => lastItem.classList.remove('highlight', 'new-item'), 2000);
+        }
+      }
     }
 
     function loadCategoryStats() {
@@ -811,11 +821,14 @@
       
       categories.push(newCategory);
       saveCategories(categories);
-      loadCategoryList();
+      loadCategoryList(true); // Scroll to new item
       updateCategorySelects();
       loadCategoryStats();
       this.reset();
       document.getElementById('categoryColor').value = '#4a7c59';
+      document.getElementById('colorPreview').style.background = '#4a7c59';
+      document.getElementById('selectedIconPreview').className = 'fas fa-box';
+      document.getElementById('categoryIcon').value = 'fas fa-box';
       showToast(t('categoryAdded'), 'success');
     });
 

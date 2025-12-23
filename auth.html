@@ -1,884 +1,1335 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ | ฟาร์มภูมิใจเจริญ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-green: #2d5016;
-            --secondary-green: #4a7c23;
-            --accent-gold: #c9a227;
-            --light-cream: #f5f5dc;
-            --dark-brown: #3d2914;
-            --white: #ffffff;
-            --light-green: #e8f5e9;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>เข้าสู่ระบบ — Farm Phoomjai & Jiaranai Garden</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4a7c59;
+      --primary-dark: #3d6b4a;
+      --primary-light: #7cb890;
+      --secondary: #c9a959;
+      --bg-dark: #f5f0e8;
+      --bg-darker: #ebe4d8;
+      --bg-card: #ffffff;
+      --text-primary: #2d3a2e;
+      --text-secondary: #5a6b5c;
+      --text-muted: #8a9a8c;
+      --border: #d4cfc4;
+      --shadow: 0 25px 50px -12px rgba(74, 124, 89, 0.15);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --transition: all 0.3s ease;
+      --cream: #f9f6f0;
+      --cream-dark: #efe9dc;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      font-family: 'Poppins', 'Noto Sans Thai', -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--cream-dark) 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
 
-        body {
-            font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, var(--light-green) 0%, var(--light-cream) 50%, #fff9e6 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+    .auth-wrapper { width: 100%; max-width: 420px; }
 
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .back-home:hover { color: var(--primary); background: rgba(255,255,255,0.5); }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    .auth-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: slideUp 0.4s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .logo-section img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid var(--accent-gold);
-        }
+    .auth-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 1.5rem;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+    .auth-header img {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      margin-bottom: 0.75rem;
+      border: 3px solid white;
+      object-fit: cover;
+    }
+    .auth-header h1 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .auth-header p { opacity: 0.9; font-size: 0.85rem; }
 
-        .logo-text h1 {
-            color: var(--white);
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
+    .header-lang-toggle {
+      position: absolute;
+      top: 0.75rem; right: 0.75rem;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-sm);
+      color: white;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: var(--transition);
+    }
+    .header-lang-toggle:hover { background: rgba(255,255,255,0.3); }
 
-        .logo-text p {
-            color: var(--accent-gold);
-            font-size: 0.85rem;
-        }
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-dark);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 0.875rem;
+      text-align: center;
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .auth-tab.active { color: var(--primary); background: white; }
+    .auth-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 3px;
+      background: var(--primary);
+    }
 
-        .header-nav {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
+    .auth-body { padding: 1.5rem; }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .header-nav a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    .input-icon { position: relative; }
+    .input-icon > i:first-child {
+      position: absolute;
+      left: 0.875rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      z-index: 1;
+      font-size: 0.9rem;
+    }
+    .input-icon input { padding-left: 2.5rem !important; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      font-family: inherit;
+      background: white;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+    }
 
-        .header-nav a:hover {
-            background: rgba(255,255,255,0.2);
-        }
+    .form-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+    .remember-me input { width: auto; cursor: pointer; }
+    .forgot-password { color: var(--primary); text-decoration: none; cursor: pointer; }
+    .forgot-password:hover { text-decoration: underline; }
 
-        /* Language Switcher */
-        .lang-switch {
-            display: flex;
-            background: rgba(255,255,255,0.2);
-            border-radius: 25px;
-            padding: 3px;
-        }
+    .auth-submit {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+    }
+    .auth-submit:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    .auth-submit:disabled { background: var(--text-muted); cursor: not-allowed; }
 
-        .lang-btn {
-            padding: 0.4rem 0.8rem;
-            border: none;
-            background: transparent;
-            color: var(--white);
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
+    /* Social Login */
+    .social-divider {
+      display: flex;
+      align-items: center;
+      margin: 1.25rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .social-divider::before,
+    .social-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .social-divider span { padding: 0 1rem; }
 
-        .lang-btn.active {
-            background: var(--white);
-            color: var(--primary-green);
-            font-weight: 600;
-        }
+    .social-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: inherit;
+      transition: var(--transition);
+      color: var(--text-primary);
+    }
+    .social-btn:hover {
+      border-color: var(--primary);
+      background: var(--bg-dark);
+    }
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
 
-        /* Main Content */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
+    .interests-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .interests-section h4 {
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+    }
+    .interest-tag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      padding: 0.4rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+      background: white;
+    }
+    .interest-tag:hover { border-color: var(--primary); }
+    .interest-tag.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .interest-tag input { display: none; }
 
-        .auth-container {
-            background: var(--white);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(45, 80, 22, 0.15);
-            width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-        }
+    .auth-footer {
+      text-align: center;
+      padding: 1rem 1.5rem;
+      background: var(--bg-dark);
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
 
-        /* Auth Tabs */
-        .auth-tabs {
-            display: flex;
-            background: var(--light-green);
-        }
+    .password-toggle {
+      position: absolute;
+      right: 0.75rem; top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      z-index: 2;
+    }
+    .password-toggle:hover { color: var(--primary); }
 
-        .auth-tab {
-            flex: 1;
-            padding: 1.2rem;
-            border: none;
-            background: transparent;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--secondary-green);
-            transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif;
-        }
+    .toast {
+      position: fixed;
+      bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      padding: 0.875rem 1.5rem;
+      background: var(--text-primary);
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      max-width: 90%;
+      text-align: center;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.success { background: var(--primary); }
+    .toast.error { background: #ef4444; }
+    .toast.info { background: #3b82f6; }
 
-        .auth-tab.active {
-            background: var(--white);
-            color: var(--primary-green);
-            border-bottom: 3px solid var(--accent-gold);
-        }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      padding: 1rem;
+    }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 380px;
+      transform: scale(0.9);
+      transition: var(--transition);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.show .modal { transform: scale(1); }
+    .modal-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.1rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+    }
+    .modal-body { padding: 1.25rem; }
+    .modal-body p { margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; }
 
-        /* Auth Content */
-        .auth-content {
-            padding: 2rem;
-        }
+    .success-icon {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      animation: scaleIn 0.3s ease;
+    }
+    .success-icon i { font-size: 2rem; color: white; }
+    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
 
-        .auth-form {
-            display: none;
-        }
+    .user-info-display {
+      background: var(--bg-dark);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1rem;
+    }
+    .user-info-display h4 { margin-bottom: 0.5rem; color: var(--text-primary); font-size: 0.9rem; }
+    .user-info-display p {
+      margin: 0.4rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
 
-        .auth-form.active {
-            display: block;
-        }
+    /* Logged In View */
+    .logged-in-view {
+      display: none;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    .logged-in-view.active { display: block; animation: fadeIn 0.3s ease; }
+    .logged-in-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 2rem;
+      color: white;
+    }
+    .logged-in-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .logged-in-email {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    .logout-btn:hover { background: #dc2626; }
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-home-link:hover { text-decoration: underline; }
 
-        /* Logged In View */
-        .logged-in-view {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .logged-in-view.active {
-            display: block;
-        }
-
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            color: var(--white);
-        }
-
-        .user-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-green);
-            margin-bottom: 0.5rem;
-        }
-
-        .user-email {
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .logout-btn {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            color: var(--white);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-brown);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--secondary-green);
-            box-shadow: 0 0 0 4px rgba(74, 124, 35, 0.1);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: var(--white);
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(45, 80, 22, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 1.5rem 0;
-            color: #999;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            padding: 0 1rem;
-            font-size: 0.9rem;
-        }
-
-        /* Social Login */
-        .social-login {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 0.9rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            background: var(--white);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            font-weight: 500;
-            font-family: 'Sarabun', sans-serif;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .social-btn.google {
-            border-color: #ea4335;
-            color: #ea4335;
-        }
-
-        .social-btn.google:hover {
-            background: #ea4335;
-            color: var(--white);
-        }
-
-        .social-btn img {
-            width: 22px;
-            height: 22px;
-        }
-
-        /* Messages */
-        .message {
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            text-align: center;
-            display: none;
-        }
-
-        .message.error {
-            background: #ffe6e6;
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-
-        .message.success {
-            background: #e6ffe6;
-            color: #28a745;
-            border: 1px solid #28a745;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--primary-green);
-            color: var(--white);
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .header-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            main {
-                padding: 1rem;
-            }
-
-            .auth-content {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+    @media (max-width: 480px) {
+      .auth-container { padding: 0.75rem; }
+      .auth-body { padding: 1.25rem; }
+      .interests-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="index.html" class="logo-section" style="text-decoration: none;">
-                <img src="img/logo.png" alt="Logo" onerror="this.style.display='none'">
-                <div class="logo-text">
-                    <h1 data-translate="farmName">ฟาร์มภูมิใจเจริญ</h1>
-                    <p data-translate="farmSlogan">สดจากฟาร์ม ถึงมือคุณ</p>
-                </div>
+  <div class="auth-container">
+    <div class="auth-wrapper">
+      <a href="index.html" class="back-home">
+        <i class="fas fa-arrow-left"></i>
+        <span data-i18n="backToHome">กลับหน้าหลัก</span>
+      </a>
+      
+      <div class="auth-card">
+        <div class="auth-header">
+          <button type="button" class="header-lang-toggle" id="langToggle">
+            <i class="fas fa-globe"></i>
+            <span id="currentLang">TH</span>
+          </button>
+          <img src="images/logo_farm.jpg" alt="Farm Phoomjai" onerror="this.src='https://via.placeholder.com/70x70/4a7c59/fff?text=FP'">
+          <h1>Farm Phoomjai & Jiaranai</h1>
+          <p data-i18n="authWelcome">ยินดีต้อนรับ! สมัครสมาชิกเพื่อรับข้อเสนอพิเศษ</p>
+        </div>
+
+        <div class="auth-tabs" id="authTabs">
+          <button type="button" class="auth-tab active" data-tab="login">
+            <i class="fas fa-sign-in-alt"></i>
+            <span data-i18n="login">เข้าสู่ระบบ</span>
+          </button>
+          <button type="button" class="auth-tab" data-tab="signup">
+            <i class="fas fa-user-plus"></i>
+            <span data-i18n="signup">สมัครสมาชิก</span>
+          </button>
+        </div>
+
+        <div class="auth-body">
+          <!-- Login Form -->
+          <form id="loginForm" class="auth-form active">
+            <div class="form-group">
+              <label data-i18n="email">อีเมล</label>
+              <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="loginEmail" placeholder="your@email.com" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="password">รหัสผ่าน</label>
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                <button type="button" class="password-toggle" id="loginPasswordToggle">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <span data-i18n="rememberMe">จดจำฉัน</span>
+              </label>
+              <span class="forgot-password" id="forgotPasswordLink" data-i18n="forgotPassword">ลืมรหัสผ่าน?</span>
+            </div>
+
+            <button type="submit" class="auth-submit" id="loginBtn">
+              <i class="fas fa-sign-in-alt"></i>
+              <span data-i18n="loginBtn">เข้าสู่ระบบ</span>
+            </button>
+
+            <div class="social-divider">
+              <span data-i18n="orContinueWith">หรือเข้าด้วย</span>
+            </div>
+
+            <button type="button" class="social-btn" id="googleLoginBtn">
+              <img src="https://www.google.com/favicon.ico" alt="Google">
+              <span data-i18n="continueGoogle">เข้าสู่ระบบด้วย Google</span>
+            </button>
+          </form>
+
+          <!-- Signup Form -->
+          <form id="signupForm" class="auth-form">
+            <div class="form-group">
+              <label data-i18n="fullName">ชื่อ-นามสกุล</label>
+              <div class="input-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="signupName" placeholder="ชื่อของคุณ" required autocomplete="name">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="email">อีเมล</label>
+              <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="signupEmail" placeholder="your@email.com" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="phone">เบอร์โทรศัพท์</label>
+              <div class="input-icon">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="signupPhone" placeholder="081-234-5678" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="password">รหัสผ่าน</label>
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="signupPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6" autocomplete="new-password">
+                <button type="button" class="password-toggle" id="signupPasswordToggle">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="confirmPassword">ยืนยันรหัสผ่าน</label>
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="signupConfirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required autocomplete="new-password">
+              </div>
+              <div class="form-error" id="passwordError"></div>
+            </div>
+
+            <div class="interests-section">
+              <h4><i class="fas fa-heart"></i> <span data-i18n="selectInterests">เลือกสิ่งที่คุณสนใจ</span></h4>
+              <div class="interests-grid" id="interestsGrid"></div>
+            </div>
+
+            <button type="submit" class="auth-submit" id="signupBtn" style="margin-top: 1rem;">
+              <i class="fas fa-user-plus"></i>
+              <span data-i18n="signupBtn">สมัครสมาชิก</span>
+            </button>
+
+            <div class="social-divider">
+              <span data-i18n="orContinueWith">หรือสมัครด้วย</span>
+            </div>
+
+            <button type="button" class="social-btn" id="googleSignupBtn">
+              <img src="https://www.google.com/favicon.ico" alt="Google">
+              <span data-i18n="continueGoogle">สมัครด้วย Google</span>
+            </button>
+          </form>
+
+          <!-- Logged In View -->
+          <div class="logged-in-view" id="loggedInView">
+            <div class="logged-in-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="logged-in-name" id="loggedInName">ผู้ใช้</div>
+            <div class="logged-in-email" id="loggedInEmail">email@example.com</div>
+            <button type="button" class="logout-btn" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span data-i18n="signOut">ออกจากระบบ</span>
+            </button>
+            <br>
+            <a href="index.html" class="back-home-link">
+              <i class="fas fa-home"></i>
+              <span data-i18n="goToHome">ไปหน้าหลัก</span>
             </a>
-            <nav class="header-nav">
-                <a href="index.html" data-translate="home">หน้าแรก</a>
-                <a href="product.html" data-translate="products">สินค้า</a>
-                <div class="lang-switch">
-                    <button class="lang-btn active" data-lang="th">TH</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
-                </div>
-            </nav>
+          </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main>
-        <div class="auth-container">
-            <!-- Auth Tabs -->
-            <div class="auth-tabs" id="authTabs">
-                <button class="auth-tab active" data-tab="login" data-translate="login">เข้าสู่ระบบ</button>
-                <button class="auth-tab" data-tab="signup" data-translate="register">สมัครสมาชิก</button>
-            </div>
-
-            <div class="auth-content">
-                <!-- Messages -->
-                <div class="message" id="authMessage"></div>
-
-                <!-- Login Form -->
-                <div class="auth-form active" id="loginForm">
-                    <form onsubmit="handleLogin(event)">
-                        <div class="form-group">
-                            <label data-translate="email">อีเมล</label>
-                            <input type="email" id="loginEmail" required placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label data-translate="password">รหัสผ่าน</label>
-                            <input type="password" id="loginPassword" required placeholder="••••••••">
-                        </div>
-                        <button type="submit" class="submit-btn" id="loginBtn" data-translate="loginBtn">เข้าสู่ระบบ</button>
-                    </form>
-
-                    <div class="divider">
-                        <span data-translate="orContinueWith">หรือเข้าสู่ระบบด้วย</span>
-                    </div>
-
-                    <div class="social-login">
-                        <button class="social-btn google" onclick="loginWithGoogle()">
-                            <img src="https://www.google.com/favicon.ico" alt="Google">
-                            <span data-translate="continueGoogle">เข้าสู่ระบบด้วย Google</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Signup Form -->
-                <div class="auth-form" id="signupForm">
-                    <form onsubmit="handleSignup(event)">
-                        <div class="form-group">
-                            <label data-translate="fullName">ชื่อ-นามสกุล</label>
-                            <input type="text" id="signupName" required placeholder="ชื่อของคุณ">
-                        </div>
-                        <div class="form-group">
-                            <label data-translate="email">อีเมล</label>
-                            <input type="email" id="signupEmail" required placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label data-translate="password">รหัสผ่าน</label>
-                            <input type="password" id="signupPassword" required placeholder="••••••••" minlength="6">
-                        </div>
-                        <div class="form-group">
-                            <label data-translate="phone">เบอร์โทรศัพท์</label>
-                            <input type="tel" id="signupPhone" placeholder="0xx-xxx-xxxx">
-                        </div>
-                        <button type="submit" class="submit-btn" id="signupBtn" data-translate="registerBtn">สมัครสมาชิก</button>
-                    </form>
-
-                    <div class="divider">
-                        <span data-translate="orContinueWith">หรือสมัครด้วย</span>
-                    </div>
-
-                    <div class="social-login">
-                        <button class="social-btn google" onclick="loginWithGoogle()">
-                            <img src="https://www.google.com/favicon.ico" alt="Google">
-                            <span data-translate="continueGoogle">สมัครด้วย Google</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Logged In View -->
-                <div class="logged-in-view" id="loggedInView">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user-name" id="userName">ผู้ใช้</div>
-                    <div class="user-email" id="userEmail">email@example.com</div>
-                    <button class="logout-btn" onclick="handleLogout()" data-translate="signOut">
-                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                    </button>
-                    <br><br>
-                    <a href="index.html" style="color: var(--secondary-green); text-decoration: none; font-weight: 600;">
-                        <i class="fas fa-home"></i> <span data-translate="backToHome">กลับหน้าแรก</span>
-                    </a>
-                </div>
-            </div>
+        <div class="auth-footer" id="authFooter">
+          <p>
+            <span data-i18n="agreeTerms">การสมัครสมาชิกแสดงว่าคุณยอมรับ</span>
+            <a href="#" data-i18n="termsOfService">เงื่อนไขการใช้งาน</a>
+          </p>
         </div>
-    </main>
+      </div>
+    </div>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 <span data-translate="farmName">ฟาร์มภูมิใจเจริญ</span></p>
-    </footer>
+  <div id="toast" class="toast"></div>
 
-    <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 data-i18n="resetPassword">รีเซ็ตรหัสผ่าน</h3>
+        <button type="button" class="modal-close" id="closeForgotModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก</p>
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="forgotEmail" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <button type="button" class="auth-submit" id="forgotPasswordBtn">
+          <i class="fas fa-paper-plane"></i>
+          <span data-i18n="sendResetLink">รีเซ็ตรหัสผ่าน</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        // Translations
-        const translations = {
-            th: {
-                farmName: 'ฟาร์มภูมิใจเจริญ',
-                farmSlogan: 'สดจากฟาร์ม ถึงมือคุณ',
-                home: 'หน้าแรก',
-                products: 'สินค้า',
-                login: 'เข้าสู่ระบบ',
-                register: 'สมัครสมาชิก',
-                email: 'อีเมล',
-                password: 'รหัสผ่าน',
-                fullName: 'ชื่อ-นามสกุล',
-                phone: 'เบอร์โทรศัพท์',
-                loginBtn: 'เข้าสู่ระบบ',
-                registerBtn: 'สมัครสมาชิก',
-                orContinueWith: 'หรือเข้าสู่ระบบด้วย',
-                continueGoogle: 'เข้าสู่ระบบด้วย Google',
-                signOut: 'ออกจากระบบ',
-                backToHome: 'กลับหน้าแรก',
-                loginSuccess: 'เข้าสู่ระบบสำเร็จ!',
-                registerSuccess: 'สมัครสมาชิกสำเร็จ!',
-                loginFailed: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-                registerFailed: 'ไม่สามารถสมัครสมาชิกได้ กรุณาลองใหม่',
-                emailExists: 'อีเมลนี้ถูกใช้งานแล้ว',
-                processing: 'กำลังดำเนินการ...',
-                googleNotConfigured: 'Google login ยังไม่ได้ตั้งค่า กรุณาติดต่อผู้ดูแลระบบ'
-            },
-            en: {
-                farmName: 'Phoomjai Farm',
-                farmSlogan: 'Fresh from Farm to You',
-                home: 'Home',
-                products: 'Products',
-                login: 'Login',
-                register: 'Register',
-                email: 'Email',
-                password: 'Password',
-                fullName: 'Full Name',
-                phone: 'Phone Number',
-                loginBtn: 'Login',
-                registerBtn: 'Register',
-                orContinueWith: 'Or continue with',
-                continueGoogle: 'Continue with Google',
-                signOut: 'Sign Out',
-                backToHome: 'Back to Home',
-                loginSuccess: 'Login successful!',
-                registerSuccess: 'Registration successful!',
-                loginFailed: 'Invalid email or password',
-                registerFailed: 'Registration failed. Please try again',
-                emailExists: 'This email is already in use',
-                processing: 'Processing...',
-                googleNotConfigured: 'Google login not configured. Please contact admin'
-            }
-        };
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="successTitle">สำเร็จ!</h3>
+        <button type="button" class="modal-close" id="closeSuccessModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <p id="successMessage" style="text-align: center;"></p>
+        <div id="userInfoArea"></div>
+        <button type="button" class="auth-submit" id="goHomeBtn" style="margin-top: 1rem;">
+          <i class="fas fa-home"></i>
+          <span data-i18n="goToHome">ไปหน้าหลัก</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        let currentLang = localStorage.getItem('lang') || 'th';
+  <script>
+    // ========================================
+    // Supabase Configuration
+    // ========================================
+    const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            updateLanguage(currentLang);
-            setupTabs();
-            setupLanguageSwitch();
-            checkLoggedIn();
+    const supabaseHeaders = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    };
+
+    // ========================================
+    // Language System
+    // ========================================
+    const translations = {
+      th: {
+        backToHome: 'กลับหน้าหลัก',
+        authWelcome: 'ยินดีต้อนรับ! สมัครสมาชิกเพื่อรับข้อเสนอพิเศษ',
+        login: 'เข้าสู่ระบบ',
+        signup: 'สมัครสมาชิก',
+        email: 'อีเมล',
+        password: 'รหัสผ่าน',
+        rememberMe: 'จดจำฉัน',
+        forgotPassword: 'ลืมรหัสผ่าน?',
+        loginBtn: 'เข้าสู่ระบบ',
+        fullName: 'ชื่อ-นามสกุล',
+        phone: 'เบอร์โทรศัพท์',
+        confirmPassword: 'ยืนยันรหัสผ่าน',
+        selectInterests: 'เลือกสิ่งที่คุณสนใจ',
+        signupBtn: 'สมัครสมาชิก',
+        agreeTerms: 'การสมัครสมาชิกแสดงว่าคุณยอมรับ',
+        termsOfService: 'เงื่อนไขการใช้งาน',
+        resetPassword: 'รีเซ็ตรหัสผ่าน',
+        resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก',
+        sendResetLink: 'รีเซ็ตรหัสผ่าน',
+        goToHome: 'ไปหน้าหลัก',
+        loggingIn: 'กำลังเข้าสู่ระบบ...',
+        signingUp: 'กำลังสมัครสมาชิก...',
+        loginSuccess: 'เข้าสู่ระบบสำเร็จ!',
+        signupSuccess: 'สมัครสมาชิกสำเร็จ!',
+        welcomeUser: 'ยินดีต้อนรับ',
+        invalidCredentials: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+        userNotFound: 'ไม่พบบัญชีผู้ใช้นี้',
+        passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
+        emailExists: 'อีเมลนี้ถูกใช้งานแล้ว',
+        errorOccurred: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
+        adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...',
+        passwordResetSuccess: 'รีเซ็ตรหัสผ่านสำเร็จ!',
+        newPasswordIs: 'รหัสผ่านใหม่ของคุณคือ:',
+        emailNotFound: 'ไม่พบอีเมลนี้ในระบบ',
+        yourAccount: 'ข้อมูลบัญชีของคุณ',
+        savedToSupabase: '✓ ข้อมูลถูกบันทึกเรียบร้อย',
+        enterEmail: 'กรุณากรอกอีเมล',
+        orContinueWith: 'หรือเข้าด้วย',
+        continueGoogle: 'เข้าสู่ระบบด้วย Google',
+        signOut: 'ออกจากระบบ',
+        logoutSuccess: 'ออกจากระบบสำเร็จ',
+        googleNotConfigured: 'Google login ยังไม่ได้ตั้งค่า'
+      },
+      en: {
+        backToHome: 'Back to Home',
+        authWelcome: 'Welcome! Sign up for exclusive offers',
+        login: 'Login',
+        signup: 'Sign Up',
+        email: 'Email',
+        password: 'Password',
+        rememberMe: 'Remember me',
+        forgotPassword: 'Forgot password?',
+        loginBtn: 'Login',
+        fullName: 'Full Name',
+        phone: 'Phone Number',
+        confirmPassword: 'Confirm Password',
+        selectInterests: 'Select your interests',
+        signupBtn: 'Sign Up',
+        agreeTerms: 'By signing up, you agree to our',
+        termsOfService: 'Terms of Service',
+        resetPassword: 'Reset Password',
+        resetPasswordDesc: 'Enter your registered email',
+        sendResetLink: 'Reset Password',
+        goToHome: 'Go to Home',
+        loggingIn: 'Logging in...',
+        signingUp: 'Signing up...',
+        loginSuccess: 'Login successful!',
+        signupSuccess: 'Sign up successful!',
+        welcomeUser: 'Welcome',
+        invalidCredentials: 'Invalid email or password',
+        userNotFound: 'User not found',
+        passwordMismatch: 'Passwords do not match',
+        emailExists: 'This email is already registered',
+        errorOccurred: 'An error occurred. Please try again.',
+        adminRedirect: 'Admin detected. Redirecting...',
+        passwordResetSuccess: 'Password reset successful!',
+        newPasswordIs: 'Your new password is:',
+        emailNotFound: 'Email not found',
+        yourAccount: 'Your Account Info',
+        savedToSupabase: '✓ Data saved successfully',
+        enterEmail: 'Please enter email',
+        orContinueWith: 'Or continue with',
+        continueGoogle: 'Continue with Google',
+        signOut: 'Sign Out',
+        logoutSuccess: 'Logged out successfully',
+        googleNotConfigured: 'Google login not configured'
+      }
+    };
+
+    let currentLang = localStorage.getItem('siteLang') || 'th';
+    let redirectUrl = 'index.html';
+
+    function t(key) {
+      return translations[currentLang][key] || key;
+    }
+
+    function updateLanguage() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+          el.textContent = translations[currentLang][key];
+        }
+      });
+      document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+      loadInterests();
+    }
+
+    // ========================================
+    // Helper Functions
+    // ========================================
+    function hashPassword(password) {
+      let hash = 0;
+      for (let i = 0; i < password.length; i++) {
+        const char = password.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return 'hash_' + Math.abs(hash).toString(16);
+    }
+
+    function generateRandomPassword() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      let password = '';
+      for (let i = 0; i < 8; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return password;
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type + ' show';
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    function loadInterests() {
+      const grid = document.getElementById('interestsGrid');
+      if (!grid) return;
+      
+      const categories = [
+        { id: 'vegetables', name: 'Vegetables', nameTh: 'ผัก', icon: 'fas fa-seedling' },
+        { id: 'flowers', name: 'Flowers', nameTh: 'ดอกไม้', icon: 'fas fa-spa' },
+        { id: 'herbs', name: 'Herbs', nameTh: 'สมุนไพร', icon: 'fas fa-leaf' },
+        { id: 'skincare', name: 'Skincare', nameTh: 'ผลิตภัณฑ์ผิว', icon: 'fas fa-pump-soap' },
+        { id: 'oils', name: 'Oils', nameTh: 'น้ำมัน', icon: 'fas fa-flask' },
+        { id: 'soaps', name: 'Soaps', nameTh: 'สบู่', icon: 'fas fa-soap' }
+      ];
+
+      grid.innerHTML = categories.map(cat => `
+        <label class="interest-tag" data-category="${cat.id}">
+          <input type="checkbox" name="interests" value="${cat.id}">
+          <i class="${cat.icon}"></i>
+          <span>${currentLang === 'th' ? cat.nameTh : cat.name}</span>
+        </label>
+      `).join('');
+
+      grid.querySelectorAll('.interest-tag').forEach(tag => {
+        tag.addEventListener('click', e => {
+          if (e.target.tagName !== 'INPUT') {
+            const checkbox = tag.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+          }
+          tag.classList.toggle('selected', tag.querySelector('input').checked);
         });
+      });
+    }
 
-        // Check if user is logged in
-        function checkLoggedIn() {
-            const user = localStorage.getItem('farm_user');
-            if (user) {
-                const userData = JSON.parse(user);
-                showLoggedInView(userData);
-            }
+    function openSuccessModal(title, message, userInfo) {
+      document.getElementById('successTitle').textContent = title;
+      document.getElementById('successMessage').textContent = message;
+      
+      const userInfoArea = document.getElementById('userInfoArea');
+      if (userInfo) {
+        userInfoArea.innerHTML = `
+          <div class="user-info-display">
+            <h4>${t('yourAccount')}</h4>
+            <p><i class="fas fa-user"></i> ${userInfo.name}</p>
+            <p><i class="fas fa-envelope"></i> ${userInfo.email}</p>
+            ${userInfo.phone ? `<p><i class="fas fa-phone"></i> ${userInfo.phone}</p>` : ''}
+            <p style="color: var(--primary); font-size: 0.75rem; margin-top: 0.5rem;">
+              <i class="fas fa-check-circle"></i> ${t('savedToSupabase')}
+            </p>
+          </div>
+        `;
+      } else {
+        userInfoArea.innerHTML = '';
+      }
+      
+      document.getElementById('successModal').classList.add('show');
+    }
+
+    // ========================================
+    // Check Logged In & Show Views
+    // ========================================
+    function checkLoggedIn() {
+      const userData = localStorage.getItem('currentUserData');
+      if (userData) {
+        const user = JSON.parse(userData);
+        showLoggedInView(user);
+        return true;
+      }
+      return false;
+    }
+
+    function showLoggedInView(user) {
+      document.getElementById('authTabs').style.display = 'none';
+      document.getElementById('loginForm').classList.remove('active');
+      document.getElementById('signupForm').classList.remove('active');
+      document.getElementById('loggedInView').classList.add('active');
+      document.getElementById('authFooter').style.display = 'none';
+      
+      document.getElementById('loggedInName').textContent = user.name || 'ผู้ใช้';
+      document.getElementById('loggedInEmail').textContent = user.email || '';
+    }
+
+    function showAuthForms() {
+      document.getElementById('authTabs').style.display = 'flex';
+      document.getElementById('loggedInView').classList.remove('active');
+      document.getElementById('loginForm').classList.add('active');
+      document.getElementById('authFooter').style.display = 'block';
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('currentUserId');
+      localStorage.removeItem('currentUserData');
+      showToast(t('logoutSuccess'), 'success');
+      showAuthForms();
+    }
+
+    // ========================================
+    // Supabase API Functions
+    // ========================================
+    async function getUserByEmail(email) {
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/farm_users?email=eq.${encodeURIComponent(email.toLowerCase())}&select=*`,
+          { headers: supabaseHeaders }
+        );
+        
+        if (!response.ok) {
+          console.error('Get user error:', response.status, await response.text());
+          return null;
         }
+        
+        const data = await response.json();
+        return data.length > 0 ? data[0] : null;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+      }
+    }
 
-        // Show logged in view
-        function showLoggedInView(user) {
-            document.getElementById('authTabs').style.display = 'none';
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('signupForm').classList.remove('active');
-            document.getElementById('loggedInView').classList.add('active');
-            
-            document.getElementById('userName').textContent = user.name || user.email;
-            document.getElementById('userEmail').textContent = user.email;
+    async function createUserInDB(userData) {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/farm_users`, {
+          method: 'POST',
+          headers: supabaseHeaders,
+          body: JSON.stringify(userData)
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Create user error:', response.status, errorText);
+          throw new Error(errorText || 'Failed to create user');
         }
+        
+        const data = await response.json();
+        return data[0];
+      } catch (error) {
+        console.error('Error creating user:', error);
+        throw error;
+      }
+    }
 
-        // Show auth forms
-        function showAuthForms() {
-            document.getElementById('authTabs').style.display = 'flex';
-            document.getElementById('loggedInView').classList.remove('active');
-            document.getElementById('loginForm').classList.add('active');
-        }
+    async function updateUserInDB(id, updates) {
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/farm_users?id=eq.${id}`,
+          {
+            method: 'PATCH',
+            headers: supabaseHeaders,
+            body: JSON.stringify(updates)
+          }
+        );
+        return response.ok;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        return false;
+      }
+    }
 
-        // Tab switching
-        function setupTabs() {
-            document.querySelectorAll('.auth-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabName = this.dataset.tab;
-                    
-                    // Update tabs
-                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update forms
-                    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-                    document.getElementById(tabName + 'Form').classList.add('active');
-                    
-                    // Clear messages
-                    hideMessage();
-                });
+    // ========================================
+    // Google OAuth
+    // ========================================
+    function loginWithGoogle() {
+      const redirectUri = window.location.origin + '/auth.html';
+      const authUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectUri)}`;
+      window.location.href = authUrl;
+    }
+
+    async function handleOAuthCallback() {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token')) {
+        const params = new URLSearchParams(hash.substring(1));
+        const accessToken = params.get('access_token');
+        
+        if (accessToken) {
+          try {
+            const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'apikey': SUPABASE_KEY
+              }
             });
-        }
-
-        // Language switching
-        function setupLanguageSwitch() {
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if (btn.dataset.lang === currentLang) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-                
-                btn.addEventListener('click', function() {
-                    const lang = this.dataset.lang;
-                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    updateLanguage(lang);
-                    localStorage.setItem('lang', lang);
-                    currentLang = lang;
-                });
-            });
-        }
-
-        // Update language
-        function updateLanguage(lang) {
-            const t = translations[lang];
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.dataset.translate;
-                if (t[key]) {
-                    if (el.tagName === 'INPUT') {
-                        el.placeholder = t[key];
-                    } else {
-                        el.textContent = t[key];
-                    }
-                }
-            });
-        }
-
-        // Show message
-        function showMessage(text, type) {
-            const msg = document.getElementById('authMessage');
-            msg.textContent = text;
-            msg.className = 'message ' + type;
-            msg.style.display = 'block';
-        }
-
-        // Hide message
-        function hideMessage() {
-            const msg = document.getElementById('authMessage');
-            msg.style.display = 'none';
-        }
-
-        // Handle Login
-        async function handleLogin(event) {
-            event.preventDefault();
             
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const btn = document.getElementById('loginBtn');
-            const t = translations[currentLang];
+            const user = await response.json();
             
-            btn.disabled = true;
-            btn.textContent = t.processing;
-            hideMessage();
-            
-            try {
-                // Query user from Supabase
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/farm_users?email=eq.${encodeURIComponent(email)}&password=eq.${encodeURIComponent(password)}`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                );
-                
-                const users = await response.json();
-                
-                if (users && users.length > 0) {
-                    const user = users[0];
-                    localStorage.setItem('farm_user', JSON.stringify({
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        phone: user.phone
-                    }));
-                    
-                    showMessage(t.loginSuccess, 'success');
-                    
-                    setTimeout(() => {
-                        showLoggedInView(user);
-                    }, 1000);
-                } else {
-                    showMessage(t.loginFailed, 'error');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                showMessage(t.loginFailed, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = t.loginBtn;
+            if (user && user.email) {
+              const userData = {
+                id: user.id,
+                name: user.user_metadata?.full_name || user.email.split('@')[0],
+                email: user.email
+              };
+              
+              localStorage.setItem('currentUserId', user.id);
+              localStorage.setItem('currentUserData', JSON.stringify(userData));
+              
+              // Clear hash
+              window.location.hash = '';
+              
+              showLoggedInView(userData);
+              showToast(t('loginSuccess'), 'success');
             }
+          } catch (error) {
+            console.error('OAuth callback error:', error);
+          }
+        }
+      }
+    }
+
+    // ========================================
+    // Event Listeners
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check OAuth callback first
+      if (window.location.hash) {
+        handleOAuthCallback();
+      }
+
+      // Check if already logged in
+      if (!window.location.hash) {
+        checkLoggedIn();
+      }
+
+      // Language Toggle
+      document.getElementById('langToggle').addEventListener('click', () => {
+        currentLang = currentLang === 'th' ? 'en' : 'th';
+        localStorage.setItem('siteLang', currentLang);
+        updateLanguage();
+      });
+
+      // Tab Switching
+      document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
+        });
+      });
+
+      // Password Toggle - Login
+      document.getElementById('loginPasswordToggle').addEventListener('click', function() {
+        const input = document.getElementById('loginPassword');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+
+      // Password Toggle - Signup
+      document.getElementById('signupPasswordToggle').addEventListener('click', function() {
+        const input = document.getElementById('signupPassword');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+
+      // Google Login Buttons
+      document.getElementById('googleLoginBtn').addEventListener('click', loginWithGoogle);
+      document.getElementById('googleSignupBtn').addEventListener('click', loginWithGoogle);
+
+      // Logout Button
+      document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+      // Forgot Password
+      document.getElementById('forgotPasswordLink').addEventListener('click', () => {
+        document.getElementById('forgotModal').classList.add('show');
+        document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
+      });
+
+      // Close Modals
+      document.getElementById('closeForgotModal').addEventListener('click', () => {
+        document.getElementById('forgotModal').classList.remove('show');
+      });
+      document.getElementById('closeSuccessModal').addEventListener('click', () => {
+        document.getElementById('successModal').classList.remove('show');
+      });
+      document.getElementById('goHomeBtn').addEventListener('click', () => {
+        document.getElementById('successModal').classList.remove('show');
+        window.location.href = redirectUrl;
+      });
+
+      // Modal Overlay Click
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => {
+          if (e.target === overlay) overlay.classList.remove('show');
+        });
+      });
+
+      // ========================================
+      // Login Form Submit
+      // ========================================
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value;
+        const remember = document.getElementById('rememberMe').checked;
+
+        const btn = document.getElementById('loginBtn');
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('loggingIn')}`;
+
+        try {
+          // Check Admin first
+          if (email === 'phoomjaiwork@gmail.com' && password === 'radar2551') {
+            localStorage.setItem('isAdminLoggedIn', 'true');
+            if (remember) localStorage.setItem('rememberUser', email);
+            showToast(t('adminRedirect'), 'success');
+            setTimeout(() => window.location.href = 'admin-dashboard.html', 1000);
+            return;
+          }
+
+          // Get user from Supabase
+          const user = await getUserByEmail(email);
+
+          if (!user) {
+            showToast(t('userNotFound'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+            return;
+          }
+
+          // Check password
+          const inputHash = hashPassword(password);
+          
+          if (user.password_hash !== inputHash) {
+            showToast(t('invalidCredentials'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+            return;
+          }
+
+          // Update last login
+          await updateUserInDB(user.id, { last_login: new Date().toISOString() });
+
+          // Save session
+          localStorage.setItem('currentUserId', user.id.toString());
+          localStorage.setItem('currentUserData', JSON.stringify(user));
+          if (remember) localStorage.setItem('rememberUser', email);
+
+          redirectUrl = 'index.html';
+          openSuccessModal(t('loginSuccess'), `${t('welcomeUser')}, ${user.name}!`, user);
+
+        } catch (error) {
+          console.error('Login error:', error);
+          showToast(t('errorOccurred') + ' - ' + error.message, 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
+      });
+
+      // ========================================
+      // Signup Form Submit
+      // ========================================
+      document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+        const phone = document.getElementById('signupPhone').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        
+        const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
+          .map(cb => cb.value);
+
+        const errorEl = document.getElementById('passwordError');
+        if (password !== confirmPassword) {
+          errorEl.textContent = t('passwordMismatch');
+          errorEl.style.display = 'block';
+          return;
+        }
+        errorEl.style.display = 'none';
+
+        const btn = document.getElementById('signupBtn');
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('signingUp')}`;
+
+        try {
+          // Check if email exists
+          const existingUser = await getUserByEmail(email);
+          if (existingUser) {
+            showToast(t('emailExists'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+            return;
+          }
+
+          // Create user
+          const newUser = await createUserInDB({
+            name: name,
+            email: email,
+            phone: phone || null,
+            password_hash: hashPassword(password),
+            interests: interests,
+            social_provider: null,
+            created_at: new Date().toISOString(),
+            last_login: new Date().toISOString()
+          });
+
+          // Save session
+          localStorage.setItem('currentUserId', newUser.id.toString());
+          localStorage.setItem('currentUserData', JSON.stringify(newUser));
+
+          redirectUrl = 'index.html';
+          openSuccessModal(t('signupSuccess'), `${t('welcomeUser')}, ${name}!`, newUser);
+
+        } catch (error) {
+          console.error('Signup error:', error);
+          showToast(t('errorOccurred') + ' - ' + error.message, 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
+      });
+
+      // ========================================
+      // Forgot Password
+      // ========================================
+      document.getElementById('forgotPasswordBtn').addEventListener('click', async function() {
+        const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+        
+        if (!email) {
+          showToast(t('enterEmail'), 'error');
+          return;
         }
 
-        // Handle Signup
-        async function handleSignup(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const phone = document.getElementById('signupPhone').value.trim();
-            const btn = document.getElementById('signupBtn');
-            const t = translations[currentLang];
-            
-            btn.disabled = true;
-            btn.textContent = t.processing;
-            hideMessage();
-            
-            try {
-                // Check if email exists
-                const checkResponse = await fetch(
-                    `${SUPABASE_URL}/rest/v1/farm_users?email=eq.${encodeURIComponent(email)}`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                );
-                
-                const existingUsers = await checkResponse.json();
-                
-                if (existingUsers && existingUsers.length > 0) {
-                    showMessage(t.emailExists, 'error');
-                    return;
-                }
-                
-                // Create new user
-                const createResponse = await fetch(
-                    `${SUPABASE_URL}/rest/v1/farm_users`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`,
-                            'Content-Type': 'application/json',
-                            'Prefer': 'return=representation'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            email: email,
-                            password: password,
-                            phone: phone || null
-                        })
-                    }
-                );
-                
-                if (createResponse.ok) {
-                    const newUsers = await createResponse.json();
-                    const user = newUsers[0];
-                    
-                    localStorage.setItem('farm_user', JSON.stringify({
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        phone: user.phone
-                    }));
-                    
-                    showMessage(t.registerSuccess, 'success');
-                    
-                    setTimeout(() => {
-                        showLoggedInView(user);
-                    }, 1000);
-                } else {
-                    showMessage(t.registerFailed, 'error');
-                }
-            } catch (error) {
-                console.error('Signup error:', error);
-                showMessage(t.registerFailed, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = t.registerBtn;
-            }
+        const user = await getUserByEmail(email);
+
+        if (!user) {
+          showToast(t('emailNotFound'), 'error');
+          return;
         }
 
-        // Google Login using Supabase OAuth
-        async function loginWithGoogle() {
-            const t = translations[currentLang];
-            
-            try {
-                // Redirect to Supabase OAuth
-                const redirectUrl = window.location.origin + '/auth.html';
-                const authUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectUrl)}`;
-                
-                window.location.href = authUrl;
-            } catch (error) {
-                console.error('Google login error:', error);
-                showMessage(t.googleNotConfigured, 'error');
-            }
-        }
+        // Generate new password
+        const newPassword = generateRandomPassword();
+        
+        // Update in Supabase
+        await updateUserInDB(user.id, { password_hash: hashPassword(newPassword) });
 
-        // Handle OAuth callback
-        function handleOAuthCallback() {
-            const hash = window.location.hash;
-            if (hash && hash.includes('access_token')) {
-                const params = new URLSearchParams(hash.substring(1));
-                const accessToken = params.get('access_token');
-                
-                if (accessToken) {
-                    // Get user info from token
-                    fetch(`${SUPABASE_URL}/auth/v1/user`, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`,
-                            'apikey': SUPABASE_KEY
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(user => {
-                        if (user && user.email) {
-                            const userData = {
-                                id: user.id,
-                                name: user.user_metadata?.full_name || user.email.split('@')[0],
-                                email: user.email
-                            };
-                            localStorage.setItem('farm_user', JSON.stringify(userData));
-                            
-                            // Clear hash and show logged in
-                            window.location.hash = '';
-                            showLoggedInView(userData);
-                        }
-                    })
-                    .catch(err => console.error('OAuth callback error:', err));
-                }
-            }
-        }
+        document.getElementById('forgotModal').classList.remove('show');
 
-        // Check for OAuth callback on load
-        if (window.location.hash) {
-            handleOAuthCallback();
-        }
+        document.getElementById('successTitle').textContent = t('passwordResetSuccess');
+        document.getElementById('successMessage').textContent = t('newPasswordIs');
+        document.getElementById('userInfoArea').innerHTML = `
+          <div class="user-info-display" style="text-align: center;">
+            <h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">${newPassword}</h2>
+            <p style="color: var(--text-secondary); font-size: 0.8rem;">
+              <i class="fas fa-info-circle"></i> กรุณาจดรหัสผ่านนี้ไว้
+            </p>
+          </div>
+        `;
+        
+        redirectUrl = 'auth.html';
+        document.getElementById('successModal').classList.add('show');
+      });
 
-        // Handle Logout
-        function handleLogout() {
-            localStorage.removeItem('farm_user');
-            showAuthForms();
-            showMessage('ออกจากระบบสำเร็จ', 'success');
-            
-            setTimeout(() => {
-                hideMessage();
-            }, 2000);
-        }
-    </script>
+      // Remember email
+      const rememberedEmail = localStorage.getItem('rememberUser');
+      if (rememberedEmail) {
+        document.getElementById('loginEmail').value = rememberedEmail;
+        document.getElementById('rememberMe').checked = true;
+      }
+
+      // Check URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('tab') === 'signup') {
+        document.querySelector('[data-tab="signup"]').click();
+      }
+
+      // Initialize
+      updateLanguage();
+      loadInterests();
+    });
+  </script>
 </body>
 </html>

@@ -6,8 +6,6 @@
   <title>เข้าสู่ระบบ — Farm Phoomjai & Jiaranai Garden</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --primary: #4a7c59;
@@ -181,7 +179,7 @@
       box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
     }
 
-    .form-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; }
+    .form-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
     .form-options {
       display: flex;
       align-items: center;
@@ -222,75 +220,6 @@
     }
     .auth-submit:disabled { background: var(--text-muted); cursor: not-allowed; }
 
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      margin: 1.25rem 0;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-    .auth-divider::before, .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-    .auth-divider span { padding: 0 0.75rem; }
-
-    .social-login { display: flex; flex-direction: column; gap: 0.625rem; }
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: white;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
-      width: 100%;
-    }
-    .social-btn i { font-size: 1.1rem; }
-    .social-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .social-btn.google { border-color: #ea4335; color: #ea4335; }
-    .social-btn.google:hover { background: #ea4335; color: white; }
-    .social-btn.facebook { border-color: #1877f2; color: #1877f2; }
-    .social-btn.facebook:hover { background: #1877f2; color: white; }
-    .social-btn.apple { border-color: #000; color: #000; }
-    .social-btn.apple:hover { background: #000; color: white; }
-    .social-btn.loading { pointer-events: none; opacity: 0.7; }
-    .social-btn.loading i:first-child { animation: spin 1s linear infinite; }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    .auth-footer {
-      text-align: center;
-      padding: 1rem 1.5rem;
-      background: var(--bg-dark);
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
-    }
-    .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
-
-    .password-toggle {
-      position: absolute;
-      right: 0.75rem; top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0.25rem;
-      z-index: 2;
-    }
-    .password-toggle:hover { color: var(--primary); }
-
     .interests-section {
       margin-top: 1rem;
       padding-top: 1rem;
@@ -326,6 +255,28 @@
       color: white;
     }
     .interest-tag input { display: none; }
+
+    .auth-footer {
+      text-align: center;
+      padding: 1rem 1.5rem;
+      background: var(--bg-dark);
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+    .password-toggle {
+      position: absolute;
+      right: 0.75rem; top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      z-index: 2;
+    }
+    .password-toggle:hover { color: var(--primary); }
 
     .toast {
       position: fixed;
@@ -421,16 +372,15 @@
       font-size: 0.85rem;
     }
 
-    .oauth-note {
-      background: #fffbeb;
-      border: 1px solid #fcd34d;
+    .debug-info {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
       border-radius: var(--radius-sm);
       padding: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 0.8rem;
+      margin-top: 1rem;
+      font-size: 0.75rem;
       color: #92400e;
     }
-    .oauth-note i { margin-right: 0.5rem; }
 
     @media (max-width: 480px) {
       .auth-container { padding: 0.75rem; }
@@ -503,25 +453,6 @@
               <i class="fas fa-sign-in-alt"></i>
               <span data-i18n="loginBtn">เข้าสู่ระบบ</span>
             </button>
-
-            <div class="auth-divider">
-              <span data-i18n="orContinueWith">หรือเข้าสู่ระบบด้วย</span>
-            </div>
-
-            <div class="social-login" id="loginSocialBtns">
-              <button type="button" class="social-btn google" data-provider="google">
-                <i class="fab fa-google"></i>
-                <span data-i18n="continueWithGoogle">ดำเนินการต่อด้วย Google</span>
-              </button>
-              <button type="button" class="social-btn facebook" data-provider="facebook">
-                <i class="fab fa-facebook-f"></i>
-                <span data-i18n="continueWithFacebook">ดำเนินการต่อด้วย Facebook</span>
-              </button>
-              <button type="button" class="social-btn apple" data-provider="apple">
-                <i class="fab fa-apple"></i>
-                <span data-i18n="continueWithApple">ดำเนินการต่อด้วย Apple</span>
-              </button>
-            </div>
           </form>
 
           <!-- Signup Form -->
@@ -546,7 +477,7 @@
               <label data-i18n="phone">เบอร์โทรศัพท์</label>
               <div class="input-icon">
                 <i class="fas fa-phone"></i>
-                <input type="tel" id="signupPhone" placeholder="+66 81 842 1484" autocomplete="tel">
+                <input type="tel" id="signupPhone" placeholder="081-234-5678" autocomplete="tel">
               </div>
             </div>
 
@@ -567,7 +498,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" id="signupConfirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required autocomplete="new-password">
               </div>
-              <div class="form-error" id="passwordError" style="display: none;"></div>
+              <div class="form-error" id="passwordError"></div>
             </div>
 
             <div class="interests-section">
@@ -579,25 +510,6 @@
               <i class="fas fa-user-plus"></i>
               <span data-i18n="signupBtn">สมัครสมาชิก</span>
             </button>
-
-            <div class="auth-divider">
-              <span data-i18n="orSignupWith">หรือสมัครด้วย</span>
-            </div>
-
-            <div class="social-login" id="signupSocialBtns">
-              <button type="button" class="social-btn google" data-provider="google">
-                <i class="fab fa-google"></i>
-                <span data-i18n="continueWithGoogle">ดำเนินการต่อด้วย Google</span>
-              </button>
-              <button type="button" class="social-btn facebook" data-provider="facebook">
-                <i class="fab fa-facebook-f"></i>
-                <span data-i18n="continueWithFacebook">ดำเนินการต่อด้วย Facebook</span>
-              </button>
-              <button type="button" class="social-btn apple" data-provider="apple">
-                <i class="fab fa-apple"></i>
-                <span data-i18n="continueWithApple">ดำเนินการต่อด้วย Apple</span>
-              </button>
-            </div>
           </form>
         </div>
 
@@ -621,7 +533,7 @@
         <button type="button" class="modal-close" id="closeForgotModal">&times;</button>
       </div>
       <div class="modal-body">
-        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก</p>
+        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก เราจะสร้างรหัสผ่านใหม่ให้</p>
         <div class="form-group">
           <div class="input-icon">
             <i class="fas fa-envelope"></i>
@@ -630,7 +542,7 @@
         </div>
         <button type="button" class="auth-submit" id="forgotPasswordBtn">
           <i class="fas fa-paper-plane"></i>
-          <span data-i18n="sendResetLink">ส่งลิงก์รีเซ็ตรหัสผ่าน</span>
+          <span data-i18n="sendResetLink">รีเซ็ตรหัสผ่าน</span>
         </button>
       </div>
     </div>
@@ -664,9 +576,6 @@
     const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
 
-    // Initialize Supabase client
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
     const supabaseHeaders = {
       'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
@@ -688,11 +597,6 @@
         rememberMe: 'จดจำฉัน',
         forgotPassword: 'ลืมรหัสผ่าน?',
         loginBtn: 'เข้าสู่ระบบ',
-        orContinueWith: 'หรือเข้าสู่ระบบด้วย',
-        orSignupWith: 'หรือสมัครด้วย',
-        continueWithGoogle: 'ดำเนินการต่อด้วย Google',
-        continueWithFacebook: 'ดำเนินการต่อด้วย Facebook',
-        continueWithApple: 'ดำเนินการต่อด้วย Apple',
         fullName: 'ชื่อ-นามสกุล',
         phone: 'เบอร์โทรศัพท์',
         confirmPassword: 'ยืนยันรหัสผ่าน',
@@ -702,7 +606,7 @@
         termsOfService: 'เงื่อนไขการใช้งาน',
         resetPassword: 'รีเซ็ตรหัสผ่าน',
         resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก',
-        sendResetLink: 'ส่งลิงก์รีเซ็ตรหัสผ่าน',
+        sendResetLink: 'รีเซ็ตรหัสผ่าน',
         goToHome: 'ไปหน้าหลัก',
         loggingIn: 'กำลังเข้าสู่ระบบ...',
         signingUp: 'กำลังสมัครสมาชิก...',
@@ -714,14 +618,13 @@
         passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
         emailExists: 'อีเมลนี้ถูกใช้งานแล้ว',
         errorOccurred: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
-        socialLoginSuccess: 'เข้าสู่ระบบด้วย {provider} สำเร็จ!',
         adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...',
-        passwordResetSent: 'ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลแล้ว!',
+        passwordResetSuccess: 'รีเซ็ตรหัสผ่านสำเร็จ!',
+        newPasswordIs: 'รหัสผ่านใหม่ของคุณคือ:',
         emailNotFound: 'ไม่พบอีเมลนี้ในระบบ',
         yourAccount: 'ข้อมูลบัญชีของคุณ',
         savedToSupabase: '✓ ข้อมูลถูกบันทึกเรียบร้อย',
-        enterEmail: 'กรุณากรอกอีเมล',
-        connectingTo: 'กำลังเชื่อมต่อกับ'
+        enterEmail: 'กรุณากรอกอีเมล'
       },
       en: {
         backToHome: 'Back to Home',
@@ -733,11 +636,6 @@
         rememberMe: 'Remember me',
         forgotPassword: 'Forgot password?',
         loginBtn: 'Login',
-        orContinueWith: 'or continue with',
-        orSignupWith: 'or sign up with',
-        continueWithGoogle: 'Continue with Google',
-        continueWithFacebook: 'Continue with Facebook',
-        continueWithApple: 'Continue with Apple',
         fullName: 'Full Name',
         phone: 'Phone Number',
         confirmPassword: 'Confirm Password',
@@ -746,8 +644,8 @@
         agreeTerms: 'By signing up, you agree to our',
         termsOfService: 'Terms of Service',
         resetPassword: 'Reset Password',
-        resetPasswordDesc: 'Enter your registered email address',
-        sendResetLink: 'Send Reset Link',
+        resetPasswordDesc: 'Enter your registered email',
+        sendResetLink: 'Reset Password',
         goToHome: 'Go to Home',
         loggingIn: 'Logging in...',
         signingUp: 'Signing up...',
@@ -759,14 +657,13 @@
         passwordMismatch: 'Passwords do not match',
         emailExists: 'This email is already registered',
         errorOccurred: 'An error occurred. Please try again.',
-        socialLoginSuccess: 'Successfully logged in with {provider}!',
-        adminRedirect: 'Admin account detected. Redirecting...',
-        passwordResetSent: 'Password reset link sent to your email!',
-        emailNotFound: 'Email not found in our system',
+        adminRedirect: 'Admin detected. Redirecting...',
+        passwordResetSuccess: 'Password reset successful!',
+        newPasswordIs: 'Your new password is:',
+        emailNotFound: 'Email not found',
         yourAccount: 'Your Account Info',
         savedToSupabase: '✓ Data saved successfully',
-        enterEmail: 'Please enter email',
-        connectingTo: 'Connecting to'
+        enterEmail: 'Please enter email'
       }
     };
 
@@ -778,7 +675,7 @@
     }
 
     function updateLanguage() {
-      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
           el.textContent = translations[currentLang][key];
@@ -786,61 +683,6 @@
       });
       document.getElementById('currentLang').textContent = currentLang.toUpperCase();
       loadInterests();
-    }
-
-    // ========================================
-    // Supabase API Functions
-    // ========================================
-    async function getUserByEmail(email) {
-      try {
-        const response = await fetch(
-          SUPABASE_URL + '/rest/v1/farm_users?email=eq.' + encodeURIComponent(email.toLowerCase()) + '&select=*',
-          { headers: supabaseHeaders }
-        );
-        const data = await response.json();
-        return data.length > 0 ? data[0] : null;
-      } catch (error) {
-        console.error('Error fetching user:', error);
-        return null;
-      }
-    }
-
-    async function createUserInDB(userData) {
-      try {
-        const response = await fetch(SUPABASE_URL + '/rest/v1/farm_users', {
-          method: 'POST',
-          headers: supabaseHeaders,
-          body: JSON.stringify(userData)
-        });
-        
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Failed to create user');
-        }
-        
-        const data = await response.json();
-        return data[0];
-      } catch (error) {
-        console.error('Error creating user:', error);
-        throw error;
-      }
-    }
-
-    async function updateUserInDB(id, updates) {
-      try {
-        const response = await fetch(
-          SUPABASE_URL + '/rest/v1/farm_users?id=eq.' + id,
-          {
-            method: 'PATCH',
-            headers: supabaseHeaders,
-            body: JSON.stringify(updates)
-          }
-        );
-        return response.ok;
-      } catch (error) {
-        console.error('Error updating user:', error);
-        return false;
-      }
     }
 
     // ========================================
@@ -856,34 +698,45 @@
       return 'hash_' + Math.abs(hash).toString(16);
     }
 
-    function showToast(message, type) {
-      type = type || 'info';
+    function generateRandomPassword() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      let password = '';
+      for (let i = 0; i < 8; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return password;
+    }
+
+    function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
       toast.className = 'toast ' + type + ' show';
-      setTimeout(function() { toast.classList.remove('show'); }, 3000);
+      setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
     function loadInterests() {
       const grid = document.getElementById('interestsGrid');
       if (!grid) return;
       
-      const categories = JSON.parse(localStorage.getItem('farmCategories')) || [
+      const categories = [
         { id: 'vegetables', name: 'Vegetables', nameTh: 'ผัก', icon: 'fas fa-seedling' },
         { id: 'flowers', name: 'Flowers', nameTh: 'ดอกไม้', icon: 'fas fa-spa' },
-        { id: 'herbs', name: 'Herbs', nameTh: 'สมุนไพร', icon: 'fas fa-leaf' }
+        { id: 'herbs', name: 'Herbs', nameTh: 'สมุนไพร', icon: 'fas fa-leaf' },
+        { id: 'skincare', name: 'Skincare', nameTh: 'ผลิตภัณฑ์ผิว', icon: 'fas fa-pump-soap' },
+        { id: 'oils', name: 'Oils', nameTh: 'น้ำมัน', icon: 'fas fa-flask' },
+        { id: 'soaps', name: 'Soaps', nameTh: 'สบู่', icon: 'fas fa-soap' }
       ];
 
-      grid.innerHTML = categories.map(function(cat) {
-        return '<label class="interest-tag" data-category="' + cat.id + '">' +
-          '<input type="checkbox" name="interests" value="' + cat.id + '">' +
-          '<i class="' + cat.icon + '"></i>' +
-          '<span>' + (currentLang === 'th' ? cat.nameTh : cat.name) + '</span>' +
-        '</label>';
-      }).join('');
+      grid.innerHTML = categories.map(cat => `
+        <label class="interest-tag" data-category="${cat.id}">
+          <input type="checkbox" name="interests" value="${cat.id}">
+          <i class="${cat.icon}"></i>
+          <span>${currentLang === 'th' ? cat.nameTh : cat.name}</span>
+        </label>
+      `).join('');
 
-      grid.querySelectorAll('.interest-tag').forEach(function(tag) {
-        tag.addEventListener('click', function(e) {
+      grid.querySelectorAll('.interest-tag').forEach(tag => {
+        tag.addEventListener('click', e => {
           if (e.target.tagName !== 'INPUT') {
             const checkbox = tag.querySelector('input');
             checkbox.checked = !checkbox.checked;
@@ -899,16 +752,17 @@
       
       const userInfoArea = document.getElementById('userInfoArea');
       if (userInfo) {
-        userInfoArea.innerHTML = 
-          '<div class="user-info-display">' +
-            '<h4>' + t('yourAccount') + '</h4>' +
-            '<p><i class="fas fa-user"></i> ' + userInfo.name + '</p>' +
-            '<p><i class="fas fa-envelope"></i> ' + userInfo.email + '</p>' +
-            (userInfo.phone ? '<p><i class="fas fa-phone"></i> ' + userInfo.phone + '</p>' : '') +
-            '<p style="color: var(--primary); font-size: 0.75rem; margin-top: 0.5rem;">' +
-              '<i class="fas fa-check-circle"></i> ' + t('savedToSupabase') +
-            '</p>' +
-          '</div>';
+        userInfoArea.innerHTML = `
+          <div class="user-info-display">
+            <h4>${t('yourAccount')}</h4>
+            <p><i class="fas fa-user"></i> ${userInfo.name}</p>
+            <p><i class="fas fa-envelope"></i> ${userInfo.email}</p>
+            ${userInfo.phone ? `<p><i class="fas fa-phone"></i> ${userInfo.phone}</p>` : ''}
+            <p style="color: var(--primary); font-size: 0.75rem; margin-top: 0.5rem;">
+              <i class="fas fa-check-circle"></i> ${t('savedToSupabase')}
+            </p>
+          </div>
+        `;
       } else {
         userInfoArea.innerHTML = '';
       }
@@ -917,118 +771,86 @@
     }
 
     // ========================================
-    // Social Login with Supabase OAuth
+    // Supabase API Functions
     // ========================================
-    async function socialLogin(provider, btn) {
-      const providerNames = { 
-        google: 'Google', 
-        facebook: 'Facebook', 
-        apple: 'Apple' 
-      };
-      
-      // Show loading state
-      btn.classList.add('loading');
-      const originalHtml = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner"></i> ' + t('connectingTo') + ' ' + providerNames[provider] + '...';
-      
+    async function getUserByEmail(email) {
       try {
-        // Use Supabase OAuth
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: provider,
-          options: {
-            redirectTo: window.location.origin + '/auth.html?oauth=success'
-          }
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/farm_users?email=eq.${encodeURIComponent(email.toLowerCase())}&select=*`,
+          { headers: supabaseHeaders }
+        );
+        
+        if (!response.ok) {
+          console.error('Get user error:', response.status, await response.text());
+          return null;
+        }
+        
+        const data = await response.json();
+        console.log('Get user result:', data);
+        return data.length > 0 ? data[0] : null;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+      }
+    }
+
+    async function createUserInDB(userData) {
+      console.log('Creating user:', userData);
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/farm_users`, {
+          method: 'POST',
+          headers: supabaseHeaders,
+          body: JSON.stringify(userData)
         });
         
-        if (error) {
-          throw error;
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Create user error:', response.status, errorText);
+          throw new Error(errorText || 'Failed to create user');
         }
         
-        // User will be redirected to OAuth provider
-        // On return, we'll handle the session
-        
+        const data = await response.json();
+        console.log('User created:', data);
+        return data[0];
       } catch (error) {
-        console.error('OAuth error:', error);
-        showToast(t('errorOccurred') + ' - ' + error.message, 'error');
-        btn.classList.remove('loading');
-        btn.innerHTML = originalHtml;
+        console.error('Error creating user:', error);
+        throw error;
       }
     }
 
-    // Check for OAuth callback
-    async function handleOAuthCallback() {
-      const urlParams = new URLSearchParams(window.location.search);
-      
-      if (urlParams.get('oauth') === 'success' || window.location.hash.includes('access_token')) {
-        try {
-          const { data: { session }, error } = await supabase.auth.getSession();
-          
-          if (session && session.user) {
-            const oauthUser = session.user;
-            
-            // Check if user exists in our farm_users table
-            let user = await getUserByEmail(oauthUser.email);
-            
-            if (!user) {
-              // Create new user in farm_users
-              user = await createUserInDB({
-                name: oauthUser.user_metadata?.full_name || oauthUser.user_metadata?.name || oauthUser.email.split('@')[0],
-                email: oauthUser.email.toLowerCase(),
-                phone: oauthUser.phone || '',
-                password_hash: 'oauth_' + oauthUser.app_metadata?.provider,
-                interests: [],
-                social_provider: oauthUser.app_metadata?.provider || 'unknown',
-                created_at: new Date().toISOString(),
-                last_login: new Date().toISOString()
-              });
-            } else {
-              // Update last login
-              await updateUserInDB(user.id, { 
-                last_login: new Date().toISOString(),
-                social_provider: oauthUser.app_metadata?.provider || user.social_provider
-              });
-            }
-            
-            // Save session
-            localStorage.setItem('currentUserId', user.id);
-            localStorage.setItem('currentUserData', JSON.stringify(user));
-            
-            // Show success and redirect
-            showToast(t('socialLoginSuccess').replace('{provider}', oauthUser.app_metadata?.provider || 'Social'), 'success');
-            
-            // Clean URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // Redirect to home
-            setTimeout(function() {
-              window.location.href = 'index.html';
-            }, 1000);
+    async function updateUserInDB(id, updates) {
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/farm_users?id=eq.${id}`,
+          {
+            method: 'PATCH',
+            headers: supabaseHeaders,
+            body: JSON.stringify(updates)
           }
-        } catch (error) {
-          console.error('OAuth callback error:', error);
-        }
+        );
+        return response.ok;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        return false;
       }
     }
 
     // ========================================
-    // Event Listeners Setup
+    // Event Listeners
     // ========================================
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check OAuth callback first
-      handleOAuthCallback();
-      
+    document.addEventListener('DOMContentLoaded', () => {
       // Language Toggle
-      document.getElementById('langToggle').addEventListener('click', function() {
+      document.getElementById('langToggle').addEventListener('click', () => {
         currentLang = currentLang === 'th' ? 'en' : 'th';
         localStorage.setItem('siteLang', currentLang);
         updateLanguage();
       });
 
       // Tab Switching
-      document.querySelectorAll('.auth-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-          document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
-          document.querySelectorAll('.auth-form').forEach(function(f) { f.classList.remove('active'); });
+      document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
           tab.classList.add('active');
           document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
         });
@@ -1060,36 +882,28 @@
         }
       });
 
-      // Forgot Password Link
-      document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+      // Forgot Password
+      document.getElementById('forgotPasswordLink').addEventListener('click', () => {
         document.getElementById('forgotModal').classList.add('show');
         document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
       });
 
       // Close Modals
-      document.getElementById('closeForgotModal').addEventListener('click', function() {
+      document.getElementById('closeForgotModal').addEventListener('click', () => {
         document.getElementById('forgotModal').classList.remove('show');
       });
-      document.getElementById('closeSuccessModal').addEventListener('click', function() {
+      document.getElementById('closeSuccessModal').addEventListener('click', () => {
         document.getElementById('successModal').classList.remove('show');
       });
-      document.getElementById('goHomeBtn').addEventListener('click', function() {
+      document.getElementById('goHomeBtn').addEventListener('click', () => {
         document.getElementById('successModal').classList.remove('show');
         window.location.href = redirectUrl;
       });
 
-      // Modal Overlay Click to Close
-      document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
-        overlay.addEventListener('click', function(e) {
+      // Modal Overlay Click
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => {
           if (e.target === overlay) overlay.classList.remove('show');
-        });
-      });
-
-      // Social Login Buttons
-      document.querySelectorAll('.social-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          const provider = this.dataset.provider;
-          socialLogin(provider, this);
         });
       });
 
@@ -1104,34 +918,39 @@
         const remember = document.getElementById('rememberMe').checked;
 
         const btn = document.getElementById('loginBtn');
-        const originalBtnHtml = btn.innerHTML;
+        const originalHtml = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('loggingIn');
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('loggingIn')}`;
 
         try {
-          // Check Admin
+          // Check Admin first
           if (email === 'phoomjaiwork@gmail.com' && password === 'radar2551') {
             localStorage.setItem('isAdminLoggedIn', 'true');
             if (remember) localStorage.setItem('rememberUser', email);
             showToast(t('adminRedirect'), 'success');
-            setTimeout(function() { window.location.href = 'admin-dashboard.html'; }, 1000);
+            setTimeout(() => window.location.href = 'admin-dashboard.html', 1000);
             return;
           }
 
           // Get user from Supabase
           const user = await getUserByEmail(email);
+          console.log('Found user:', user);
 
           if (!user) {
             showToast(t('userNotFound'), 'error');
             btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
+            btn.innerHTML = originalHtml;
             return;
           }
 
-          if (user.password_hash !== hashPassword(password)) {
+          // Check password
+          const inputHash = hashPassword(password);
+          console.log('Password check:', inputHash, user.password_hash);
+          
+          if (user.password_hash !== inputHash) {
             showToast(t('invalidCredentials'), 'error');
             btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
+            btn.innerHTML = originalHtml;
             return;
           }
 
@@ -1139,18 +958,18 @@
           await updateUserInDB(user.id, { last_login: new Date().toISOString() });
 
           // Save session
-          localStorage.setItem('currentUserId', user.id);
+          localStorage.setItem('currentUserId', user.id.toString());
           localStorage.setItem('currentUserData', JSON.stringify(user));
           if (remember) localStorage.setItem('rememberUser', email);
 
           redirectUrl = 'index.html';
-          openSuccessModal(t('loginSuccess'), t('welcomeUser') + ', ' + user.name + '!', user);
+          openSuccessModal(t('loginSuccess'), `${t('welcomeUser')}, ${user.name}!`, user);
 
         } catch (error) {
-          console.error(error);
-          showToast(t('errorOccurred'), 'error');
+          console.error('Login error:', error);
+          showToast(t('errorOccurred') + ' - ' + error.message, 'error');
           btn.disabled = false;
-          btn.innerHTML = originalBtnHtml;
+          btn.innerHTML = originalHtml;
         }
       });
 
@@ -1167,7 +986,7 @@
         const confirmPassword = document.getElementById('signupConfirmPassword').value;
         
         const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
-          .map(function(cb) { return cb.value; });
+          .map(cb => cb.value);
 
         const errorEl = document.getElementById('passwordError');
         if (password !== confirmPassword) {
@@ -1178,9 +997,9 @@
         errorEl.style.display = 'none';
 
         const btn = document.getElementById('signupBtn');
-        const originalBtnHtml = btn.innerHTML;
+        const originalHtml = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('signingUp');
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('signingUp')}`;
 
         try {
           // Check if email exists
@@ -1188,15 +1007,15 @@
           if (existingUser) {
             showToast(t('emailExists'), 'error');
             btn.disabled = false;
-            btn.innerHTML = originalBtnHtml;
+            btn.innerHTML = originalHtml;
             return;
           }
 
-          // Create user in Supabase
+          // Create user
           const newUser = await createUserInDB({
             name: name,
             email: email,
-            phone: phone,
+            phone: phone || null,
             password_hash: hashPassword(password),
             interests: interests,
             social_provider: null,
@@ -1205,22 +1024,22 @@
           });
 
           // Save session
-          localStorage.setItem('currentUserId', newUser.id);
+          localStorage.setItem('currentUserId', newUser.id.toString());
           localStorage.setItem('currentUserData', JSON.stringify(newUser));
 
           redirectUrl = 'index.html';
-          openSuccessModal(t('signupSuccess'), t('welcomeUser') + ', ' + name + '!', newUser);
+          openSuccessModal(t('signupSuccess'), `${t('welcomeUser')}, ${name}!`, newUser);
 
         } catch (error) {
-          console.error(error);
+          console.error('Signup error:', error);
           showToast(t('errorOccurred') + ' - ' + error.message, 'error');
           btn.disabled = false;
-          btn.innerHTML = originalBtnHtml;
+          btn.innerHTML = originalHtml;
         }
       });
 
       // ========================================
-      // Forgot Password Submit (Supabase Auth)
+      // Forgot Password
       // ========================================
       document.getElementById('forgotPasswordBtn').addEventListener('click', async function() {
         const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
@@ -1230,20 +1049,34 @@
           return;
         }
 
-        try {
-          const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + '/auth.html'
-          });
-          
-          if (error) throw error;
-          
-          document.getElementById('forgotModal').classList.remove('show');
-          showToast(t('passwordResetSent'), 'success');
-          
-        } catch (error) {
-          console.error(error);
-          showToast(t('errorOccurred'), 'error');
+        const user = await getUserByEmail(email);
+
+        if (!user) {
+          showToast(t('emailNotFound'), 'error');
+          return;
         }
+
+        // Generate new password
+        const newPassword = generateRandomPassword();
+        
+        // Update in Supabase
+        await updateUserInDB(user.id, { password_hash: hashPassword(newPassword) });
+
+        document.getElementById('forgotModal').classList.remove('show');
+
+        document.getElementById('successTitle').textContent = t('passwordResetSuccess');
+        document.getElementById('successMessage').textContent = t('newPasswordIs');
+        document.getElementById('userInfoArea').innerHTML = `
+          <div class="user-info-display" style="text-align: center;">
+            <h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">${newPassword}</h2>
+            <p style="color: var(--text-secondary); font-size: 0.8rem;">
+              <i class="fas fa-info-circle"></i> กรุณาจดรหัสผ่านนี้ไว้
+            </p>
+          </div>
+        `;
+        
+        redirectUrl = 'auth.html';
+        document.getElementById('successModal').classList.add('show');
       });
 
       // Remember email
@@ -1253,7 +1086,7 @@
         document.getElementById('rememberMe').checked = true;
       }
 
-      // Check URL params for tab
+      // Check URL params
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('tab') === 'signup') {
         document.querySelector('[data-tab="signup"]').click();

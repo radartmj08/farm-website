@@ -52,7 +52,6 @@
       font-size: 0.9rem;
     }
 
-    /* Language Toggle in Header */
     .header-lang-toggle {
       position: absolute;
       top: 1rem;
@@ -140,12 +139,13 @@
       position: relative;
     }
 
-    .form-group .input-icon i {
+    .form-group .input-icon i:first-child {
       position: absolute;
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
+      pointer-events: none;
     }
 
     .form-group .input-icon input {
@@ -159,6 +159,7 @@
       border-radius: var(--radius-sm);
       font-size: 1rem;
       transition: var(--transition);
+      box-sizing: border-box;
     }
 
     .form-group input:focus {
@@ -199,6 +200,7 @@
     .forgot-password {
       color: var(--primary);
       text-decoration: none;
+      cursor: pointer;
     }
 
     .forgot-password:hover {
@@ -280,41 +282,14 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .social-btn.google {
-      border-color: #db4437;
-      color: #db4437;
-    }
-    .social-btn.google:hover {
-      background: #db4437;
-      color: white;
-    }
-
-    .social-btn.facebook {
-      border-color: #4267b2;
-      color: #4267b2;
-    }
-    .social-btn.facebook:hover {
-      background: #4267b2;
-      color: white;
-    }
-
-    .social-btn.line {
-      border-color: #00b900;
-      color: #00b900;
-    }
-    .social-btn.line:hover {
-      background: #00b900;
-      color: white;
-    }
-
-    .social-btn.apple {
-      border-color: #000;
-      color: #000;
-    }
-    .social-btn.apple:hover {
-      background: #000;
-      color: white;
-    }
+    .social-btn.google { border-color: #db4437; color: #db4437; }
+    .social-btn.google:hover { background: #db4437; color: white; }
+    .social-btn.facebook { border-color: #4267b2; color: #4267b2; }
+    .social-btn.facebook:hover { background: #4267b2; color: white; }
+    .social-btn.line { border-color: #00b900; color: #00b900; }
+    .social-btn.line:hover { background: #00b900; color: white; }
+    .social-btn.apple { border-color: #000; color: #000; }
+    .social-btn.apple:hover { background: #000; color: white; }
 
     .auth-footer {
       text-align: center;
@@ -356,6 +331,7 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
+      padding: 0.25rem;
     }
 
     .password-toggle:hover {
@@ -430,6 +406,119 @@
 
     .toast.success { background: var(--primary); }
     .toast.error { background: #ef4444; }
+    .toast.info { background: #3b82f6; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 400px;
+      transform: scale(0.9);
+      transition: var(--transition);
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-body p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+
+    /* Success animation */
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      animation: scaleIn 0.3s ease;
+    }
+
+    .success-icon i {
+      font-size: 2.5rem;
+      color: white;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    /* User info display */
+    .user-info-display {
+      background: var(--bg-dark);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1rem;
+    }
+
+    .user-info-display p {
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .user-info-display strong {
+      color: var(--text-primary);
+    }
 
     @media (max-width: 480px) {
       .auth-container {
@@ -494,7 +583,7 @@
               <label data-i18n="email">อีเมล</label>
               <div class="input-icon">
                 <i class="fas fa-envelope"></i>
-                <input type="email" id="loginEmail" data-placeholder-i18n="emailPlaceholder" placeholder="your@email.com" required>
+                <input type="email" id="loginEmail" placeholder="your@email.com" required>
               </div>
             </div>
 
@@ -502,7 +591,7 @@
               <label data-i18n="password">รหัสผ่าน</label>
               <div class="input-icon">
                 <i class="fas fa-lock"></i>
-                <input type="password" id="loginPassword" data-placeholder-i18n="passwordPlaceholder" placeholder="••••••••" required>
+                <input type="password" id="loginPassword" placeholder="••••••••" required>
                 <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
                   <i class="fas fa-eye"></i>
                 </button>
@@ -514,7 +603,7 @@
                 <input type="checkbox" id="rememberMe">
                 <span data-i18n="rememberMe">จดจำฉัน</span>
               </label>
-              <a href="#" class="forgot-password" data-i18n="forgotPassword">ลืมรหัสผ่าน?</a>
+              <span class="forgot-password" onclick="openForgotPassword()" data-i18n="forgotPassword">ลืมรหัสผ่าน?</span>
             </div>
 
             <button type="submit" class="auth-submit" id="loginBtn">
@@ -548,7 +637,7 @@
               <label data-i18n="fullName">ชื่อ-นามสกุล</label>
               <div class="input-icon">
                 <i class="fas fa-user"></i>
-                <input type="text" id="signupName" data-placeholder-i18n="namePlaceholder" placeholder="ชื่อของคุณ" required>
+                <input type="text" id="signupName" placeholder="ชื่อของคุณ" required>
               </div>
             </div>
 
@@ -556,7 +645,7 @@
               <label data-i18n="email">อีเมล</label>
               <div class="input-icon">
                 <i class="fas fa-envelope"></i>
-                <input type="email" id="signupEmail" data-placeholder-i18n="emailPlaceholder" placeholder="your@email.com" required>
+                <input type="email" id="signupEmail" placeholder="your@email.com" required>
               </div>
             </div>
 
@@ -572,7 +661,7 @@
               <label data-i18n="password">รหัสผ่าน</label>
               <div class="input-icon">
                 <i class="fas fa-lock"></i>
-                <input type="password" id="signupPassword" data-placeholder-i18n="passwordMinPlaceholder" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6">
+                <input type="password" id="signupPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6">
                 <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">
                   <i class="fas fa-eye"></i>
                 </button>
@@ -583,17 +672,15 @@
               <label data-i18n="confirmPassword">ยืนยันรหัสผ่าน</label>
               <div class="input-icon">
                 <i class="fas fa-lock"></i>
-                <input type="password" id="signupConfirmPassword" data-placeholder-i18n="confirmPasswordPlaceholder" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
+                <input type="password" id="signupConfirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
               </div>
               <div class="form-error" id="passwordError" style="display: none;"></div>
             </div>
 
-            <!-- Interest Selection for Recommendations -->
+            <!-- Interest Selection -->
             <div class="interests-section">
-              <h4><i class="fas fa-heart"></i> <span data-i18n="selectInterests">เลือกสิ่งที่คุณสนใจ (สำหรับแนะนำสินค้า)</span></h4>
-              <div class="interests-grid" id="interestsGrid">
-                <!-- Will be loaded dynamically -->
-              </div>
+              <h4><i class="fas fa-heart"></i> <span data-i18n="selectInterests">เลือกสิ่งที่คุณสนใจ</span></h4>
+              <div class="interests-grid" id="interestsGrid"></div>
             </div>
 
             <button type="submit" class="auth-submit" id="signupBtn" style="margin-top: 1.5rem;">
@@ -632,10 +719,54 @@
     </div>
   </div>
 
+  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 data-i18n="resetPassword">รีเซ็ตรหัสผ่าน</h3>
+        <button class="modal-close" onclick="closeForgotPassword()">&times;</button>
+      </div>
+      <div class="modal-body" id="forgotModalBody">
+        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก เราจะส่งรหัสผ่านใหม่ให้คุณ</p>
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="forgotEmail" placeholder="your@email.com" required>
+          </div>
+        </div>
+        <button class="auth-submit" onclick="handleForgotPassword()">
+          <i class="fas fa-paper-plane"></i>
+          <span data-i18n="sendResetLink">ส่งรหัสผ่านใหม่</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="successTitle">สำเร็จ!</h3>
+        <button class="modal-close" onclick="closeSuccessModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="successModalBody">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <p id="successMessage" style="text-align: center;"></p>
+        <div id="userInfoArea"></div>
+        <button class="auth-submit" onclick="closeSuccessAndRedirect()" style="margin-top: 1rem;">
+          <i class="fas fa-home"></i>
+          <span data-i18n="goToHome">ไปหน้าหลัก</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/admin.js"></script>
-  <script src="js/auth.js"></script>
   <script>
     // ========================================
     // Language System
@@ -656,27 +787,36 @@
         fullName: 'ชื่อ-นามสกุล',
         phone: 'เบอร์โทรศัพท์',
         confirmPassword: 'ยืนยันรหัสผ่าน',
-        selectInterests: 'เลือกสิ่งที่คุณสนใจ (สำหรับแนะนำสินค้า)',
+        selectInterests: 'เลือกสิ่งที่คุณสนใจ',
         signupBtn: 'สมัครสมาชิก',
         agreeTerms: 'การสมัครสมาชิกแสดงว่าคุณยอมรับ',
         termsOfService: 'เงื่อนไขการใช้งาน',
-        // Placeholders
-        emailPlaceholder: 'your@email.com',
-        passwordPlaceholder: '••••••••',
-        namePlaceholder: 'ชื่อของคุณ',
-        passwordMinPlaceholder: 'อย่างน้อย 6 ตัวอักษร',
-        confirmPasswordPlaceholder: 'กรอกรหัสผ่านอีกครั้ง',
-        // Messages
+        resetPassword: 'รีเซ็ตรหัสผ่าน',
+        resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก เราจะส่งรหัสผ่านใหม่ให้คุณ',
+        sendResetLink: 'ส่งรหัสผ่านใหม่',
+        goToHome: 'ไปหน้าหลัก',
         loggingIn: 'กำลังเข้าสู่ระบบ...',
         signingUp: 'กำลังสมัครสมาชิก...',
         loginSuccess: 'เข้าสู่ระบบสำเร็จ!',
-        signupSuccess: 'สมัครสมาชิกสำเร็จ! กำลังเข้าสู่ระบบ...',
+        signupSuccess: 'สมัครสมาชิกสำเร็จ!',
+        welcomeUser: 'ยินดีต้อนรับ',
         invalidCredentials: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+        userNotFound: 'ไม่พบบัญชีผู้ใช้นี้',
         passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
+        emailExists: 'อีเมลนี้ถูกใช้งานแล้ว',
         signupFailed: 'ไม่สามารถสมัครสมาชิกได้',
         errorOccurred: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
-        socialLoginMsg: 'กำลังเข้าสู่ระบบด้วย',
-        adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...'
+        socialLoginSuccess: 'เข้าสู่ระบบด้วย {provider} สำเร็จ!',
+        adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...',
+        passwordReset: 'รีเซ็ตรหัสผ่านสำเร็จ!',
+        newPasswordIs: 'รหัสผ่านใหม่ของคุณคือ:',
+        pleaseLogin: 'กรุณาใช้รหัสผ่านนี้เข้าสู่ระบบ',
+        emailNotFound: 'ไม่พบอีเมลนี้ในระบบ',
+        yourAccount: 'ข้อมูลบัญชีของคุณ',
+        nameLabel: 'ชื่อ:',
+        emailLabel: 'อีเมล:',
+        phoneLabel: 'โทร:',
+        memberSince: 'สมาชิกตั้งแต่:'
       },
       en: {
         backToHome: 'Back to Home',
@@ -693,27 +833,36 @@
         fullName: 'Full Name',
         phone: 'Phone Number',
         confirmPassword: 'Confirm Password',
-        selectInterests: 'Select your interests (for recommendations)',
+        selectInterests: 'Select your interests',
         signupBtn: 'Sign Up',
         agreeTerms: 'By signing up, you agree to our',
         termsOfService: 'Terms of Service',
-        // Placeholders
-        emailPlaceholder: 'your@email.com',
-        passwordPlaceholder: '••••••••',
-        namePlaceholder: 'Your name',
-        passwordMinPlaceholder: 'At least 6 characters',
-        confirmPasswordPlaceholder: 'Enter password again',
-        // Messages
+        resetPassword: 'Reset Password',
+        resetPasswordDesc: 'Enter your email address and we will send you a new password.',
+        sendResetLink: 'Send New Password',
+        goToHome: 'Go to Home',
         loggingIn: 'Logging in...',
         signingUp: 'Signing up...',
         loginSuccess: 'Login successful!',
-        signupSuccess: 'Sign up successful! Logging in...',
+        signupSuccess: 'Sign up successful!',
+        welcomeUser: 'Welcome',
         invalidCredentials: 'Invalid email or password',
+        userNotFound: 'User not found',
         passwordMismatch: 'Passwords do not match',
+        emailExists: 'This email is already registered',
         signupFailed: 'Unable to sign up',
         errorOccurred: 'An error occurred. Please try again.',
-        socialLoginMsg: 'Logging in with',
-        adminRedirect: 'Admin account detected. Redirecting to dashboard...'
+        socialLoginSuccess: 'Successfully logged in with {provider}!',
+        adminRedirect: 'Admin account detected. Redirecting...',
+        passwordReset: 'Password reset successful!',
+        newPasswordIs: 'Your new password is:',
+        pleaseLogin: 'Please use this password to login',
+        emailNotFound: 'Email not found in our system',
+        yourAccount: 'Your Account Info',
+        nameLabel: 'Name:',
+        emailLabel: 'Email:',
+        phoneLabel: 'Phone:',
+        memberSince: 'Member since:'
       }
     };
 
@@ -724,52 +873,75 @@
     }
 
     function updateLanguage() {
-      // Update text content
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
           el.textContent = translations[currentLang][key];
         }
       });
-
-      // Update placeholders
-      document.querySelectorAll('[data-placeholder-i18n]').forEach(el => {
-        const key = el.getAttribute('data-placeholder-i18n');
-        if (translations[currentLang][key]) {
-          el.placeholder = translations[currentLang][key];
-        }
-      });
-
-      // Update language toggle display
       document.getElementById('currentLang').textContent = currentLang.toUpperCase();
-
-      // Update interests grid text
       loadInterests();
     }
 
-    // Language toggle
     document.getElementById('langToggle').addEventListener('click', function() {
       currentLang = currentLang === 'th' ? 'en' : 'th';
       localStorage.setItem('siteLang', currentLang);
       updateLanguage();
     });
 
-    // Tab switching
+    // ========================================
+    // User Database (localStorage)
+    // ========================================
+    function getUsers() {
+      return JSON.parse(localStorage.getItem('farmUsers')) || [];
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('farmUsers', JSON.stringify(users));
+    }
+
+    function generateId() {
+      return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function hashPassword(password) {
+      // Simple hash for demo - in production use bcrypt
+      let hash = 0;
+      for (let i = 0; i < password.length; i++) {
+        const char = password.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return 'hash_' + Math.abs(hash).toString(16);
+    }
+
+    function generateRandomPassword() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      let password = '';
+      for (let i = 0; i < 8; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return password;
+    }
+
+    // ========================================
+    // Tab Switching
+    // ========================================
     document.querySelectorAll('.auth-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-        
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
       });
     });
 
-    // Password toggle
+    // ========================================
+    // Password Toggle
+    // ========================================
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       const icon = btn.querySelector('i');
-      
       if (input.type === 'password') {
         input.type = 'text';
         icon.classList.remove('fa-eye');
@@ -781,7 +953,9 @@
       }
     }
 
-    // Load interests from categories
+    // ========================================
+    // Load Interests
+    // ========================================
     function loadInterests() {
       const grid = document.getElementById('interestsGrid');
       const categories = JSON.parse(localStorage.getItem('farmCategories')) || [
@@ -798,10 +972,9 @@
         </label>
       `).join('');
 
-      // Toggle selection
       grid.querySelectorAll('.interest-tag').forEach(tag => {
         tag.addEventListener('click', (e) => {
-          if (e.target.type !== 'checkbox') {
+          if (e.target.tagName !== 'INPUT') {
             const checkbox = tag.querySelector('input');
             checkbox.checked = !checkbox.checked;
           }
@@ -810,7 +983,9 @@
       });
     }
 
-    // Toast notification
+    // ========================================
+    // Toast Notification
+    // ========================================
     function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -818,15 +993,60 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Admin credentials
+    // ========================================
+    // Modal Functions
+    // ========================================
+    function openForgotPassword() {
+      document.getElementById('forgotModal').classList.add('show');
+      document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
+    }
+
+    function closeForgotPassword() {
+      document.getElementById('forgotModal').classList.remove('show');
+    }
+
+    function openSuccessModal(title, message, userInfo = null) {
+      document.getElementById('successTitle').textContent = title;
+      document.getElementById('successMessage').textContent = message;
+      
+      const userInfoArea = document.getElementById('userInfoArea');
+      if (userInfo) {
+        userInfoArea.innerHTML = `
+          <div class="user-info-display">
+            <h4>${t('yourAccount')}</h4>
+            <p><i class="fas fa-user"></i> <strong>${t('nameLabel')}</strong> ${userInfo.name}</p>
+            <p><i class="fas fa-envelope"></i> <strong>${t('emailLabel')}</strong> ${userInfo.email}</p>
+            ${userInfo.phone ? `<p><i class="fas fa-phone"></i> <strong>${t('phoneLabel')}</strong> ${userInfo.phone}</p>` : ''}
+            <p><i class="fas fa-calendar"></i> <strong>${t('memberSince')}</strong> ${new Date(userInfo.createdAt).toLocaleDateString(currentLang === 'th' ? 'th-TH' : 'en-US')}</p>
+          </div>
+        `;
+      } else {
+        userInfoArea.innerHTML = '';
+      }
+      
+      document.getElementById('successModal').classList.add('show');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.remove('show');
+    }
+
+    let redirectUrl = 'index.html';
+    function closeSuccessAndRedirect() {
+      closeSuccessModal();
+      window.location.href = redirectUrl;
+    }
+
+    // ========================================
+    // Login Handler
+    // ========================================
     const ADMIN_EMAIL = 'phoomjaiwork@gmail.com';
     const ADMIN_PASSWORD = 'radar2551';
 
-    // Login form
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
       const remember = document.getElementById('rememberMe').checked;
 
@@ -834,13 +1054,14 @@
       btn.disabled = true;
       btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('loggingIn')}`;
 
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       try {
-        // Check for admin login first
+        // Check Admin
         if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
           localStorage.setItem('isAdminLoggedIn', 'true');
-          if (remember) {
-            localStorage.setItem('rememberUser', email);
-          }
+          if (remember) localStorage.setItem('rememberUser', email);
           showToast(t('adminRedirect'), 'success');
           setTimeout(() => {
             window.location.href = 'admin-dashboard.html';
@@ -848,21 +1069,37 @@
           return;
         }
 
-        const result = await userLogin(email, password);
-        
-        if (result.success) {
-          if (remember) {
-            localStorage.setItem('rememberUser', email);
-          }
-          showToast(t('loginSuccess'), 'success');
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1000);
-        } else {
-          showToast(result.message || t('invalidCredentials'), 'error');
+        // Check regular user
+        const users = getUsers();
+        const user = users.find(u => u.email === email);
+
+        if (!user) {
+          showToast(t('userNotFound'), 'error');
           btn.disabled = false;
           btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('loginBtn')}</span>`;
+          return;
         }
+
+        if (user.passwordHash !== hashPassword(password)) {
+          showToast(t('invalidCredentials'), 'error');
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('loginBtn')}</span>`;
+          return;
+        }
+
+        // Success!
+        user.lastLogin = new Date().toISOString();
+        saveUsers(users);
+        localStorage.setItem('currentUserId', user.id);
+        if (remember) localStorage.setItem('rememberUser', email);
+
+        redirectUrl = 'index.html';
+        openSuccessModal(
+          t('loginSuccess'),
+          `${t('welcomeUser')}, ${user.name}!`,
+          user
+        );
+
       } catch (error) {
         showToast(t('errorOccurred'), 'error');
         btn.disabled = false;
@@ -870,50 +1107,74 @@
       }
     });
 
-    // Signup form
+    // ========================================
+    // Signup Handler
+    // ========================================
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const name = document.getElementById('signupName').value;
-      const email = document.getElementById('signupEmail').value;
-      const phone = document.getElementById('signupPhone').value;
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+      const phone = document.getElementById('signupPhone').value.trim();
       const password = document.getElementById('signupPassword').value;
       const confirmPassword = document.getElementById('signupConfirmPassword').value;
       
-      // Get selected interests
       const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
         .map(cb => cb.value);
 
-      // Validate passwords match
+      // Validate passwords
+      const errorEl = document.getElementById('passwordError');
       if (password !== confirmPassword) {
-        document.getElementById('passwordError').textContent = t('passwordMismatch');
-        document.getElementById('passwordError').style.display = 'block';
+        errorEl.textContent = t('passwordMismatch');
+        errorEl.style.display = 'block';
         return;
       }
+      errorEl.style.display = 'none';
 
       const btn = document.getElementById('signupBtn');
       btn.disabled = true;
       btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('signingUp')}`;
 
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       try {
-        const result = await userSignup({
+        const users = getUsers();
+        
+        // Check if email exists
+        if (users.some(u => u.email === email)) {
+          showToast(t('emailExists'), 'error');
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('signupBtn')}</span>`;
+          return;
+        }
+
+        // Create new user
+        const newUser = {
+          id: generateId(),
           name,
           email,
           phone,
-          password,
-          interests
-        });
-        
-        if (result.success) {
-          showToast(t('signupSuccess'), 'success');
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
-        } else {
-          showToast(result.message || t('signupFailed'), 'error');
-          btn.disabled = false;
-          btn.innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('signupBtn')}</span>`;
-        }
+          passwordHash: hashPassword(password),
+          interests,
+          viewHistory: [],
+          purchaseHistory: [],
+          categoryPreferences: {},
+          createdAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        saveUsers(users);
+        localStorage.setItem('currentUserId', newUser.id);
+
+        redirectUrl = 'index.html';
+        openSuccessModal(
+          t('signupSuccess'),
+          `${t('welcomeUser')}, ${newUser.name}!`,
+          newUser
+        );
+
       } catch (error) {
         showToast(t('errorOccurred'), 'error');
         btn.disabled = false;
@@ -921,8 +1182,10 @@
       }
     });
 
+    // ========================================
     // Social Login
-    function socialLogin(provider) {
+    // ========================================
+    async function socialLogin(provider) {
       const providerNames = {
         google: 'Google',
         facebook: 'Facebook',
@@ -930,67 +1193,125 @@
         apple: 'Apple'
       };
 
-      showToast(`${t('socialLoginMsg')} ${providerNames[provider]}...`, 'success');
+      // Show loading
+      showToast(`กำลังเชื่อมต่อกับ ${providerNames[provider]}...`, 'info');
 
-      // Simulate social login (in production, implement OAuth)
-      setTimeout(() => {
-        // Create mock user from social login
-        const mockUser = {
-          name: `${providerNames[provider]} User`,
-          email: `${provider}user@example.com`,
-          phone: '',
-          password: 'social_' + provider + '_' + Date.now(),
-          interests: [],
-          socialProvider: provider
-        };
+      // Simulate OAuth flow
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-        // Check if user exists or create new
-        const users = JSON.parse(localStorage.getItem('farmUsers')) || [];
-        let existingUser = users.find(u => u.socialProvider === provider);
+      const users = getUsers();
+      
+      // Check if social user exists
+      let user = users.find(u => u.socialProvider === provider);
 
-        if (!existingUser) {
-          // Create new social user
-          const newUser = {
-            id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            name: mockUser.name,
-            email: mockUser.email,
-            phone: '',
-            passwordHash: 'social_auth',
-            interests: [],
-            viewHistory: [],
-            purchaseHistory: [],
-            socialProvider: provider,
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString()
-          };
-          users.push(newUser);
-          localStorage.setItem('farmUsers', JSON.stringify(users));
-          localStorage.setItem('currentUserId', newUser.id);
-        } else {
-          existingUser.lastLogin = new Date().toISOString();
-          localStorage.setItem('farmUsers', JSON.stringify(users));
-          localStorage.setItem('currentUserId', existingUser.id);
+      if (!user) {
+        // Create new social user - prompt for name
+        const userName = prompt(currentLang === 'th' 
+          ? `กรุณากรอกชื่อของคุณสำหรับบัญชี ${providerNames[provider]}:` 
+          : `Please enter your name for ${providerNames[provider]} account:`);
+        
+        if (!userName) {
+          showToast(t('errorOccurred'), 'error');
+          return;
         }
 
-        showToast(t('loginSuccess'), 'success');
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1000);
-      }, 1500);
+        user = {
+          id: generateId(),
+          name: userName,
+          email: `${provider}_${Date.now()}@social.farm`,
+          phone: '',
+          passwordHash: 'social_auth',
+          interests: [],
+          viewHistory: [],
+          purchaseHistory: [],
+          categoryPreferences: {},
+          socialProvider: provider,
+          createdAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString()
+        };
+        
+        users.push(user);
+        saveUsers(users);
+      } else {
+        user.lastLogin = new Date().toISOString();
+        saveUsers(users);
+      }
+
+      localStorage.setItem('currentUserId', user.id);
+
+      redirectUrl = 'index.html';
+      openSuccessModal(
+        t('socialLoginSuccess').replace('{provider}', providerNames[provider]),
+        `${t('welcomeUser')}, ${user.name}!`,
+        user
+      );
     }
 
-    // Auto-fill remembered email
+    // ========================================
+    // Forgot Password Handler
+    // ========================================
+    async function handleForgotPassword() {
+      const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+      
+      if (!email) {
+        showToast(currentLang === 'th' ? 'กรุณากรอกอีเมล' : 'Please enter email', 'error');
+        return;
+      }
+
+      const users = getUsers();
+      const user = users.find(u => u.email === email);
+
+      if (!user) {
+        showToast(t('emailNotFound'), 'error');
+        return;
+      }
+
+      // Generate new password
+      const newPassword = generateRandomPassword();
+      user.passwordHash = hashPassword(newPassword);
+      saveUsers(users);
+
+      closeForgotPassword();
+
+      // Show new password to user
+      const modalBody = document.getElementById('successModalBody');
+      document.getElementById('successTitle').textContent = t('passwordReset');
+      document.getElementById('successMessage').textContent = t('newPasswordIs');
+      document.getElementById('userInfoArea').innerHTML = `
+        <div class="user-info-display" style="text-align: center;">
+          <h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">${newPassword}</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> ${t('pleaseLogin')}
+          </p>
+        </div>
+      `;
+      
+      redirectUrl = 'auth.html';
+      document.getElementById('successModal').classList.add('show');
+    }
+
+    // ========================================
+    // Auto-fill & Init
+    // ========================================
     const rememberedEmail = localStorage.getItem('rememberUser');
     if (rememberedEmail) {
       document.getElementById('loginEmail').value = rememberedEmail;
       document.getElementById('rememberMe').checked = true;
     }
 
-    // Check if redirected with tab parameter
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('tab') === 'signup') {
       document.querySelector('[data-tab="signup"]').click();
     }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('show');
+        }
+      });
+    });
 
     // Initialize
     updateLanguage();

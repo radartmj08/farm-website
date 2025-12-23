@@ -362,10 +362,13 @@
       const userMenus = document.querySelectorAll('.user-menu');
       const userNames = document.querySelectorAll('.user-name');
       
-      if (user) {
+      console.log('updateProductAuthUI called, user:', user);
+      
+      if (user && (user.name || user.email)) {
         authLinks.forEach(el => el.style.display = 'none');
         userMenus.forEach(el => el.style.display = 'flex');
-        userNames.forEach(el => el.textContent = user.name.split(' ')[0]);
+        const displayName = user.name ? user.name.split(' ')[0] : user.email.split('@')[0];
+        userNames.forEach(el => el.textContent = displayName);
       } else {
         authLinks.forEach(el => el.style.display = 'flex');
         userMenus.forEach(el => el.style.display = 'none');
@@ -418,8 +421,15 @@
       }
     });
     
-    // Init
-    updateProductAuthUI();
+    // Init auth UI when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateProductAuthUI);
+    } else {
+      updateProductAuthUI();
+    }
+    
+    // Also update on page show (for back/forward navigation)
+    window.addEventListener('pageshow', updateProductAuthUI);
   </script>
   
   <style>

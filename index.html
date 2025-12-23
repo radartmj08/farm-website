@@ -548,10 +548,13 @@
       const userNames = document.querySelectorAll('.user-name');
       const recSection = document.getElementById('recommendationsSection');
       
-      if (user) {
+      console.log('updateHomeAuthUI called, user:', user);
+      
+      if (user && (user.name || user.email)) {
         authLinks.forEach(el => el.style.display = 'none');
         userMenus.forEach(el => el.style.display = 'flex');
-        userNames.forEach(el => el.textContent = user.name.split(' ')[0]);
+        const displayName = user.name ? user.name.split(' ')[0] : user.email.split('@')[0];
+        userNames.forEach(el => el.textContent = displayName);
         
         // Show recommendations for logged-in users
         if (recSection) {
@@ -666,8 +669,15 @@
     translations.en.loginSignup = 'Login';
     translations.en.recommendedForYou = 'Recommended for You';
     
-    // Init
-    updateHomeAuthUI();
+    // Init auth UI when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateHomeAuthUI);
+    } else {
+      updateHomeAuthUI();
+    }
+    
+    // Also update on page show (for back/forward navigation)
+    window.addEventListener('pageshow', updateHomeAuthUI);
   </script>
   
   <style>

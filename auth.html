@@ -4,10 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เข้าสู่ระบบ — Farm Phoomjai & Jiaranai Garden</title>
-  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #4a7c59;
+      --primary-dark: #3d6b4a;
+      --primary-light: #7cb890;
+      --secondary: #c9a959;
+      --bg-dark: #f5f0e8;
+      --bg-darker: #ebe4d8;
+      --bg-card: #ffffff;
+      --text-primary: #2d3a2e;
+      --text-secondary: #5a6b5c;
+      --text-muted: #8a9a8c;
+      --border: #d4cfc4;
+      --shadow: 0 25px 50px -12px rgba(74, 124, 89, 0.15);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --transition: all 0.3s ease;
+      --cream: #f9f6f0;
+      --cream-dark: #efe9dc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', 'Noto Sans Thai', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
     .auth-container {
       min-height: 100vh;
       display: flex;
@@ -40,6 +72,7 @@
       border-radius: 50%;
       margin-bottom: 1rem;
       border: 3px solid white;
+      object-fit: cover;
     }
 
     .auth-header h1 {
@@ -90,6 +123,7 @@
       cursor: pointer;
       transition: var(--transition);
       position: relative;
+      font-family: inherit;
     }
 
     .auth-tab.active {
@@ -139,20 +173,24 @@
       position: relative;
     }
 
-    .form-group .input-icon i:first-child {
+    .form-group .input-icon > i:first-child {
       position: absolute;
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
       pointer-events: none;
+      z-index: 1;
     }
 
     .form-group .input-icon input {
       padding-left: 2.75rem;
     }
 
-    .form-group input {
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="tel"] {
       width: 100%;
       padding: 0.875rem 1rem;
       border: 2px solid var(--border);
@@ -160,16 +198,14 @@
       font-size: 1rem;
       transition: var(--transition);
       box-sizing: border-box;
+      font-family: inherit;
+      background: white;
     }
 
     .form-group input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-    }
-
-    .form-group input.error {
-      border-color: #ef4444;
     }
 
     .form-error {
@@ -193,8 +229,9 @@
       cursor: pointer;
     }
 
-    .remember-me input {
+    .remember-me input[type="checkbox"] {
       width: auto;
+      cursor: pointer;
     }
 
     .forgot-password {
@@ -222,6 +259,7 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      font-family: inherit;
     }
 
     .auth-submit:hover {
@@ -255,7 +293,6 @@
       padding: 0 1rem;
     }
 
-    /* Social Login Buttons */
     .social-login {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -275,6 +312,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
+      font-family: inherit;
     }
 
     .social-btn:hover {
@@ -304,10 +342,6 @@
       font-weight: 500;
     }
 
-    .auth-footer a:hover {
-      text-decoration: underline;
-    }
-
     .back-home {
       display: inline-flex;
       align-items: center;
@@ -332,10 +366,11 @@
       color: var(--text-muted);
       cursor: pointer;
       padding: 0.25rem;
+      z-index: 2;
     }
 
     .password-toggle:hover {
-      color: var(--text-primary);
+      color: var(--primary);
     }
 
     .interests-section {
@@ -367,6 +402,7 @@
       font-size: 0.8rem;
       cursor: pointer;
       transition: var(--transition);
+      background: white;
     }
 
     .interest-tag:hover {
@@ -383,7 +419,6 @@
       display: none;
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -408,7 +443,6 @@
     .toast.error { background: #ef4444; }
     .toast.info { background: #3b82f6; }
 
-    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -462,7 +496,7 @@
       font-size: 1.5rem;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 0.25rem;
+      line-height: 1;
     }
 
     .modal-close:hover {
@@ -478,7 +512,6 @@
       color: var(--text-secondary);
     }
 
-    /* Success animation */
     .success-icon {
       width: 80px;
       height: 80px;
@@ -501,7 +534,6 @@
       to { transform: scale(1); }
     }
 
-    /* User info display */
     .user-info-display {
       background: var(--bg-dark);
       padding: 1rem;
@@ -509,40 +541,50 @@
       margin-top: 1rem;
     }
 
+    .user-info-display h4 {
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
     .user-info-display p {
       margin: 0.5rem 0;
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: var(--text-secondary);
     }
 
-    .user-info-display strong {
-      color: var(--text-primary);
+    .db-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-dark);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .db-status.online { color: var(--primary); }
+    .db-status.offline { color: #ef4444; }
+    .db-status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     @media (max-width: 480px) {
-      .auth-container {
-        padding: 1rem;
-      }
-
-      .auth-body {
-        padding: 1.5rem;
-      }
-
-      .interests-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .social-login {
-        grid-template-columns: 1fr;
-      }
-
-      .header-lang-toggle {
-        top: 0.5rem;
-        right: 0.5rem;
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-      }
+      .auth-container { padding: 1rem; }
+      .auth-body { padding: 1.5rem; }
+      .interests-grid { grid-template-columns: repeat(2, 1fr); }
+      .social-login { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -556,27 +598,33 @@
       
       <div class="auth-card">
         <div class="auth-header">
-          <button class="header-lang-toggle" id="langToggle">
+          <button type="button" class="header-lang-toggle" id="langToggle">
             <i class="fas fa-globe"></i>
             <span id="currentLang">TH</span>
           </button>
-          <img src="images/logo_farm.jpg" alt="Farm Phoomjai">
+          <img src="images/logo_farm.jpg" alt="Farm Phoomjai" onerror="this.src='https://via.placeholder.com/80x80/4a7c59/fff?text=FP'">
           <h1>Farm Phoomjai & Jiaranai</h1>
           <p data-i18n="authWelcome">ยินดีต้อนรับ! สมัครสมาชิกเพื่อรับข้อเสนอพิเศษ</p>
         </div>
 
         <div class="auth-tabs">
-          <button class="auth-tab active" data-tab="login">
+          <button type="button" class="auth-tab active" data-tab="login">
             <i class="fas fa-sign-in-alt"></i>
             <span data-i18n="login">เข้าสู่ระบบ</span>
           </button>
-          <button class="auth-tab" data-tab="signup">
+          <button type="button" class="auth-tab" data-tab="signup">
             <i class="fas fa-user-plus"></i>
             <span data-i18n="signup">สมัครสมาชิก</span>
           </button>
         </div>
 
         <div class="auth-body">
+          <!-- Database Status -->
+          <div class="db-status" id="dbStatus">
+            <span class="dot"></span>
+            <span id="dbStatusText">กำลังเชื่อมต่อ Supabase...</span>
+          </div>
+
           <!-- Login Form -->
           <form id="loginForm" class="auth-form active">
             <div class="form-group">
@@ -592,7 +640,7 @@
               <div class="input-icon">
                 <i class="fas fa-lock"></i>
                 <input type="password" id="loginPassword" placeholder="••••••••" required>
-                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
+                <button type="button" class="password-toggle" id="loginPasswordToggle">
                   <i class="fas fa-eye"></i>
                 </button>
               </div>
@@ -603,7 +651,7 @@
                 <input type="checkbox" id="rememberMe">
                 <span data-i18n="rememberMe">จดจำฉัน</span>
               </label>
-              <span class="forgot-password" onclick="openForgotPassword()" data-i18n="forgotPassword">ลืมรหัสผ่าน?</span>
+              <span class="forgot-password" id="forgotPasswordLink" data-i18n="forgotPassword">ลืมรหัสผ่าน?</span>
             </div>
 
             <button type="submit" class="auth-submit" id="loginBtn">
@@ -616,16 +664,16 @@
             </div>
 
             <div class="social-login">
-              <button type="button" class="social-btn google" onclick="socialLogin('google')">
+              <button type="button" class="social-btn google" data-provider="google">
                 <i class="fab fa-google"></i> Google
               </button>
-              <button type="button" class="social-btn facebook" onclick="socialLogin('facebook')">
+              <button type="button" class="social-btn facebook" data-provider="facebook">
                 <i class="fab fa-facebook-f"></i> Facebook
               </button>
-              <button type="button" class="social-btn line" onclick="socialLogin('line')">
+              <button type="button" class="social-btn line" data-provider="line">
                 <i class="fab fa-line"></i> LINE
               </button>
-              <button type="button" class="social-btn apple" onclick="socialLogin('apple')">
+              <button type="button" class="social-btn apple" data-provider="apple">
                 <i class="fab fa-apple"></i> Apple
               </button>
             </div>
@@ -662,7 +710,7 @@
               <div class="input-icon">
                 <i class="fas fa-lock"></i>
                 <input type="password" id="signupPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6">
-                <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">
+                <button type="button" class="password-toggle" id="signupPasswordToggle">
                   <i class="fas fa-eye"></i>
                 </button>
               </div>
@@ -677,7 +725,6 @@
               <div class="form-error" id="passwordError" style="display: none;"></div>
             </div>
 
-            <!-- Interest Selection -->
             <div class="interests-section">
               <h4><i class="fas fa-heart"></i> <span data-i18n="selectInterests">เลือกสิ่งที่คุณสนใจ</span></h4>
               <div class="interests-grid" id="interestsGrid"></div>
@@ -693,16 +740,16 @@
             </div>
 
             <div class="social-login">
-              <button type="button" class="social-btn google" onclick="socialLogin('google')">
+              <button type="button" class="social-btn google" data-provider="google">
                 <i class="fab fa-google"></i> Google
               </button>
-              <button type="button" class="social-btn facebook" onclick="socialLogin('facebook')">
+              <button type="button" class="social-btn facebook" data-provider="facebook">
                 <i class="fab fa-facebook-f"></i> Facebook
               </button>
-              <button type="button" class="social-btn line" onclick="socialLogin('line')">
+              <button type="button" class="social-btn line" data-provider="line">
                 <i class="fab fa-line"></i> LINE
               </button>
-              <button type="button" class="social-btn apple" onclick="socialLogin('apple')">
+              <button type="button" class="social-btn apple" data-provider="apple">
                 <i class="fab fa-apple"></i> Apple
               </button>
             </div>
@@ -719,7 +766,6 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
   <!-- Forgot Password Modal -->
@@ -727,17 +773,17 @@
     <div class="modal">
       <div class="modal-header">
         <h3 data-i18n="resetPassword">รีเซ็ตรหัสผ่าน</h3>
-        <button class="modal-close" onclick="closeForgotPassword()">&times;</button>
+        <button type="button" class="modal-close" id="closeForgotModal">&times;</button>
       </div>
-      <div class="modal-body" id="forgotModalBody">
-        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก เราจะส่งรหัสผ่านใหม่ให้คุณ</p>
+      <div class="modal-body">
+        <p data-i18n="resetPasswordDesc">กรุณากรอกอีเมลที่ใช้สมัครสมาชิก</p>
         <div class="form-group">
           <div class="input-icon">
             <i class="fas fa-envelope"></i>
             <input type="email" id="forgotEmail" placeholder="your@email.com" required>
           </div>
         </div>
-        <button class="auth-submit" onclick="handleForgotPassword()">
+        <button type="button" class="auth-submit" id="forgotPasswordBtn">
           <i class="fas fa-paper-plane"></i>
           <span data-i18n="sendResetLink">ส่งรหัสผ่านใหม่</span>
         </button>
@@ -750,15 +796,15 @@
     <div class="modal">
       <div class="modal-header">
         <h3 id="successTitle">สำเร็จ!</h3>
-        <button class="modal-close" onclick="closeSuccessModal()">&times;</button>
+        <button type="button" class="modal-close" id="closeSuccessModal">&times;</button>
       </div>
-      <div class="modal-body" id="successModalBody">
+      <div class="modal-body">
         <div class="success-icon">
           <i class="fas fa-check"></i>
         </div>
         <p id="successMessage" style="text-align: center;"></p>
         <div id="userInfoArea"></div>
-        <button class="auth-submit" onclick="closeSuccessAndRedirect()" style="margin-top: 1rem;">
+        <button type="button" class="auth-submit" id="goHomeBtn" style="margin-top: 1rem;">
           <i class="fas fa-home"></i>
           <span data-i18n="goToHome">ไปหน้าหลัก</span>
         </button>
@@ -766,8 +812,20 @@
     </div>
   </div>
 
-  <script src="js/admin.js"></script>
   <script>
+    // ========================================
+    // Supabase Configuration
+    // ========================================
+    const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
+
+    const supabaseHeaders = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    };
+
     // ========================================
     // Language System
     // ========================================
@@ -792,7 +850,7 @@
         agreeTerms: 'การสมัครสมาชิกแสดงว่าคุณยอมรับ',
         termsOfService: 'เงื่อนไขการใช้งาน',
         resetPassword: 'รีเซ็ตรหัสผ่าน',
-        resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก เราจะส่งรหัสผ่านใหม่ให้คุณ',
+        resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก',
         sendResetLink: 'ส่งรหัสผ่านใหม่',
         goToHome: 'ไปหน้าหลัก',
         loggingIn: 'กำลังเข้าสู่ระบบ...',
@@ -804,19 +862,19 @@
         userNotFound: 'ไม่พบบัญชีผู้ใช้นี้',
         passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
         emailExists: 'อีเมลนี้ถูกใช้งานแล้ว',
-        signupFailed: 'ไม่สามารถสมัครสมาชิกได้',
         errorOccurred: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
         socialLoginSuccess: 'เข้าสู่ระบบด้วย {provider} สำเร็จ!',
         adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...',
         passwordReset: 'รีเซ็ตรหัสผ่านสำเร็จ!',
         newPasswordIs: 'รหัสผ่านใหม่ของคุณคือ:',
-        pleaseLogin: 'กรุณาใช้รหัสผ่านนี้เข้าสู่ระบบ',
         emailNotFound: 'ไม่พบอีเมลนี้ในระบบ',
         yourAccount: 'ข้อมูลบัญชีของคุณ',
-        nameLabel: 'ชื่อ:',
-        emailLabel: 'อีเมล:',
-        phoneLabel: 'โทร:',
-        memberSince: 'สมาชิกตั้งแต่:'
+        savedToSupabase: '✓ ข้อมูลถูกบันทึกใน Supabase',
+        dbConnected: '✓ เชื่อมต่อ Supabase แล้ว',
+        dbError: '⚠ ไม่สามารถเชื่อมต่อ Supabase',
+        connecting: 'กำลังเชื่อมต่อ...',
+        enterEmail: 'กรุณากรอกอีเมล',
+        enterName: 'กรุณากรอกชื่อของคุณ'
       },
       en: {
         backToHome: 'Back to Home',
@@ -838,7 +896,7 @@
         agreeTerms: 'By signing up, you agree to our',
         termsOfService: 'Terms of Service',
         resetPassword: 'Reset Password',
-        resetPasswordDesc: 'Enter your email address and we will send you a new password.',
+        resetPasswordDesc: 'Enter your registered email address',
         sendResetLink: 'Send New Password',
         goToHome: 'Go to Home',
         loggingIn: 'Logging in...',
@@ -850,30 +908,31 @@
         userNotFound: 'User not found',
         passwordMismatch: 'Passwords do not match',
         emailExists: 'This email is already registered',
-        signupFailed: 'Unable to sign up',
         errorOccurred: 'An error occurred. Please try again.',
         socialLoginSuccess: 'Successfully logged in with {provider}!',
         adminRedirect: 'Admin account detected. Redirecting...',
         passwordReset: 'Password reset successful!',
         newPasswordIs: 'Your new password is:',
-        pleaseLogin: 'Please use this password to login',
         emailNotFound: 'Email not found in our system',
         yourAccount: 'Your Account Info',
-        nameLabel: 'Name:',
-        emailLabel: 'Email:',
-        phoneLabel: 'Phone:',
-        memberSince: 'Member since:'
+        savedToSupabase: '✓ Data saved to Supabase',
+        dbConnected: '✓ Connected to Supabase',
+        dbError: '⚠ Cannot connect to Supabase',
+        connecting: 'Connecting...',
+        enterEmail: 'Please enter email',
+        enterName: 'Please enter your name'
       }
     };
 
     let currentLang = localStorage.getItem('siteLang') || 'th';
+    let redirectUrl = 'index.html';
 
     function t(key) {
       return translations[currentLang][key] || key;
     }
 
     function updateLanguage() {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
           el.textContent = translations[currentLang][key];
@@ -883,29 +942,91 @@
       loadInterests();
     }
 
-    document.getElementById('langToggle').addEventListener('click', function() {
-      currentLang = currentLang === 'th' ? 'en' : 'th';
-      localStorage.setItem('siteLang', currentLang);
-      updateLanguage();
-    });
+    // ========================================
+    // Supabase API Functions
+    // ========================================
+    async function checkDBConnection() {
+      const statusEl = document.getElementById('dbStatus');
+      const textEl = document.getElementById('dbStatusText');
+      
+      try {
+        const response = await fetch(SUPABASE_URL + '/rest/v1/farm_users?select=count', {
+          headers: supabaseHeaders
+        });
+        
+        if (response.ok) {
+          statusEl.classList.remove('offline');
+          statusEl.classList.add('online');
+          textEl.textContent = t('dbConnected');
+          return true;
+        } else {
+          throw new Error('Table not found');
+        }
+      } catch (error) {
+        statusEl.classList.remove('online');
+        statusEl.classList.add('offline');
+        textEl.textContent = t('dbError');
+        console.log('DB Status:', error.message);
+        return false;
+      }
+    }
+
+    async function getUserByEmail(email) {
+      try {
+        const response = await fetch(
+          SUPABASE_URL + '/rest/v1/farm_users?email=eq.' + encodeURIComponent(email.toLowerCase()) + '&select=*',
+          { headers: supabaseHeaders }
+        );
+        const data = await response.json();
+        return data.length > 0 ? data[0] : null;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+      }
+    }
+
+    async function createUserInDB(userData) {
+      try {
+        const response = await fetch(SUPABASE_URL + '/rest/v1/farm_users', {
+          method: 'POST',
+          headers: supabaseHeaders,
+          body: JSON.stringify(userData)
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Failed to create user');
+        }
+        
+        const data = await response.json();
+        return data[0];
+      } catch (error) {
+        console.error('Error creating user:', error);
+        throw error;
+      }
+    }
+
+    async function updateUserInDB(id, updates) {
+      try {
+        const response = await fetch(
+          SUPABASE_URL + '/rest/v1/farm_users?id=eq.' + id,
+          {
+            method: 'PATCH',
+            headers: supabaseHeaders,
+            body: JSON.stringify(updates)
+          }
+        );
+        return response.ok;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        return false;
+      }
+    }
 
     // ========================================
-    // User Database (localStorage)
+    // Helper Functions
     // ========================================
-    function getUsers() {
-      return JSON.parse(localStorage.getItem('farmUsers')) || [];
-    }
-
-    function saveUsers(users) {
-      localStorage.setItem('farmUsers', JSON.stringify(users));
-    }
-
-    function generateId() {
-      return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
-
     function hashPassword(password) {
-      // Simple hash for demo - in production use bcrypt
       let hash = 0;
       for (let i = 0; i < password.length; i++) {
         const char = password.charCodeAt(i);
@@ -924,56 +1045,34 @@
       return password;
     }
 
-    // ========================================
-    // Tab Switching
-    // ========================================
-    document.querySelectorAll('.auth-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
-      });
-    });
-
-    // ========================================
-    // Password Toggle
-    // ========================================
-    function togglePassword(inputId, btn) {
-      const input = document.getElementById(inputId);
-      const icon = btn.querySelector('i');
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-      } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-      }
+    function showToast(message, type) {
+      type = type || 'info';
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type + ' show';
+      setTimeout(function() { toast.classList.remove('show'); }, 3000);
     }
 
-    // ========================================
-    // Load Interests
-    // ========================================
     function loadInterests() {
       const grid = document.getElementById('interestsGrid');
+      if (!grid) return;
+      
       const categories = JSON.parse(localStorage.getItem('farmCategories')) || [
         { id: 'vegetables', name: 'Vegetables', nameTh: 'ผัก', icon: 'fas fa-seedling' },
         { id: 'flowers', name: 'Flowers', nameTh: 'ดอกไม้', icon: 'fas fa-spa' },
         { id: 'herbs', name: 'Herbs', nameTh: 'สมุนไพร', icon: 'fas fa-leaf' }
       ];
 
-      grid.innerHTML = categories.map(cat => `
-        <label class="interest-tag" data-category="${cat.id}">
-          <input type="checkbox" name="interests" value="${cat.id}">
-          <i class="${cat.icon}"></i>
-          <span>${currentLang === 'th' ? cat.nameTh : cat.name}</span>
-        </label>
-      `).join('');
+      grid.innerHTML = categories.map(function(cat) {
+        return '<label class="interest-tag" data-category="' + cat.id + '">' +
+          '<input type="checkbox" name="interests" value="' + cat.id + '">' +
+          '<i class="' + cat.icon + '"></i>' +
+          '<span>' + (currentLang === 'th' ? cat.nameTh : cat.name) + '</span>' +
+        '</label>';
+      }).join('');
 
-      grid.querySelectorAll('.interest-tag').forEach(tag => {
-        tag.addEventListener('click', (e) => {
+      grid.querySelectorAll('.interest-tag').forEach(function(tag) {
+        tag.addEventListener('click', function(e) {
           if (e.target.tagName !== 'INPUT') {
             const checkbox = tag.querySelector('input');
             checkbox.checked = !checkbox.checked;
@@ -983,43 +1082,22 @@
       });
     }
 
-    // ========================================
-    // Toast Notification
-    // ========================================
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = `toast ${type} show`;
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // ========================================
-    // Modal Functions
-    // ========================================
-    function openForgotPassword() {
-      document.getElementById('forgotModal').classList.add('show');
-      document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
-    }
-
-    function closeForgotPassword() {
-      document.getElementById('forgotModal').classList.remove('show');
-    }
-
-    function openSuccessModal(title, message, userInfo = null) {
+    function openSuccessModal(title, message, userInfo) {
       document.getElementById('successTitle').textContent = title;
       document.getElementById('successMessage').textContent = message;
       
       const userInfoArea = document.getElementById('userInfoArea');
       if (userInfo) {
-        userInfoArea.innerHTML = `
-          <div class="user-info-display">
-            <h4>${t('yourAccount')}</h4>
-            <p><i class="fas fa-user"></i> <strong>${t('nameLabel')}</strong> ${userInfo.name}</p>
-            <p><i class="fas fa-envelope"></i> <strong>${t('emailLabel')}</strong> ${userInfo.email}</p>
-            ${userInfo.phone ? `<p><i class="fas fa-phone"></i> <strong>${t('phoneLabel')}</strong> ${userInfo.phone}</p>` : ''}
-            <p><i class="fas fa-calendar"></i> <strong>${t('memberSince')}</strong> ${new Date(userInfo.createdAt).toLocaleDateString(currentLang === 'th' ? 'th-TH' : 'en-US')}</p>
-          </div>
-        `;
+        userInfoArea.innerHTML = 
+          '<div class="user-info-display">' +
+            '<h4>' + t('yourAccount') + '</h4>' +
+            '<p><i class="fas fa-user"></i> ' + userInfo.name + '</p>' +
+            '<p><i class="fas fa-envelope"></i> ' + userInfo.email + '</p>' +
+            (userInfo.phone ? '<p><i class="fas fa-phone"></i> ' + userInfo.phone + '</p>' : '') +
+            '<p style="color: var(--primary); font-size: 0.8rem; margin-top: 0.5rem;">' +
+              '<i class="fas fa-database"></i> ' + t('savedToSupabase') +
+            '</p>' +
+          '</div>';
       } else {
         userInfoArea.innerHTML = '';
       }
@@ -1027,295 +1105,343 @@
       document.getElementById('successModal').classList.add('show');
     }
 
-    function closeSuccessModal() {
-      document.getElementById('successModal').classList.remove('show');
-    }
-
-    let redirectUrl = 'index.html';
-    function closeSuccessAndRedirect() {
-      closeSuccessModal();
-      window.location.href = redirectUrl;
-    }
-
     // ========================================
-    // Login Handler
-    // ========================================
-    const ADMIN_EMAIL = 'phoomjaiwork@gmail.com';
-    const ADMIN_PASSWORD = 'radar2551';
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-      const password = document.getElementById('loginPassword').value;
-      const remember = document.getElementById('rememberMe').checked;
-
-      const btn = document.getElementById('loginBtn');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('loggingIn')}`;
-
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      try {
-        // Check Admin
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-          localStorage.setItem('isAdminLoggedIn', 'true');
-          if (remember) localStorage.setItem('rememberUser', email);
-          showToast(t('adminRedirect'), 'success');
-          setTimeout(() => {
-            window.location.href = 'admin-dashboard.html';
-          }, 1000);
-          return;
-        }
-
-        // Check regular user
-        const users = getUsers();
-        const user = users.find(u => u.email === email);
-
-        if (!user) {
-          showToast(t('userNotFound'), 'error');
-          btn.disabled = false;
-          btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('loginBtn')}</span>`;
-          return;
-        }
-
-        if (user.passwordHash !== hashPassword(password)) {
-          showToast(t('invalidCredentials'), 'error');
-          btn.disabled = false;
-          btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('loginBtn')}</span>`;
-          return;
-        }
-
-        // Success!
-        user.lastLogin = new Date().toISOString();
-        saveUsers(users);
-        localStorage.setItem('currentUserId', user.id);
-        if (remember) localStorage.setItem('rememberUser', email);
-
-        redirectUrl = 'index.html';
-        openSuccessModal(
-          t('loginSuccess'),
-          `${t('welcomeUser')}, ${user.name}!`,
-          user
-        );
-
-      } catch (error) {
-        showToast(t('errorOccurred'), 'error');
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('loginBtn')}</span>`;
-      }
-    });
-
-    // ========================================
-    // Signup Handler
-    // ========================================
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const name = document.getElementById('signupName').value.trim();
-      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
-      const phone = document.getElementById('signupPhone').value.trim();
-      const password = document.getElementById('signupPassword').value;
-      const confirmPassword = document.getElementById('signupConfirmPassword').value;
-      
-      const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
-        .map(cb => cb.value);
-
-      // Validate passwords
-      const errorEl = document.getElementById('passwordError');
-      if (password !== confirmPassword) {
-        errorEl.textContent = t('passwordMismatch');
-        errorEl.style.display = 'block';
-        return;
-      }
-      errorEl.style.display = 'none';
-
-      const btn = document.getElementById('signupBtn');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('signingUp')}`;
-
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      try {
-        const users = getUsers();
-        
-        // Check if email exists
-        if (users.some(u => u.email === email)) {
-          showToast(t('emailExists'), 'error');
-          btn.disabled = false;
-          btn.innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('signupBtn')}</span>`;
-          return;
-        }
-
-        // Create new user
-        const newUser = {
-          id: generateId(),
-          name,
-          email,
-          phone,
-          passwordHash: hashPassword(password),
-          interests,
-          viewHistory: [],
-          purchaseHistory: [],
-          categoryPreferences: {},
-          createdAt: new Date().toISOString(),
-          lastLogin: new Date().toISOString()
-        };
-
-        users.push(newUser);
-        saveUsers(users);
-        localStorage.setItem('currentUserId', newUser.id);
-
-        redirectUrl = 'index.html';
-        openSuccessModal(
-          t('signupSuccess'),
-          `${t('welcomeUser')}, ${newUser.name}!`,
-          newUser
-        );
-
-      } catch (error) {
-        showToast(t('errorOccurred'), 'error');
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('signupBtn')}</span>`;
-      }
-    });
-
-    // ========================================
-    // Social Login
+    // Social Login Function
     // ========================================
     async function socialLogin(provider) {
-      const providerNames = {
-        google: 'Google',
-        facebook: 'Facebook',
-        line: 'LINE',
-        apple: 'Apple'
-      };
+      const providerNames = { google: 'Google', facebook: 'Facebook', line: 'LINE', apple: 'Apple' };
 
-      // Show loading
-      showToast(`กำลังเชื่อมต่อกับ ${providerNames[provider]}...`, 'info');
+      showToast('กำลังเชื่อมต่อกับ ' + providerNames[provider] + '...', 'info');
 
-      // Simulate OAuth flow
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(function(resolve) { setTimeout(resolve, 1000); });
 
-      const users = getUsers();
-      
       // Check if social user exists
-      let user = users.find(u => u.socialProvider === provider);
+      const socialEmail = provider + '_user@social.farm';
+      let user = await getUserByEmail(socialEmail);
 
       if (!user) {
-        // Create new social user - prompt for name
         const userName = prompt(currentLang === 'th' 
-          ? `กรุณากรอกชื่อของคุณสำหรับบัญชี ${providerNames[provider]}:` 
-          : `Please enter your name for ${providerNames[provider]} account:`);
+          ? 'กรุณากรอกชื่อของคุณสำหรับบัญชี ' + providerNames[provider] + ':' 
+          : 'Please enter your name for ' + providerNames[provider] + ' account:');
         
         if (!userName) {
           showToast(t('errorOccurred'), 'error');
           return;
         }
 
-        user = {
-          id: generateId(),
-          name: userName,
-          email: `${provider}_${Date.now()}@social.farm`,
-          phone: '',
-          passwordHash: 'social_auth',
-          interests: [],
-          viewHistory: [],
-          purchaseHistory: [],
-          categoryPreferences: {},
-          socialProvider: provider,
-          createdAt: new Date().toISOString(),
-          lastLogin: new Date().toISOString()
-        };
-        
-        users.push(user);
-        saveUsers(users);
+        try {
+          user = await createUserInDB({
+            name: userName,
+            email: socialEmail,
+            phone: '',
+            password_hash: 'social_auth',
+            interests: [],
+            social_provider: provider,
+            created_at: new Date().toISOString(),
+            last_login: new Date().toISOString()
+          });
+        } catch (error) {
+          showToast(t('errorOccurred'), 'error');
+          return;
+        }
       } else {
-        user.lastLogin = new Date().toISOString();
-        saveUsers(users);
+        await updateUserInDB(user.id, { last_login: new Date().toISOString() });
       }
 
       localStorage.setItem('currentUserId', user.id);
+      localStorage.setItem('currentUserData', JSON.stringify(user));
 
       redirectUrl = 'index.html';
       openSuccessModal(
         t('socialLoginSuccess').replace('{provider}', providerNames[provider]),
-        `${t('welcomeUser')}, ${user.name}!`,
+        t('welcomeUser') + ', ' + user.name + '!',
         user
       );
     }
 
     // ========================================
-    // Forgot Password Handler
+    // Event Listeners Setup
     // ========================================
-    async function handleForgotPassword() {
-      const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
-      
-      if (!email) {
-        showToast(currentLang === 'th' ? 'กรุณากรอกอีเมล' : 'Please enter email', 'error');
-        return;
-      }
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Auth page loaded - initializing...');
 
-      const users = getUsers();
-      const user = users.find(u => u.email === email);
+      // Language Toggle
+      document.getElementById('langToggle').addEventListener('click', function() {
+        currentLang = currentLang === 'th' ? 'en' : 'th';
+        localStorage.setItem('siteLang', currentLang);
+        updateLanguage();
+        checkDBConnection();
+      });
 
-      if (!user) {
-        showToast(t('emailNotFound'), 'error');
-        return;
-      }
+      // Tab Switching
+      document.querySelectorAll('.auth-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          console.log('Tab clicked:', tab.dataset.tab);
+          document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
+          document.querySelectorAll('.auth-form').forEach(function(f) { f.classList.remove('active'); });
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
+        });
+      });
 
-      // Generate new password
-      const newPassword = generateRandomPassword();
-      user.passwordHash = hashPassword(newPassword);
-      saveUsers(users);
-
-      closeForgotPassword();
-
-      // Show new password to user
-      const modalBody = document.getElementById('successModalBody');
-      document.getElementById('successTitle').textContent = t('passwordReset');
-      document.getElementById('successMessage').textContent = t('newPasswordIs');
-      document.getElementById('userInfoArea').innerHTML = `
-        <div class="user-info-display" style="text-align: center;">
-          <h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">${newPassword}</h2>
-          <p style="color: var(--text-secondary); font-size: 0.9rem;">
-            <i class="fas fa-info-circle"></i> ${t('pleaseLogin')}
-          </p>
-        </div>
-      `;
-      
-      redirectUrl = 'auth.html';
-      document.getElementById('successModal').classList.add('show');
-    }
-
-    // ========================================
-    // Auto-fill & Init
-    // ========================================
-    const rememberedEmail = localStorage.getItem('rememberUser');
-    if (rememberedEmail) {
-      document.getElementById('loginEmail').value = rememberedEmail;
-      document.getElementById('rememberMe').checked = true;
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('tab') === 'signup') {
-      document.querySelector('[data-tab="signup"]').click();
-    }
-
-    // Close modal on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-          overlay.classList.remove('show');
+      // Password Toggle - Login
+      document.getElementById('loginPasswordToggle').addEventListener('click', function() {
+        const input = document.getElementById('loginPassword');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
         }
       });
-    });
 
-    // Initialize
-    updateLanguage();
-    loadInterests();
+      // Password Toggle - Signup
+      document.getElementById('signupPasswordToggle').addEventListener('click', function() {
+        const input = document.getElementById('signupPassword');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+
+      // Forgot Password Link
+      document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+        document.getElementById('forgotModal').classList.add('show');
+        document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
+      });
+
+      // Close Forgot Modal
+      document.getElementById('closeForgotModal').addEventListener('click', function() {
+        document.getElementById('forgotModal').classList.remove('show');
+      });
+
+      // Close Success Modal
+      document.getElementById('closeSuccessModal').addEventListener('click', function() {
+        document.getElementById('successModal').classList.remove('show');
+      });
+
+      // Go Home Button
+      document.getElementById('goHomeBtn').addEventListener('click', function() {
+        document.getElementById('successModal').classList.remove('show');
+        window.location.href = redirectUrl;
+      });
+
+      // Modal Overlay Click to Close
+      document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) overlay.classList.remove('show');
+        });
+      });
+
+      // Social Login Buttons
+      document.querySelectorAll('.social-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const provider = this.dataset.provider;
+          console.log('Social login clicked:', provider);
+          socialLogin(provider);
+        });
+      });
+
+      // ========================================
+      // Login Form Submit
+      // ========================================
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Login form submitted');
+        
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value;
+        const remember = document.getElementById('rememberMe').checked;
+
+        const btn = document.getElementById('loginBtn');
+        const originalBtnHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('loggingIn');
+
+        try {
+          // Check Admin
+          if (email === 'phoomjaiwork@gmail.com' && password === 'radar2551') {
+            localStorage.setItem('isAdminLoggedIn', 'true');
+            if (remember) localStorage.setItem('rememberUser', email);
+            showToast(t('adminRedirect'), 'success');
+            setTimeout(function() { window.location.href = 'admin-dashboard.html'; }, 1000);
+            return;
+          }
+
+          // Get user from Supabase
+          const user = await getUserByEmail(email);
+
+          if (!user) {
+            showToast(t('userNotFound'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHtml;
+            return;
+          }
+
+          if (user.password_hash !== hashPassword(password)) {
+            showToast(t('invalidCredentials'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHtml;
+            return;
+          }
+
+          // Update last login in Supabase
+          await updateUserInDB(user.id, { last_login: new Date().toISOString() });
+
+          // Save session
+          localStorage.setItem('currentUserId', user.id);
+          localStorage.setItem('currentUserData', JSON.stringify(user));
+          if (remember) localStorage.setItem('rememberUser', email);
+
+          redirectUrl = 'index.html';
+          openSuccessModal(t('loginSuccess'), t('welcomeUser') + ', ' + user.name + '!', user);
+
+        } catch (error) {
+          console.error(error);
+          showToast(t('errorOccurred'), 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalBtnHtml;
+        }
+      });
+
+      // ========================================
+      // Signup Form Submit
+      // ========================================
+      document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Signup form submitted');
+        
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+        const phone = document.getElementById('signupPhone').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        
+        const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
+          .map(function(cb) { return cb.value; });
+
+        const errorEl = document.getElementById('passwordError');
+        if (password !== confirmPassword) {
+          errorEl.textContent = t('passwordMismatch');
+          errorEl.style.display = 'block';
+          return;
+        }
+        errorEl.style.display = 'none';
+
+        const btn = document.getElementById('signupBtn');
+        const originalBtnHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('signingUp');
+
+        try {
+          // Check if email exists
+          const existingUser = await getUserByEmail(email);
+          if (existingUser) {
+            showToast(t('emailExists'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHtml;
+            return;
+          }
+
+          // Create user in Supabase
+          const newUser = await createUserInDB({
+            name: name,
+            email: email,
+            phone: phone,
+            password_hash: hashPassword(password),
+            interests: interests,
+            social_provider: null,
+            created_at: new Date().toISOString(),
+            last_login: new Date().toISOString()
+          });
+
+          console.log('User created:', newUser);
+
+          // Save session
+          localStorage.setItem('currentUserId', newUser.id);
+          localStorage.setItem('currentUserData', JSON.stringify(newUser));
+
+          redirectUrl = 'index.html';
+          openSuccessModal(t('signupSuccess'), t('welcomeUser') + ', ' + name + '!', newUser);
+
+        } catch (error) {
+          console.error(error);
+          showToast(t('errorOccurred') + ' - ' + error.message, 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalBtnHtml;
+        }
+      });
+
+      // ========================================
+      // Forgot Password Submit
+      // ========================================
+      document.getElementById('forgotPasswordBtn').addEventListener('click', async function() {
+        const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+        
+        if (!email) {
+          showToast(t('enterEmail'), 'error');
+          return;
+        }
+
+        const user = await getUserByEmail(email);
+
+        if (!user) {
+          showToast(t('emailNotFound'), 'error');
+          return;
+        }
+
+        // Generate new password
+        const newPassword = generateRandomPassword();
+        
+        // Update in Supabase
+        await updateUserInDB(user.id, { password_hash: hashPassword(newPassword) });
+
+        document.getElementById('forgotModal').classList.remove('show');
+
+        document.getElementById('successTitle').textContent = t('passwordReset');
+        document.getElementById('successMessage').textContent = t('newPasswordIs');
+        document.getElementById('userInfoArea').innerHTML = 
+          '<div class="user-info-display" style="text-align: center;">' +
+            '<h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">' + newPassword + '</h2>' +
+            '<p style="color: var(--text-secondary); font-size: 0.85rem;">' +
+              '<i class="fas fa-database"></i> ' + t('savedToSupabase') +
+            '</p>' +
+          '</div>';
+        
+        redirectUrl = 'auth.html';
+        document.getElementById('successModal').classList.add('show');
+      });
+
+      // Remember email
+      const rememberedEmail = localStorage.getItem('rememberUser');
+      if (rememberedEmail) {
+        document.getElementById('loginEmail').value = rememberedEmail;
+        document.getElementById('rememberMe').checked = true;
+      }
+
+      // Check URL params for tab
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('tab') === 'signup') {
+        document.querySelector('[data-tab="signup"]').click();
+      }
+
+      // Initialize
+      updateLanguage();
+      loadInterests();
+      checkDBConnection();
+      
+      console.log('Auth page initialized successfully');
+    });
   </script>
 </body>
 </html>

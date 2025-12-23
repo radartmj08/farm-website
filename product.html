@@ -427,19 +427,26 @@
     .nav-auth-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.25rem;
       background: var(--primary);
       color: white !important;
       border-radius: var(--radius-sm);
       font-size: 0.9rem;
       text-decoration: none;
       transition: var(--transition);
+      white-space: nowrap;
+      min-width: 120px;
     }
     
     .nav-auth-btn:hover {
       background: var(--primary-dark);
       transform: translateY(-2px);
+    }
+    
+    .nav-auth-btn::after {
+      display: none !important;
     }
     
     /* User menu */
@@ -515,8 +522,9 @@
     
     @media (max-width: 768px) {
       .nav-auth-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        min-width: 100px;
       }
       
       .user-menu-btn {
@@ -529,6 +537,14 @@
       
       .user-dropdown {
         right: -50px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .nav-auth-btn {
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8rem;
+        min-width: auto;
       }
     }
   </style>

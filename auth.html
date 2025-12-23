@@ -6,6 +6,8 @@
   <title>เข้าสู่ระบบ — Farm Phoomjai & Jiaranai Garden</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --primary: #4a7c59;
@@ -27,17 +29,8 @@
       --cream-dark: #efe9dc;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
     body {
       font-family: 'Poppins', 'Noto Sans Thai', -apple-system, sans-serif;
       background: linear-gradient(135deg, var(--bg-dark) 0%, var(--cream-dark) 100%);
@@ -54,10 +47,7 @@
       padding: 1rem;
     }
 
-    .auth-wrapper {
-      width: 100%;
-      max-width: 420px;
-    }
+    .auth-wrapper { width: 100%; max-width: 420px; }
 
     .back-home {
       display: inline-flex;
@@ -71,11 +61,7 @@
       border-radius: var(--radius-sm);
       transition: var(--transition);
     }
-
-    .back-home:hover {
-      color: var(--primary);
-      background: rgba(255,255,255,0.5);
-    }
+    .back-home:hover { color: var(--primary); background: rgba(255,255,255,0.5); }
 
     .auth-card {
       background: var(--bg-card);
@@ -84,7 +70,6 @@
       overflow: hidden;
       animation: slideUp 0.4s ease;
     }
-
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -97,30 +82,19 @@
       color: white;
       position: relative;
     }
-
     .auth-header img {
-      width: 70px;
-      height: 70px;
+      width: 70px; height: 70px;
       border-radius: 50%;
       margin-bottom: 0.75rem;
       border: 3px solid white;
       object-fit: cover;
     }
-
-    .auth-header h1 {
-      font-size: 1.25rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .auth-header p {
-      opacity: 0.9;
-      font-size: 0.85rem;
-    }
+    .auth-header h1 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .auth-header p { opacity: 0.9; font-size: 0.85rem; }
 
     .header-lang-toggle {
       position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
+      top: 0.75rem; right: 0.75rem;
       background: rgba(255,255,255,0.2);
       border: none;
       padding: 0.4rem 0.6rem;
@@ -133,17 +107,13 @@
       gap: 0.3rem;
       transition: var(--transition);
     }
-
-    .header-lang-toggle:hover {
-      background: rgba(255,255,255,0.3);
-    }
+    .header-lang-toggle:hover { background: rgba(255,255,255,0.3); }
 
     .auth-tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
       background: var(--bg-dark);
     }
-
     .auth-tab {
       flex: 1;
       padding: 0.875rem;
@@ -162,44 +132,21 @@
       justify-content: center;
       gap: 0.4rem;
     }
-
-    .auth-tab.active {
-      color: var(--primary);
-      background: white;
-    }
-
+    .auth-tab.active { color: var(--primary); background: white; }
     .auth-tab.active::after {
       content: '';
       position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
+      bottom: -1px; left: 0; right: 0;
       height: 3px;
       background: var(--primary);
     }
 
-    .auth-body {
-      padding: 1.5rem;
-    }
+    .auth-body { padding: 1.5rem; }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .auth-form {
-      display: none;
-    }
-
-    .auth-form.active {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
+    .form-group { margin-bottom: 1rem; }
     .form-group label {
       display: block;
       margin-bottom: 0.4rem;
@@ -207,30 +154,18 @@
       color: var(--text-primary);
       font-size: 0.9rem;
     }
-
-    .input-icon {
-      position: relative;
-    }
-
+    .input-icon { position: relative; }
     .input-icon > i:first-child {
       position: absolute;
-      left: 0.875rem;
-      top: 50%;
+      left: 0.875rem; top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
       pointer-events: none;
       z-index: 1;
       font-size: 0.9rem;
     }
-
-    .input-icon input {
-      padding-left: 2.5rem !important;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="tel"] {
+    .input-icon input { padding-left: 2.5rem !important; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
       width: 100%;
       padding: 0.75rem 1rem;
       border: 2px solid var(--border);
@@ -240,19 +175,13 @@
       font-family: inherit;
       background: white;
     }
-
     input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
     }
 
-    .form-error {
-      color: #ef4444;
-      font-size: 0.8rem;
-      margin-top: 0.25rem;
-    }
-
+    .form-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; }
     .form-options {
       display: flex;
       align-items: center;
@@ -260,28 +189,15 @@
       margin-bottom: 1.25rem;
       font-size: 0.85rem;
     }
-
     .remember-me {
       display: flex;
       align-items: center;
       gap: 0.4rem;
       cursor: pointer;
     }
-
-    .remember-me input {
-      width: auto;
-      cursor: pointer;
-    }
-
-    .forgot-password {
-      color: var(--primary);
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .forgot-password:hover {
-      text-decoration: underline;
-    }
+    .remember-me input { width: auto; cursor: pointer; }
+    .forgot-password { color: var(--primary); text-decoration: none; cursor: pointer; }
+    .forgot-password:hover { text-decoration: underline; }
 
     .auth-submit {
       width: 100%;
@@ -300,16 +216,11 @@
       gap: 0.5rem;
       font-family: inherit;
     }
-
     .auth-submit:hover:not(:disabled) {
       background: var(--primary-dark);
       transform: translateY(-1px);
     }
-
-    .auth-submit:disabled {
-      background: var(--text-muted);
-      cursor: not-allowed;
-    }
+    .auth-submit:disabled { background: var(--text-muted); cursor: not-allowed; }
 
     .auth-divider {
       display: flex;
@@ -318,63 +229,45 @@
       color: var(--text-muted);
       font-size: 0.8rem;
     }
-
-    .auth-divider::before,
-    .auth-divider::after {
+    .auth-divider::before, .auth-divider::after {
       content: '';
       flex: 1;
       height: 1px;
       background: var(--border);
     }
+    .auth-divider span { padding: 0 0.75rem; }
 
-    .auth-divider span {
-      padding: 0 0.75rem;
-    }
-
-    .social-login {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.625rem;
-    }
-
+    .social-login { display: flex; flex-direction: column; gap: 0.625rem; }
     .social-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
-      padding: 0.625rem 0.5rem;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-sm);
       background: white;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
       font-family: inherit;
-      white-space: nowrap;
+      width: 100%;
     }
-
-    .social-btn i {
-      font-size: 1rem;
-    }
-
+    .social-btn i { font-size: 1.1rem; }
     .social-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-
     .social-btn.google { border-color: #ea4335; color: #ea4335; }
     .social-btn.google:hover { background: #ea4335; color: white; }
     .social-btn.facebook { border-color: #1877f2; color: #1877f2; }
     .social-btn.facebook:hover { background: #1877f2; color: white; }
-    .social-btn.line { border-color: #00c300; color: #00c300; }
-    .social-btn.line:hover { background: #00c300; color: white; }
     .social-btn.apple { border-color: #000; color: #000; }
     .social-btn.apple:hover { background: #000; color: white; }
-
-    .social-btn .btn-text {
-      display: inline;
-    }
+    .social-btn.loading { pointer-events: none; opacity: 0.7; }
+    .social-btn.loading i:first-child { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
     .auth-footer {
       text-align: center;
@@ -383,17 +276,11 @@
       border-top: 1px solid var(--border);
       font-size: 0.8rem;
     }
-
-    .auth-footer a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
 
     .password-toggle {
       position: absolute;
-      right: 0.75rem;
-      top: 50%;
+      right: 0.75rem; top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
@@ -402,29 +289,23 @@
       padding: 0.25rem;
       z-index: 2;
     }
-
-    .password-toggle:hover {
-      color: var(--primary);
-    }
+    .password-toggle:hover { color: var(--primary); }
 
     .interests-section {
       margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid var(--border);
     }
-
     .interests-section h4 {
       margin-bottom: 0.75rem;
       color: var(--text-primary);
       font-size: 0.85rem;
     }
-
     .interests-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.4rem;
     }
-
     .interest-tag {
       display: flex;
       align-items: center;
@@ -438,25 +319,17 @@
       transition: var(--transition);
       background: white;
     }
-
-    .interest-tag:hover {
-      border-color: var(--primary);
-    }
-
+    .interest-tag:hover { border-color: var(--primary); }
     .interest-tag.selected {
       background: var(--primary);
       border-color: var(--primary);
       color: white;
     }
-
-    .interest-tag input {
-      display: none;
-    }
+    .interest-tag input { display: none; }
 
     .toast {
       position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
+      bottom: 1.5rem; left: 50%;
       transform: translateX(-50%) translateY(100px);
       padding: 0.875rem 1.5rem;
       background: var(--text-primary);
@@ -469,22 +342,14 @@
       max-width: 90%;
       text-align: center;
     }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .toast.success { background: var(--primary); }
     .toast.error { background: #ef4444; }
     .toast.info { background: #3b82f6; }
 
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
@@ -495,12 +360,7 @@
       transition: var(--transition);
       padding: 1rem;
     }
-
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
+    .modal-overlay.show { opacity: 1; visibility: visible; }
     .modal {
       background: var(--bg-card);
       border-radius: var(--radius);
@@ -511,11 +371,7 @@
       max-height: 90vh;
       overflow-y: auto;
     }
-
-    .modal-overlay.show .modal {
-      transform: scale(1);
-    }
-
+    .modal-overlay.show .modal { transform: scale(1); }
     .modal-header {
       padding: 1.25rem;
       border-bottom: 1px solid var(--border);
@@ -523,12 +379,7 @@
       align-items: center;
       justify-content: space-between;
     }
-
-    .modal-header h3 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
+    .modal-header h3 { margin: 0; font-size: 1.1rem; }
     .modal-close {
       background: none;
       border: none;
@@ -538,20 +389,11 @@
       line-height: 1;
       padding: 0;
     }
-
-    .modal-body {
-      padding: 1.25rem;
-    }
-
-    .modal-body p {
-      margin-bottom: 1rem;
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
+    .modal-body { padding: 1.25rem; }
+    .modal-body p { margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; }
 
     .success-icon {
-      width: 70px;
-      height: 70px;
+      width: 70px; height: 70px;
       border-radius: 50%;
       background: var(--primary);
       display: flex;
@@ -560,16 +402,8 @@
       margin: 0 auto 1rem;
       animation: scaleIn 0.3s ease;
     }
-
-    .success-icon i {
-      font-size: 2rem;
-      color: white;
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
+    .success-icon i { font-size: 2rem; color: white; }
+    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
 
     .user-info-display {
       background: var(--bg-dark);
@@ -577,13 +411,7 @@
       border-radius: var(--radius-sm);
       margin-top: 1rem;
     }
-
-    .user-info-display h4 {
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-      font-size: 0.9rem;
-    }
-
+    .user-info-display h4 { margin-bottom: 0.5rem; color: var(--text-primary); font-size: 0.9rem; }
     .user-info-display p {
       margin: 0.4rem 0;
       display: flex;
@@ -593,33 +421,21 @@
       font-size: 0.85rem;
     }
 
-    .db-status {
-      display: none;
+    .oauth-note {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      color: #92400e;
     }
-
-    /* Loading Spinner for Social Buttons */
-    .social-btn.loading {
-      pointer-events: none;
-      opacity: 0.7;
-    }
-
-    .social-btn.loading i:first-child {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+    .oauth-note i { margin-right: 0.5rem; }
 
     @media (max-width: 480px) {
       .auth-container { padding: 0.75rem; }
       .auth-body { padding: 1.25rem; }
       .interests-grid { grid-template-columns: repeat(2, 1fr); }
-      .social-login { grid-template-columns: 1fr 1fr; }
-      .social-btn { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
-      .social-btn .btn-text { display: none; }
-      .social-btn i { font-size: 1.2rem; margin: 0; }
     }
   </style>
 </head>
@@ -695,19 +511,15 @@
             <div class="social-login" id="loginSocialBtns">
               <button type="button" class="social-btn google" data-provider="google">
                 <i class="fab fa-google"></i>
-                <span class="btn-text" data-i18n="loginWith">เข้าสู่ระบบด้วย</span> Google
+                <span data-i18n="continueWithGoogle">ดำเนินการต่อด้วย Google</span>
               </button>
               <button type="button" class="social-btn facebook" data-provider="facebook">
                 <i class="fab fa-facebook-f"></i>
-                <span class="btn-text" data-i18n="loginWith">เข้าสู่ระบบด้วย</span> Facebook
-              </button>
-              <button type="button" class="social-btn line" data-provider="line">
-                <i class="fab fa-line"></i>
-                <span class="btn-text" data-i18n="loginWith">เข้าสู่ระบบด้วย</span> LINE
+                <span data-i18n="continueWithFacebook">ดำเนินการต่อด้วย Facebook</span>
               </button>
               <button type="button" class="social-btn apple" data-provider="apple">
                 <i class="fab fa-apple"></i>
-                <span class="btn-text" data-i18n="loginWith">เข้าสู่ระบบด้วย</span> Apple
+                <span data-i18n="continueWithApple">ดำเนินการต่อด้วย Apple</span>
               </button>
             </div>
           </form>
@@ -775,19 +587,15 @@
             <div class="social-login" id="signupSocialBtns">
               <button type="button" class="social-btn google" data-provider="google">
                 <i class="fab fa-google"></i>
-                <span class="btn-text" data-i18n="signupWith">สมัครด้วย</span> Google
+                <span data-i18n="continueWithGoogle">ดำเนินการต่อด้วย Google</span>
               </button>
               <button type="button" class="social-btn facebook" data-provider="facebook">
                 <i class="fab fa-facebook-f"></i>
-                <span class="btn-text" data-i18n="signupWith">สมัครด้วย</span> Facebook
-              </button>
-              <button type="button" class="social-btn line" data-provider="line">
-                <i class="fab fa-line"></i>
-                <span class="btn-text" data-i18n="signupWith">สมัครด้วย</span> LINE
+                <span data-i18n="continueWithFacebook">ดำเนินการต่อด้วย Facebook</span>
               </button>
               <button type="button" class="social-btn apple" data-provider="apple">
                 <i class="fab fa-apple"></i>
-                <span class="btn-text" data-i18n="signupWith">สมัครด้วย</span> Apple
+                <span data-i18n="continueWithApple">ดำเนินการต่อด้วย Apple</span>
               </button>
             </div>
           </form>
@@ -822,7 +630,7 @@
         </div>
         <button type="button" class="auth-submit" id="forgotPasswordBtn">
           <i class="fas fa-paper-plane"></i>
-          <span data-i18n="sendResetLink">ส่งรหัสผ่านใหม่</span>
+          <span data-i18n="sendResetLink">ส่งลิงก์รีเซ็ตรหัสผ่าน</span>
         </button>
       </div>
     </div>
@@ -856,6 +664,9 @@
     const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
 
+    // Initialize Supabase client
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     const supabaseHeaders = {
       'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
@@ -879,8 +690,9 @@
         loginBtn: 'เข้าสู่ระบบ',
         orContinueWith: 'หรือเข้าสู่ระบบด้วย',
         orSignupWith: 'หรือสมัครด้วย',
-        loginWith: 'เข้าสู่ระบบด้วย',
-        signupWith: 'สมัครด้วย',
+        continueWithGoogle: 'ดำเนินการต่อด้วย Google',
+        continueWithFacebook: 'ดำเนินการต่อด้วย Facebook',
+        continueWithApple: 'ดำเนินการต่อด้วย Apple',
         fullName: 'ชื่อ-นามสกุล',
         phone: 'เบอร์โทรศัพท์',
         confirmPassword: 'ยืนยันรหัสผ่าน',
@@ -890,7 +702,7 @@
         termsOfService: 'เงื่อนไขการใช้งาน',
         resetPassword: 'รีเซ็ตรหัสผ่าน',
         resetPasswordDesc: 'กรุณากรอกอีเมลที่ใช้สมัครสมาชิก',
-        sendResetLink: 'ส่งรหัสผ่านใหม่',
+        sendResetLink: 'ส่งลิงก์รีเซ็ตรหัสผ่าน',
         goToHome: 'ไปหน้าหลัก',
         loggingIn: 'กำลังเข้าสู่ระบบ...',
         signingUp: 'กำลังสมัครสมาชิก...',
@@ -904,15 +716,12 @@
         errorOccurred: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
         socialLoginSuccess: 'เข้าสู่ระบบด้วย {provider} สำเร็จ!',
         adminRedirect: 'ตรวจพบบัญชี Admin กำลังเข้าสู่หน้าจัดการ...',
-        passwordReset: 'รีเซ็ตรหัสผ่านสำเร็จ!',
-        newPasswordIs: 'รหัสผ่านใหม่ของคุณคือ:',
+        passwordResetSent: 'ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลแล้ว!',
         emailNotFound: 'ไม่พบอีเมลนี้ในระบบ',
         yourAccount: 'ข้อมูลบัญชีของคุณ',
         savedToSupabase: '✓ ข้อมูลถูกบันทึกเรียบร้อย',
         enterEmail: 'กรุณากรอกอีเมล',
-        connectingTo: 'กำลังเชื่อมต่อกับ',
-        socialNotAvailable: 'การเข้าสู่ระบบด้วย {provider} ยังไม่พร้อมใช้งาน กรุณาใช้อีเมลแทน',
-        comingSoon: 'เร็วๆ นี้'
+        connectingTo: 'กำลังเชื่อมต่อกับ'
       },
       en: {
         backToHome: 'Back to Home',
@@ -926,8 +735,9 @@
         loginBtn: 'Login',
         orContinueWith: 'or continue with',
         orSignupWith: 'or sign up with',
-        loginWith: 'Login with',
-        signupWith: 'Sign up with',
+        continueWithGoogle: 'Continue with Google',
+        continueWithFacebook: 'Continue with Facebook',
+        continueWithApple: 'Continue with Apple',
         fullName: 'Full Name',
         phone: 'Phone Number',
         confirmPassword: 'Confirm Password',
@@ -937,7 +747,7 @@
         termsOfService: 'Terms of Service',
         resetPassword: 'Reset Password',
         resetPasswordDesc: 'Enter your registered email address',
-        sendResetLink: 'Send New Password',
+        sendResetLink: 'Send Reset Link',
         goToHome: 'Go to Home',
         loggingIn: 'Logging in...',
         signingUp: 'Signing up...',
@@ -951,15 +761,12 @@
         errorOccurred: 'An error occurred. Please try again.',
         socialLoginSuccess: 'Successfully logged in with {provider}!',
         adminRedirect: 'Admin account detected. Redirecting...',
-        passwordReset: 'Password reset successful!',
-        newPasswordIs: 'Your new password is:',
+        passwordResetSent: 'Password reset link sent to your email!',
         emailNotFound: 'Email not found in our system',
         yourAccount: 'Your Account Info',
         savedToSupabase: '✓ Data saved successfully',
         enterEmail: 'Please enter email',
-        connectingTo: 'Connecting to',
-        socialNotAvailable: '{provider} login is not available yet. Please use email instead.',
-        comingSoon: 'Coming Soon'
+        connectingTo: 'Connecting to'
       }
     };
 
@@ -971,46 +778,14 @@
     }
 
     function updateLanguage() {
-      // Update all data-i18n elements
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang][key]) {
           el.textContent = translations[currentLang][key];
         }
       });
-      
-      // Update language toggle button
       document.getElementById('currentLang').textContent = currentLang.toUpperCase();
-      
-      // Update social button texts
-      updateSocialButtons();
-      
-      // Reload interests
       loadInterests();
-    }
-
-    function updateSocialButtons() {
-      // Login social buttons
-      document.querySelectorAll('#loginSocialBtns .social-btn').forEach(function(btn) {
-        const provider = btn.dataset.provider;
-        const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
-        if (provider === 'line') {
-          btn.innerHTML = '<i class="fab fa-' + provider + '"></i> <span class="btn-text">' + t('loginWith') + '</span> LINE';
-        } else {
-          btn.innerHTML = '<i class="fab fa-' + (provider === 'facebook' ? 'facebook-f' : provider) + '"></i> <span class="btn-text">' + t('loginWith') + '</span> ' + providerName;
-        }
-      });
-      
-      // Signup social buttons  
-      document.querySelectorAll('#signupSocialBtns .social-btn').forEach(function(btn) {
-        const provider = btn.dataset.provider;
-        const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
-        if (provider === 'line') {
-          btn.innerHTML = '<i class="fab fa-' + provider + '"></i> <span class="btn-text">' + t('signupWith') + '</span> LINE';
-        } else {
-          btn.innerHTML = '<i class="fab fa-' + (provider === 'facebook' ? 'facebook-f' : provider) + '"></i> <span class="btn-text">' + t('signupWith') + '</span> ' + providerName;
-        }
-      });
     }
 
     // ========================================
@@ -1081,15 +856,6 @@
       return 'hash_' + Math.abs(hash).toString(16);
     }
 
-    function generateRandomPassword() {
-      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-      let password = '';
-      for (let i = 0; i < 8; i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return password;
-    }
-
     function showToast(message, type) {
       type = type || 'info';
       const toast = document.getElementById('toast');
@@ -1151,13 +917,12 @@
     }
 
     // ========================================
-    // Social Login Function - OAuth Simulation
+    // Social Login with Supabase OAuth
     // ========================================
     async function socialLogin(provider, btn) {
       const providerNames = { 
         google: 'Google', 
         facebook: 'Facebook', 
-        line: 'LINE', 
         apple: 'Apple' 
       };
       
@@ -1166,38 +931,92 @@
       const originalHtml = btn.innerHTML;
       btn.innerHTML = '<i class="fas fa-spinner"></i> ' + t('connectingTo') + ' ' + providerNames[provider] + '...';
       
-      // Simulate OAuth redirect delay
-      await new Promise(function(resolve) { setTimeout(resolve, 1500); });
+      try {
+        // Use Supabase OAuth
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: provider,
+          options: {
+            redirectTo: window.location.origin + '/auth.html?oauth=success'
+          }
+        });
+        
+        if (error) {
+          throw error;
+        }
+        
+        // User will be redirected to OAuth provider
+        // On return, we'll handle the session
+        
+      } catch (error) {
+        console.error('OAuth error:', error);
+        showToast(t('errorOccurred') + ' - ' + error.message, 'error');
+        btn.classList.remove('loading');
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    // Check for OAuth callback
+    async function handleOAuthCallback() {
+      const urlParams = new URLSearchParams(window.location.search);
       
-      // For demo: Show message that real OAuth is not configured
-      // In production, this would redirect to actual OAuth provider
-      showToast(t('socialNotAvailable').replace('{provider}', providerNames[provider]), 'info');
-      
-      // Reset button
-      btn.classList.remove('loading');
-      btn.innerHTML = originalHtml;
-      
-      /*
-      // ========================================
-      // Real OAuth Implementation (requires backend setup):
-      // ========================================
-      // For Google:
-      // window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(window.location.origin + '/auth-callback.html');
-      
-      // For Facebook:
-      // window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=facebook&redirect_to=' + encodeURIComponent(window.location.origin + '/auth-callback.html');
-      
-      // For Apple:
-      // window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=apple&redirect_to=' + encodeURIComponent(window.location.origin + '/auth-callback.html');
-      
-      // LINE requires custom OAuth setup through LINE Developers Console
-      */
+      if (urlParams.get('oauth') === 'success' || window.location.hash.includes('access_token')) {
+        try {
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (session && session.user) {
+            const oauthUser = session.user;
+            
+            // Check if user exists in our farm_users table
+            let user = await getUserByEmail(oauthUser.email);
+            
+            if (!user) {
+              // Create new user in farm_users
+              user = await createUserInDB({
+                name: oauthUser.user_metadata?.full_name || oauthUser.user_metadata?.name || oauthUser.email.split('@')[0],
+                email: oauthUser.email.toLowerCase(),
+                phone: oauthUser.phone || '',
+                password_hash: 'oauth_' + oauthUser.app_metadata?.provider,
+                interests: [],
+                social_provider: oauthUser.app_metadata?.provider || 'unknown',
+                created_at: new Date().toISOString(),
+                last_login: new Date().toISOString()
+              });
+            } else {
+              // Update last login
+              await updateUserInDB(user.id, { 
+                last_login: new Date().toISOString(),
+                social_provider: oauthUser.app_metadata?.provider || user.social_provider
+              });
+            }
+            
+            // Save session
+            localStorage.setItem('currentUserId', user.id);
+            localStorage.setItem('currentUserData', JSON.stringify(user));
+            
+            // Show success and redirect
+            showToast(t('socialLoginSuccess').replace('{provider}', oauthUser.app_metadata?.provider || 'Social'), 'success');
+            
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Redirect to home
+            setTimeout(function() {
+              window.location.href = 'index.html';
+            }, 1000);
+          }
+        } catch (error) {
+          console.error('OAuth callback error:', error);
+        }
+      }
     }
 
     // ========================================
     // Event Listeners Setup
     // ========================================
     document.addEventListener('DOMContentLoaded', function() {
+      // Check OAuth callback first
+      handleOAuthCallback();
+      
       // Language Toggle
       document.getElementById('langToggle').addEventListener('click', function() {
         currentLang = currentLang === 'th' ? 'en' : 'th';
@@ -1221,12 +1040,10 @@
         const icon = this.querySelector('i');
         if (input.type === 'password') {
           input.type = 'text';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
         } else {
           input.type = 'password';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
       });
 
@@ -1236,12 +1053,10 @@
         const icon = this.querySelector('i');
         if (input.type === 'password') {
           input.type = 'text';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
         } else {
           input.type = 'password';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
       });
 
@@ -1255,11 +1070,9 @@
       document.getElementById('closeForgotModal').addEventListener('click', function() {
         document.getElementById('forgotModal').classList.remove('show');
       });
-
       document.getElementById('closeSuccessModal').addEventListener('click', function() {
         document.getElementById('successModal').classList.remove('show');
       });
-
       document.getElementById('goHomeBtn').addEventListener('click', function() {
         document.getElementById('successModal').classList.remove('show');
         window.location.href = redirectUrl;
@@ -1407,7 +1220,7 @@
       });
 
       // ========================================
-      // Forgot Password Submit
+      // Forgot Password Submit (Supabase Auth)
       // ========================================
       document.getElementById('forgotPasswordBtn').addEventListener('click', async function() {
         const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
@@ -1417,33 +1230,20 @@
           return;
         }
 
-        const user = await getUserByEmail(email);
-
-        if (!user) {
-          showToast(t('emailNotFound'), 'error');
-          return;
+        try {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/auth.html'
+          });
+          
+          if (error) throw error;
+          
+          document.getElementById('forgotModal').classList.remove('show');
+          showToast(t('passwordResetSent'), 'success');
+          
+        } catch (error) {
+          console.error(error);
+          showToast(t('errorOccurred'), 'error');
         }
-
-        // Generate new password
-        const newPassword = generateRandomPassword();
-        
-        // Update in Supabase
-        await updateUserInDB(user.id, { password_hash: hashPassword(newPassword) });
-
-        document.getElementById('forgotModal').classList.remove('show');
-
-        document.getElementById('successTitle').textContent = t('passwordReset');
-        document.getElementById('successMessage').textContent = t('newPasswordIs');
-        document.getElementById('userInfoArea').innerHTML = 
-          '<div class="user-info-display" style="text-align: center;">' +
-            '<h2 style="color: var(--primary); font-family: monospace; letter-spacing: 3px; font-size: 1.5rem; margin: 1rem 0;">' + newPassword + '</h2>' +
-            '<p style="color: var(--text-secondary); font-size: 0.8rem;">' +
-              '<i class="fas fa-check-circle"></i> ' + t('savedToSupabase') +
-            '</p>' +
-          '</div>';
-        
-        redirectUrl = 'auth.html';
-        document.getElementById('successModal').classList.add('show');
       });
 
       // Remember email

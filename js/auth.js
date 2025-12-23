@@ -1,25 +1,32 @@
 // ====================================
 // User Authentication & Recommendation System
 // Farm Phoomjai & Jiaranai Garden
+// Using Supabase as Database
 // ====================================
 
-// ====================================
-// User Database Functions
-// ====================================
+// Supabase Config
+const SUPABASE_URL = 'https://itznnbmvbgqvotidygdo.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0em5uYm12Ymdxdm90aWR5Z2RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyOTc5MTEsImV4cCI6MjA4MTg3MzkxMX0.cUATTqVpfC6tyMdUVPpYRjJ80wASkuXMsJ2zdPZZST8';
 
-function getUsers() {
-  return JSON.parse(localStorage.getItem('farmUsers')) || [];
-}
+const supabaseHeaders = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': 'Bearer ' + SUPABASE_KEY,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation'
+};
 
-function saveUsers(users) {
-  localStorage.setItem('farmUsers', JSON.stringify(users));
-}
+// ====================================
+// User Database Functions - Supabase
+// ====================================
 
 function getCurrentUser() {
-  const userId = localStorage.getItem('currentUserId');
-  if (!userId) return null;
-  const users = getUsers();
-  return users.find(u => u.id === userId) || null;
+  const userData = localStorage.getItem('currentUserData');
+  if (!userData) return null;
+  try {
+    return JSON.parse(userData);
+  } catch (e) {
+    return null;
+  }
 }
 
 function isLoggedIn() {
@@ -28,15 +35,12 @@ function isLoggedIn() {
 
 function userLogout() {
   localStorage.removeItem('currentUserId');
+  localStorage.removeItem('currentUserData');
 }
 
 // ====================================
 // Helper Functions
 // ====================================
-
-function generateUserId() {
-  return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
 
 function simpleHash(str) {
   let hash = 0;
@@ -62,6 +66,62 @@ function shuffleArray(array) {
 }
 
 // ====================================
+// Supabase API Functions
+// ====================================
+
+async function getUserByEmail(email) {
+  try {
+    const response = await fetch(
+      SUPABASE_URL + '/rest/v1/farm_users?email=eq.' + encodeURIComponent(email.toLowerCase()) + '&select=*',
+      { headers: supabaseHeaders }
+    );
+    const data = await response.json();
+    return data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return null;
+  }
+}
+
+async function createUserInDB(userData) {
+  try {
+    const response = await fetch(SUPABASE_URL + '/rest/v1/farm_users', {
+      method: 'POST',
+      headers: supabaseHeaders,
+      body: JSON.stringify(userData)
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create user');
+    }
+    
+    const data = await response.json();
+    return data[0];
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+}
+
+async function updateUserInDB(id, updates) {
+  try {
+    const response = await fetch(
+      SUPABASE_URL + '/rest/v1/farm_users?id=eq.' + id,
+      {
+        method: 'PATCH',
+        headers: supabaseHeaders,
+        body: JSON.stringify(updates)
+      }
+    );
+    return response.ok;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return false;
+  }
+}
+
+// ====================================
 // Authentication Functions
 // ====================================
 
@@ -72,47 +132,49 @@ async function userSignup(userData) {
     return { success: false, message: 'รูปแบบอีเมลไม่ถูกต้อง' };
   }
   
-  const users = getUsers();
-  if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+  // Check if email exists in Supabase
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
     return { success: false, message: 'อีเมลนี้ถูกใช้งานแล้ว' };
   }
   
-  const newUser = {
-    id: generateUserId(),
-    name,
-    email: email.toLowerCase(),
-    phone,
-    passwordHash: simpleHash(password),
-    interests: interests || [],
-    viewHistory: [],
-    purchaseHistory: [],
-    categoryPreferences: {},
-    createdAt: new Date().toISOString(),
-    lastLogin: new Date().toISOString()
-  };
-  
-  users.push(newUser);
-  saveUsers(users);
-  localStorage.setItem('currentUserId', newUser.id);
-  
-  return { success: true, user: newUser };
+  try {
+    const newUser = await createUserInDB({
+      name,
+      email: email.toLowerCase(),
+      phone,
+      password_hash: simpleHash(password),
+      interests: interests || [],
+      social_provider: null,
+      created_at: new Date().toISOString(),
+      last_login: new Date().toISOString()
+    });
+    
+    localStorage.setItem('currentUserId', newUser.id);
+    localStorage.setItem('currentUserData', JSON.stringify(newUser));
+    
+    return { success: true, user: newUser };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
 }
 
 async function userLogin(email, password) {
-  const users = getUsers();
-  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  const user = await getUserByEmail(email);
   
   if (!user) {
     return { success: false, message: 'ไม่พบบัญชีผู้ใช้นี้' };
   }
   
-  if (user.passwordHash !== simpleHash(password)) {
+  if (user.password_hash !== simpleHash(password)) {
     return { success: false, message: 'รหัสผ่านไม่ถูกต้อง' };
   }
   
-  user.lastLogin = new Date().toISOString();
-  saveUsers(users);
+  // Update last login
+  await updateUserInDB(user.id, { last_login: new Date().toISOString() });
+  
   localStorage.setItem('currentUserId', user.id);
+  localStorage.setItem('currentUserData', JSON.stringify(user));
   
   return { success: true, user };
 }
@@ -121,25 +183,21 @@ async function userLogin(email, password) {
 // Product View Tracking
 // ====================================
 
-function trackProductView(productId, categoryId) {
+async function trackProductView(productId, categoryId) {
   const user = getCurrentUser();
   if (!user) return;
   
-  const users = getUsers();
-  const userIndex = users.findIndex(u => u.id === user.id);
-  if (userIndex === -1) return;
+  // Update local user data
+  let viewHistory = user.viewHistory || user.view_history || [];
+  let categoryPreferences = user.categoryPreferences || user.category_preferences || {};
   
-  if (!users[userIndex].viewHistory) {
-    users[userIndex].viewHistory = [];
-  }
-  
-  const existingView = users[userIndex].viewHistory.find(v => v.productId === productId);
+  const existingView = viewHistory.find(v => v.productId === productId);
   
   if (existingView) {
     existingView.viewCount++;
     existingView.lastViewed = new Date().toISOString();
   } else {
-    users[userIndex].viewHistory.push({
+    viewHistory.push({
       productId,
       categoryId,
       viewCount: 1,
@@ -149,16 +207,24 @@ function trackProductView(productId, categoryId) {
   }
   
   // Update category preferences
-  if (!users[userIndex].categoryPreferences) {
-    users[userIndex].categoryPreferences = {};
-  }
-  if (users[userIndex].categoryPreferences[categoryId]) {
-    users[userIndex].categoryPreferences[categoryId]++;
+  if (categoryPreferences[categoryId]) {
+    categoryPreferences[categoryId]++;
   } else {
-    users[userIndex].categoryPreferences[categoryId] = 1;
+    categoryPreferences[categoryId] = 1;
   }
   
-  saveUsers(users);
+  // Update in Supabase
+  await updateUserInDB(user.id, {
+    view_history: viewHistory,
+    category_preferences: categoryPreferences
+  });
+  
+  // Update local storage
+  user.viewHistory = viewHistory;
+  user.view_history = viewHistory;
+  user.categoryPreferences = categoryPreferences;
+  user.category_preferences = categoryPreferences;
+  localStorage.setItem('currentUserData', JSON.stringify(user));
 }
 
 // ====================================
@@ -189,18 +255,22 @@ async function getRecommendedProducts(limit = 6) {
   const scoredProducts = allProducts.map(product => {
     let score = 0;
     
+    const catPrefs = user.categoryPreferences || user.category_preferences || {};
+    const interests = user.interests || [];
+    const viewHistory = user.viewHistory || user.view_history || [];
+    
     // Category preference score
-    if (user.categoryPreferences && user.categoryPreferences[product.category]) {
-      score += user.categoryPreferences[product.category] * 10;
+    if (catPrefs[product.category]) {
+      score += catPrefs[product.category] * 10;
     }
     
     // Initial interest match
-    if (user.interests && user.interests.includes(product.category)) {
+    if (interests.includes(product.category)) {
       score += 25;
     }
     
-    // View history penalty (don't recommend too recently viewed)
-    const viewRecord = user.viewHistory?.find(v => v.productId === product.id);
+    // View history penalty
+    const viewRecord = viewHistory.find(v => v.productId === product.id);
     if (viewRecord) {
       score -= 5;
     }
@@ -242,9 +312,7 @@ async function getSimilarProducts(productId, limit = 4) {
 }
 
 async function getTrendingProducts(limit = 6) {
-  const users = getUsers();
   let allProducts = [];
-  
   if (typeof getProductsAsync === 'function') {
     try {
       allProducts = await getProductsAsync();
@@ -252,18 +320,7 @@ async function getTrendingProducts(limit = 6) {
       return [];
     }
   }
-  
-  const viewCounts = {};
-  users.forEach(user => {
-    (user.viewHistory || []).forEach(view => {
-      viewCounts[view.productId] = (viewCounts[view.productId] || 0) + view.viewCount;
-    });
-  });
-  
-  return allProducts
-    .map(p => ({ ...p, totalViews: viewCounts[p.id] || 0 }))
-    .sort((a, b) => b.totalViews - a.totalViews)
-    .slice(0, limit);
+  return shuffleArray(allProducts).slice(0, limit);
 }
 
 // ====================================
@@ -279,7 +336,7 @@ function updateAuthUI() {
   if (user) {
     authLinks.forEach(el => el.style.display = 'none');
     userMenus.forEach(el => el.style.display = 'flex');
-    userNames.forEach(el => el.textContent = user.name.split(' ')[0]);
+    userNames.forEach(el => el.textContent = user.name ? user.name.split(' ')[0] : 'User');
   } else {
     authLinks.forEach(el => el.style.display = 'flex');
     userMenus.forEach(el => el.style.display = 'none');
@@ -305,6 +362,5 @@ if (typeof window !== 'undefined') {
   window.getSimilarProducts = getSimilarProducts;
   window.getTrendingProducts = getTrendingProducts;
   window.updateAuthUI = updateAuthUI;
-  window.getUsers = getUsers;
-  window.saveUsers = saveUsers;
+  window.getUserByEmail = getUserByEmail;
 }

@@ -139,12 +139,14 @@ async function getProductsAsync() {
 async function addProductToDB(product) {
   try {
     const newProduct = {
-      name: product.name,
-      category: product.category,
-      description: product.description,
-      price: product.price || 'Seasonal',
-      badge: product.badge || '',
-      image: product.image || 'images/phoomjai.svg'
+        name: product.name || product.name_en || product.nameEn || '',
+        name_th: product.name_th || product.nameTh || product.nameTh || product.name || '',
+        category: product.category,
+        description: product.description || product.description_en || product.descriptionEn || '',
+        description_th: product.description_th || product.descriptionTh || product.descriptionTh || product.description || '',
+        price: product.price || 'Seasonal',
+        badge: product.badge || '',
+        image: product.image || 'images/phoomjai.svg'
     };
 
     const result = await supabaseRequest('products', {
@@ -183,12 +185,14 @@ async function updateProductInDB(productId, updatedProduct) {
     const result = await supabaseRequest(`products?id=eq.${productId}`, {
       method: 'PATCH',
       body: JSON.stringify({
-        name: updatedProduct.name,
-        category: updatedProduct.category,
-        description: updatedProduct.description,
-        price: updatedProduct.price,
-        badge: updatedProduct.badge,
-        image: updatedProduct.image
+          name: updatedProduct.name,
+          name_th: updatedProduct.name_th || updatedProduct.nameTh || updatedProduct.nameTh || updatedProduct.name,
+          category: updatedProduct.category,
+          description: updatedProduct.description,
+          description_th: updatedProduct.description_th || updatedProduct.descriptionTh || updatedProduct.descriptionTh || updatedProduct.description,
+          price: updatedProduct.price,
+          badge: updatedProduct.badge,
+          image: updatedProduct.image
       })
     });
 

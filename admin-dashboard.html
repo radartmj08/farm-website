@@ -92,8 +92,12 @@
         <form id="addProductForm" class="admin-form">
           <div class="form-row">
             <div class="form-group">
-              <label for="productName" data-i18n="productName">ชื่อสินค้า *</label>
-              <input type="text" id="productName" data-i18n-placeholder="productNamePlaceholder" placeholder="เช่น มะเขือเทศสด" required>
+              <label data-i18n="productNameTh">ชื่อสินค้า (ไทย) *</label>
+              <input type="text" id="productNameTh" placeholder="เช่น มะเขือเทศสด" required>
+            </div>
+            <div class="form-group">
+              <label data-i18n="productNameEn">ชื่อสินค้า (อังกฤษ) *</label>
+              <input type="text" id="productNameEn" placeholder="e.g., Fresh Tomatoes" required>
             </div>
             <div class="form-group">
               <label for="productCategory" data-i18n="category">หมวดหมู่ *</label>
@@ -103,8 +107,12 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="productDescription" data-i18n="description">รายละเอียด *</label>
-            <textarea id="productDescription" rows="3" data-i18n-placeholder="descriptionPlaceholder" placeholder="อธิบายสินค้าของคุณ..." required></textarea>
+            <label data-i18n="descriptionTh">รายละเอียด (ไทย) *</label>
+            <textarea id="productDescriptionTh" rows="3" placeholder="อธิบายสินค้าของคุณ..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label data-i18n="descriptionEn">Description (English) *</label>
+            <textarea id="productDescriptionEn" rows="3" placeholder="Describe your product..." required></textarea>
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -342,12 +350,16 @@
         <h2 data-i18n="editProduct">แก้ไขสินค้า</h2>
         <button class="modal-close" onclick="closeEditModal()">&times;</button>
       </div>
-      <form id="editProductForm" class="admin-form">
+        <form id="editProductForm" class="admin-form">
         <input type="hidden" id="editProductId">
         <div class="form-row">
           <div class="form-group">
-            <label for="editName" data-i18n="productName">ชื่อสินค้า *</label>
-            <input type="text" id="editName" required>
+            <label data-i18n="productNameTh">ชื่อสินค้า (ไทย) *</label>
+            <input type="text" id="editNameTh" required>
+          </div>
+          <div class="form-group">
+            <label data-i18n="productNameEn">ชื่อสินค้า (อังกฤษ) *</label>
+            <input type="text" id="editNameEn" required>
           </div>
           <div class="form-group">
             <label for="editCategory" data-i18n="category">หมวดหมู่ *</label>
@@ -357,8 +369,12 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="editDescription" data-i18n="description">รายละเอียด *</label>
-          <textarea id="editDescription" rows="3" required></textarea>
+          <label data-i18n="descriptionTh">รายละเอียด (ไทย) *</label>
+          <textarea id="editDescriptionTh" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label data-i18n="descriptionEn">Description (English) *</label>
+          <textarea id="editDescriptionEn" rows="3" required></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -524,6 +540,14 @@
         imageUrl: 'URL รูปภาพ',
         imageUrlPlaceholder: 'ใส่ URL รูปภาพ หรือเว้นว่างเพื่อใช้รูปเริ่มต้น',
         imageUrlHint: 'เว้นว่างเพื่อใช้รูปเริ่มต้นตามหมวดหมู่',
+        productNameEn: 'ชื่อสินค้า (อังกฤษ) *',
+        productNameTh: 'ชื่อสินค้า (ไทย) *',
+        productNamePlaceholderEn: 'e.g., Fresh Tomatoes',
+        productNamePlaceholderTh: 'เช่น มะเขือเทศสด',
+        descriptionEn: 'รายละเอียด (อังกฤษ) *',
+        descriptionTh: 'รายละเอียด (ไทย) *',
+        descriptionPlaceholderEn: 'Describe your product...',
+        descriptionPlaceholderTh: 'อธิบายสินค้าของคุณ...',
         uploadImage: 'อัพโหลดรูปภาพ (ไม่บังคับ)',
         uploadNewImage: 'อัพโหลดรูปใหม่',
         dragDrop: 'คลิกเพื่ออัพโหลด หรือลากไฟล์มาวาง',
@@ -606,6 +630,14 @@
         imageUrl: 'Image URL',
         imageUrlPlaceholder: 'Enter image URL or leave empty for default',
         imageUrlHint: 'Leave empty to use default category image',
+        productNameEn: 'Product Name (English) *',
+        productNameTh: 'Product Name (Thai) *',
+        productNamePlaceholderEn: 'e.g., Fresh Tomatoes',
+        productNamePlaceholderTh: 'เช่น มะเขือเทศสด',
+        descriptionEn: 'Description (English) *',
+        descriptionTh: 'Description (Thai) *',
+        descriptionPlaceholderEn: 'Describe your product...',
+        descriptionPlaceholderTh: 'อธิบายสินค้าของคุณ...',
         uploadImage: 'Upload Image (optional)',
         uploadNewImage: 'Upload New Image',
         dragDrop: 'Click to upload or drag and drop',
@@ -973,16 +1005,18 @@
     // Add Product Form (async)
     document.getElementById('addProductForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
       const product = {
-        name: document.getElementById('productName').value,
+        name: document.getElementById('productNameEn').value,
+        name_th: document.getElementById('productNameTh').value,
         category: document.getElementById('productCategory').value,
-        description: document.getElementById('productDescription').value,
+        description: document.getElementById('productDescriptionEn').value,
+        description_th: document.getElementById('productDescriptionTh').value,
         price: document.getElementById('productPrice').value || 'Seasonal',
         badge: document.getElementById('productBadge').value,
         image: document.getElementById('productImage').value || getDefaultImage(document.getElementById('productCategory').value)
       };
-      
+
       try {
         await addProductToDB(product);
         showToast(t('productAdded'), 'success');
@@ -1035,7 +1069,11 @@
       const filterCat = document.getElementById('filterCategory').value;
 
       let filtered = products.filter(p => {
-        const matchSearch = p.name.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm));
+        const nameEn = (p.name || '').toLowerCase();
+        const nameTh = (p.name_th || '').toLowerCase();
+        const descEn = (p.description || '').toLowerCase();
+        const descTh = (p.description_th || '').toLowerCase();
+        const matchSearch = nameEn.includes(searchTerm) || nameTh.includes(searchTerm) || descEn.includes(searchTerm) || descTh.includes(searchTerm);
         const matchCategory = filterCat === 'all' || p.category === filterCat;
         return matchSearch && matchCategory;
       });
@@ -1047,31 +1085,38 @@
       }
 
       noProducts.style.display = 'none';
-      tbody.innerHTML = filtered.map(product => `
+      tbody.innerHTML = filtered.map(product => {
+        const displayName = currentLang === 'th' ? (product.name_th || product.name) : (product.name || product.name_th);
+        const displayPrice = product.price || 'Seasonal';
+        const displayBadge = product.badge ? `<span class="product-badge">${product.badge}</span>` : '-';
+        const thumb = product.image || 'images/phoomjai.svg';
+
+        return `
         <tr>
           <td>
             <div class="product-thumb-container">
-              <img src="${product.image || 'images/phoomjai.svg'}" alt="${product.name}" class="product-thumb">
+              <img src="${thumb}" alt="${displayName}" class="product-thumb">
               <label class="thumb-upload-btn" title="${t('uploadNewImage')}">
                 <i class="fas fa-camera"></i>
                 <input type="file" accept="image/*" onchange="uploadProductImage(${product.id}, this)" hidden>
               </label>
             </div>
           </td>
-          <td>${product.name}</td>
+          <td>${displayName}</td>
           <td><span class="category-badge ${product.category}">${capitalizeFirst(product.category)}</span></td>
-          <td>${product.price || 'Seasonal'}</td>
-          <td>${product.badge ? `<span class="product-badge">${product.badge}</span>` : '-'}</td>
+          <td>${displayPrice}</td>
+          <td>${displayBadge}</td>
           <td class="actions">
             <button class="btn-icon edit" onclick="openEditModal(${product.id})" title="Edit">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="btn-icon delete" onclick="openDeleteModal(${product.id}, '${product.name}')" title="Delete">
+            <button class="btn-icon delete" onclick="openDeleteModal(${product.id}, '${escapeHtml(displayName)}')" title="Delete">
               <i class="fas fa-trash"></i>
             </button>
           </td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
 
     // Upload image directly from product list
@@ -1104,9 +1149,11 @@
       if (!product) return;
 
       document.getElementById('editProductId').value = product.id;
-      document.getElementById('editName').value = product.name;
+      document.getElementById('editNameEn').value = product.name || '';
+      document.getElementById('editNameTh').value = product.name_th || '';
       document.getElementById('editCategory').value = product.category;
-      document.getElementById('editDescription').value = product.description || '';
+      document.getElementById('editDescriptionEn').value = product.description || '';
+      document.getElementById('editDescriptionTh').value = product.description_th || '';
       document.getElementById('editPrice').value = product.price || '';
       document.getElementById('editBadge').value = product.badge || '';
       document.getElementById('editImage').value = product.image || '';
@@ -1166,9 +1213,11 @@
       e.preventDefault();
       const productId = parseInt(document.getElementById('editProductId').value);
       const updatedProduct = {
-        name: document.getElementById('editName').value,
+        name: document.getElementById('editNameEn').value,
+        name_th: document.getElementById('editNameTh').value,
         category: document.getElementById('editCategory').value,
-        description: document.getElementById('editDescription').value,
+        description: document.getElementById('editDescriptionEn').value,
+        description_th: document.getElementById('editDescriptionTh').value,
         price: document.getElementById('editPrice').value || 'Seasonal',
         badge: document.getElementById('editBadge').value,
         image: document.getElementById('editImage').value
@@ -1225,6 +1274,11 @@
     // Helper functions
     function capitalizeFirst(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
     function getDefaultImage(category) {
